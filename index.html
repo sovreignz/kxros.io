@@ -5,427 +5,623 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KXROS | Leverage Engineering</title>
     <meta name="description" content="Turning thinking, knowledge, and decision-making into repeatable systems that compound.">
-    
-    <!-- Fonts: Inter & Space Grotesk for that technical/futuristic feel -->
+    <meta name="theme-color" content="#050505">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Custom Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
                         mono: ['Space Grotesk', 'monospace'],
                     },
                     colors: {
                         obsidian: '#050505',
                         charcoal: '#0a0a0a',
+                        smoke: '#111111',
                         silver: '#e0e0e0',
-                        accent: '#ff4500', // Orange red
+                        accent: '#ff4500',
                     },
-                    backgroundImage: {
-                        'silver-gradient': 'linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%)',
-                        'orange-gradient': 'linear-gradient(135deg, #ff8c00 0%, #ff4500 100%)',
-                        'orange-glow': 'radial-gradient(circle, rgba(255, 69, 0, 0.15) 0%, rgba(0,0,0,0) 70%)',
-                    }
                 }
             }
         }
     </script>
 
     <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             background-color: #050505;
-            color: #e0e0e0;
+            color: #c8c8c8;
             overflow-x: hidden;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
 
-        /* Text Gradient Utilities */
-        .text-gradient-silver {
-            background: linear-gradient(to bottom right, #ffffff, #999999);
+        /* Typography */
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .text-gradient-orange {
-            background: linear-gradient(to right, #ff8c00, #ff4500);
+
+        .text-gradient-accent {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* Glassmorphism */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* Glass */
+        .glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        /* Animation Classes */
-        .reveal-up {
+        .glass-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Reveal Animations */
+        .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
-        .reveal-up.active {
+        .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
-
-        .glow-point {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255, 69, 0, 0.08) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(40px);
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
         }
 
-        /* Button Hover Effects */
-        .btn-glow {
-            transition: all 0.3s ease;
+        /* Noise texture overlay */
+        .noise::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.015;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Subtle grid */
+        .grid-pattern {
+            background-size: 60px 60px;
+            background-image:
+                linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px);
+        }
+
+        /* Horizontal rule accent */
+        .rule-accent {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,69,0,0.4) 50%, transparent 100%);
+        }
+
+        /* Loop step connector */
+        .step-connector {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255,69,0,0.15) 10%,
+                rgba(255,69,0,0.3) 50%,
+                rgba(255,69,0,0.15) 90%,
+                transparent 100%
+            );
+            transform: translateY(-50%);
+        }
+
+        /* Pulse ring on deploy step */
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .pulse-ring::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1px solid #ff4500;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+
+        /* CTA shimmer */
+        .btn-primary {
             position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg, #ff8c00, #ff4500);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
-        .btn-glow::after {
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(255,69,0,0.4);
+            transform: translateY(-1px);
+        }
+        .btn-primary::after {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
-            width: 100%;
+            width: 60%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s ease;
         }
-        .btn-glow:hover::after {
-            left: 100%;
+        .btn-primary:hover::after {
+            left: 120%;
         }
-        
-        /* Grid Background */
-        .grid-bg {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+
+        .btn-secondary {
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.03);
+            transform: translateY(-1px);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Service card top border glow */
+        .service-card {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,69,0,0), transparent);
+            transition: background 0.4s ease;
+        }
+        .service-card:hover::before {
+            background: linear-gradient(90deg, transparent, rgba(255,69,0,0.6), transparent);
+        }
+        .service-card:hover {
+            border-color: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            transform: translateY(-4px);
+        }
+
+        /* Smooth counter for stats */
+        @keyframes count-up {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section divider */
+        .section-divider {
+            border: none;
+            height: 1px;
+            background: rgba(255,255,255,0.04);
         }
     </style>
 </head>
-<body class="antialiased relative">
+<body class="antialiased noise">
 
-    <!-- Ambient Glows -->
-    <div class="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
-        <div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-white opacity-[0.03] blur-[100px]"></div>
-        <div class="absolute bottom-[-20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-[#ff4500] opacity-[0.05] blur-[120px]"></div>
+    <!-- Ambient background -->
+    <div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div class="absolute top-[-30%] left-[-15%] w-[60vw] h-[60vw] rounded-full bg-white/[0.02] blur-[120px]"></div>
+        <div class="absolute bottom-[-25%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-accent/[0.04] blur-[150px]"></div>
+        <div class="absolute top-[40%] left-[50%] -translate-x-1/2 w-[30vw] h-[30vw] rounded-full bg-accent/[0.02] blur-[100px]"></div>
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-white/5">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="text-2xl font-mono tracking-tighter font-bold text-white flex items-center gap-2">
-                <span class="text-gradient-silver">KXROS</span>
-                <div class="h-1 w-1 bg-orange-500 rounded-full"></div>
-            </a>
-            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-                <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
-                <a href="#engine" class="hover:text-white transition-colors">The Engine</a>
-                <a href="#services" class="hover:text-white transition-colors">Audit & Build</a>
+    <nav class="fixed top-0 w-full z-50" id="navbar">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="flex items-center gap-2 group">
+                    <span class="text-xl font-mono font-bold tracking-tight text-white">KXROS</span>
+                    <span class="block h-1.5 w-1.5 rounded-full bg-accent group-hover:scale-125 transition-transform"></span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="#philosophy" class="text-sm text-gray-500 hover:text-white transition-colors duration-200">Philosophy</a>
+                    <a href="#engine" class="text-sm text-gray-500 hover:text-white transition-colors duration-200">The Engine</a>
+                    <a href="#services" class="text-sm text-gray-500 hover:text-white transition-colors duration-200">Services</a>
+                </div>
+
+                <div class="hidden md:block">
+                    <a href="mailto:contact@kxros.io" class="text-xs font-semibold tracking-widest uppercase text-white/80 hover:text-white border border-white/10 hover:border-white/30 px-5 py-2.5 transition-all duration-200">
+                        Get in Touch
+                    </a>
+                </div>
+
+                <!-- Mobile hamburger -->
+                <button id="menu-toggle" class="md:hidden text-white p-2 -mr-2" aria-label="Open menu">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
             </div>
-            <a href="mailto:contact@kxros.io" class="px-6 py-2 text-xs font-bold tracking-widest uppercase border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300">
-                Contact
-            </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative pt-40 pb-32 px-6 border-b border-white/5 grid-bg">
-        <div class="max-w-5xl mx-auto relative z-10">
-            <div class="inline-block mb-6 px-3 py-1 border border-white/10 rounded-full bg-white/5 backdrop-blur-md reveal-up">
-                <span class="text-xs font-mono text-gray-300 uppercase tracking-[0.2em]">Defined: Kairos (n.) The Opportune Moment</span>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed inset-0 z-[60] bg-obsidian/98 backdrop-blur-xl flex flex-col justify-center items-center gap-8">
+        <button id="menu-close" class="absolute top-6 right-6 text-white p-2" aria-label="Close menu">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <a href="#philosophy" class="mobile-link text-2xl text-gray-300 hover:text-white transition-colors">Philosophy</a>
+        <a href="#engine" class="mobile-link text-2xl text-gray-300 hover:text-white transition-colors">The Engine</a>
+        <a href="#services" class="mobile-link text-2xl text-gray-300 hover:text-white transition-colors">Services</a>
+        <div class="mt-4">
+            <a href="mailto:contact@kxros.io" class="text-sm font-semibold tracking-widest uppercase text-white border border-white/20 px-6 py-3 hover:bg-white hover:text-black transition-all">
+                Get in Touch
+            </a>
+        </div>
+    </div>
+
+    <!-- ====== HERO ====== -->
+    <header class="relative min-h-screen flex items-center grid-pattern">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 pt-20 pb-24 relative z-10 w-full">
+
+            <div class="reveal" style="transition-delay: 0ms;">
+                <span class="inline-flex items-center gap-2 px-3 py-1.5 border border-white/8 rounded-full bg-white/[0.03] backdrop-blur-sm mb-8">
+                    <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                    <span class="text-[11px] font-mono text-gray-400 uppercase tracking-[0.2em]">Kairos (n.) — The Opportune Moment</span>
+                </span>
             </div>
-            
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight leading-[1.1] mb-8 text-white reveal-up" style="transition-delay: 100ms;">
-                Turn Cognition <br>
-                <span class="text-gradient-silver">Into Compound Assets.</span>
+
+            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-[-0.03em] leading-[1.05] text-white mb-8 reveal" style="transition-delay: 80ms;">
+                Turn Cognition<br>
+                <span class="text-gradient">Into Compound Assets.</span>
             </h1>
-            
-            <p class="text-lg md:text-xl text-gray-400 max-w-2xl leading-relaxed mb-12 reveal-up" style="transition-delay: 200ms;">
-                Most leverage leaks through the cracks of scattered systems. 
-                <span class="text-white">KXROS</span> is a leverage engineering agency. We audit, restructure, and automate the way your business thinks, ensuring every decision compounds.
+
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl leading-relaxed mb-14 reveal" style="transition-delay: 160ms;">
+                Most leverage leaks through the cracks of scattered systems.
+                <span class="text-white font-medium">KXROS</span> is a leverage engineering agency — we audit, restructure, and automate the way your business thinks, ensuring every decision compounds.
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 reveal-up" style="transition-delay: 300ms;">
-                <a href="#services" class="btn-glow px-8 py-4 bg-orange-gradient text-black font-bold text-sm uppercase tracking-wider rounded-sm shadow-[0_0_20px_rgba(255,69,0,0.3)] hover:shadow-[0_0_30px_rgba(255,69,0,0.5)]">
+            <div class="flex flex-col sm:flex-row gap-4 reveal" style="transition-delay: 240ms;">
+                <a href="#services" class="btn-primary inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider text-black rounded-sm shadow-[0_0_20px_rgba(255,69,0,0.25)]">
                     Audit Your System
                 </a>
-                <a href="#engine" class="px-8 py-4 border border-white/10 text-gray-300 font-medium text-sm hover:border-white/40 hover:text-white transition-all rounded-sm">
+                <a href="#engine" class="btn-secondary inline-flex items-center justify-center px-8 py-4 text-sm font-medium text-gray-300 rounded-sm">
                     View The Protocol
                 </a>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 reveal" style="transition-delay: 500ms;">
+                <div class="flex flex-col items-center gap-2 text-gray-600">
+                    <span class="text-[10px] font-mono uppercase tracking-[0.3em]">Scroll</span>
+                    <div class="w-px h-8 bg-gradient-to-b from-gray-600 to-transparent"></div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- The Philosophy -->
-    <section id="philosophy" class="py-32 px-6 border-b border-white/5 relative">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            <div class="reveal-up">
-                <h2 class="text-sm font-mono text-orange-500 tracking-widest uppercase mb-4">The Problem</h2>
-                <h3 class="text-3xl md:text-4xl font-light text-white mb-6">Trapped in the Abstract.</h3>
-                <div class="space-y-6 text-gray-400 font-light leading-relaxed">
-                    <p>
-                        Most organizations are trapped inside their own heads. Ideas live in fragments. Decisions are re-made repeatedly. Execution resets every cycle.
-                    </p>
-                    <p>
-                        Leverage is impossible under these conditions.
-                    </p>
-                    <p class="text-white font-normal border-l-2 border-orange-500 pl-4">
-                        We don't sell tools. We don't sell generic prompts. We install a recursive engine that enforces a disciplined flow from raw thought to scalable deployment.
-                    </p>
+    <hr class="section-divider">
+
+    <!-- ====== PHILOSOPHY ====== -->
+    <section id="philosophy" class="py-28 md:py-36 px-6 lg:px-8 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-12 gap-12 md:gap-16 items-start">
+
+                <!-- Left column: copy -->
+                <div class="md:col-span-7 reveal">
+                    <span class="text-xs font-mono text-accent tracking-widest uppercase mb-4 block">The Problem</span>
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight leading-tight mb-8">
+                        Trapped in<br>the Abstract.
+                    </h2>
+
+                    <div class="space-y-6 text-gray-400 leading-relaxed">
+                        <p>
+                            Most organizations are trapped inside their own heads. Ideas live in fragments. Decisions are re-made repeatedly. Execution resets every cycle.
+                        </p>
+                        <p class="text-gray-500">
+                            Leverage is impossible under these conditions.
+                        </p>
+                        <blockquote class="border-l-2 border-accent pl-5 text-white/90 font-normal leading-relaxed">
+                            We don't sell tools. We don't sell generic prompts. We install a recursive engine that enforces a disciplined flow from raw thought to scalable deployment.
+                        </blockquote>
+                    </div>
                 </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4 reveal-up" style="transition-delay: 200ms;">
-                <div class="glass-panel p-8 rounded-sm">
-                    <i data-lucide="brain-circuit" class="w-8 h-8 text-gray-400 mb-4"></i>
-                    <h4 class="text-white mb-2">Cognition</h4>
-                    <p class="text-sm text-gray-500">Currently trapped in memory and chats.</p>
-                </div>
-                <div class="glass-panel p-8 rounded-sm border-orange-500/20 bg-orange-500/5">
-                    <i data-lucide="zap" class="w-8 h-8 text-orange-500 mb-4"></i>
-                    <h4 class="text-white mb-2">Leverage</h4>
-                    <p class="text-sm text-gray-500">The result of externalizing and automating thought.</p>
-                </div>
-                <div class="glass-panel p-8 rounded-sm col-span-2">
-                    <i data-lucide="infinity" class="w-8 h-8 text-gray-300 mb-4"></i>
-                    <h4 class="text-white mb-2">Recursive Improvement</h4>
-                    <p class="text-sm text-gray-500">Every deployment generates data that improves the next decision.</p>
+
+                <!-- Right column: cards -->
+                <div class="md:col-span-5 space-y-4">
+                    <div class="glass glass-hover p-7 rounded-sm reveal" style="transition-delay: 50ms;">
+                        <i data-lucide="brain-circuit" class="w-7 h-7 text-gray-500 mb-4"></i>
+                        <h3 class="text-white font-medium mb-1.5">Cognition</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Currently trapped in memory and chats.</p>
+                    </div>
+                    <div class="glass glass-hover p-7 rounded-sm border-accent/15 bg-accent/[0.03] reveal" style="transition-delay: 150ms;">
+                        <i data-lucide="zap" class="w-7 h-7 text-accent mb-4"></i>
+                        <h3 class="text-white font-medium mb-1.5">Leverage</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">The result of externalizing and automating thought.</p>
+                    </div>
+                    <div class="glass glass-hover p-7 rounded-sm reveal" style="transition-delay: 250ms;">
+                        <i data-lucide="infinity" class="w-7 h-7 text-gray-400 mb-4"></i>
+                        <h3 class="text-white font-medium mb-1.5">Recursive Improvement</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Every deployment generates data that improves the next decision.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- The Engine (Core Framework) -->
-    <section id="engine" class="py-32 px-6 relative bg-charcoal/50">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-24 reveal-up">
-                <h2 class="text-4xl md:text-5xl font-medium text-white mb-6">The Leverage Loop</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    No extra frameworks. No depth for depth's sake. Just the engine. This is the 5-step protocol we install into your business.
+    <hr class="section-divider">
+
+    <!-- ====== THE ENGINE ====== -->
+    <section id="engine" class="py-28 md:py-36 px-6 lg:px-8 relative overflow-hidden">
+        <!-- Faint radial glow behind section -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[40vw] bg-accent/[0.03] blur-[150px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-20 reveal">
+                <span class="text-xs font-mono text-accent tracking-widest uppercase mb-4 block">The Protocol</span>
+                <h2 class="text-4xl md:text-5xl font-medium text-white tracking-tight mb-5">The Leverage Loop</h2>
+                <p class="text-gray-500 max-w-xl mx-auto leading-relaxed">
+                    No extra frameworks. No depth for depth's sake. Five steps — the engine we install into your business.
                 </p>
             </div>
 
-            <!-- Loop Visual -->
             <div class="relative">
-                <!-- Connecting Line (Desktop) -->
-                <div class="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent -translate-y-1/2 z-0"></div>
+                <!-- Desktop connector line -->
+                <div class="hidden lg:block step-connector"></div>
 
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-6 relative z-10">
-                    
-                    <!-- Step 1 -->
-                    <div class="glass-panel p-6 rounded-sm hover:border-white/20 transition-all duration-300 group reveal-up" style="transition-delay: 0ms;">
-                        <div class="w-10 h-10 bg-black border border-white/10 rounded-full flex items-center justify-center text-sm font-mono text-gray-500 mb-6 group-hover:text-orange-500 group-hover:border-orange-500 transition-colors">01</div>
-                        <h3 class="text-lg font-semibold text-white mb-3">Externalize</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">
-                            Pulling thinking out of heads. Assumptions and mental models must be made explicit.
-                        </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 relative z-10">
+
+                    <div class="glass glass-hover p-6 rounded-sm reveal" style="transition-delay: 0ms;">
+                        <div class="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center text-xs font-mono text-gray-500 mb-5">01</div>
+                        <h3 class="text-base font-semibold text-white mb-2">Externalize</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Pull thinking out of heads. Assumptions and mental models must be made explicit.</p>
                     </div>
 
-                    <!-- Step 2 -->
-                    <div class="glass-panel p-6 rounded-sm hover:border-white/20 transition-all duration-300 group reveal-up" style="transition-delay: 100ms;">
-                        <div class="w-10 h-10 bg-black border border-white/10 rounded-full flex items-center justify-center text-sm font-mono text-gray-500 mb-6 group-hover:text-orange-500 group-hover:border-orange-500 transition-colors">02</div>
-                        <h3 class="text-lg font-semibold text-white mb-3">Capture</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">
-                            Storing information in durable containers. Converting "exhaust" into assets.
-                        </p>
+                    <div class="glass glass-hover p-6 rounded-sm reveal" style="transition-delay: 80ms;">
+                        <div class="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center text-xs font-mono text-gray-500 mb-5">02</div>
+                        <h3 class="text-base font-semibold text-white mb-2">Capture</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Store information in durable containers. Convert "exhaust" into assets.</p>
                     </div>
 
-                    <!-- Step 3 -->
-                    <div class="glass-panel p-6 rounded-sm hover:border-white/20 transition-all duration-300 group reveal-up" style="transition-delay: 200ms;">
-                        <div class="w-10 h-10 bg-black border border-white/10 rounded-full flex items-center justify-center text-sm font-mono text-gray-500 mb-6 group-hover:text-orange-500 group-hover:border-orange-500 transition-colors">03</div>
-                        <h3 class="text-lg font-semibold text-white mb-3">Research</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">
-                            Enriching and stress-testing the captured material. Removing blind spots.
-                        </p>
+                    <div class="glass glass-hover p-6 rounded-sm reveal" style="transition-delay: 160ms;">
+                        <div class="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center text-xs font-mono text-gray-500 mb-5">03</div>
+                        <h3 class="text-base font-semibold text-white mb-2">Research</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Enrich and stress-test the captured material. Remove blind spots.</p>
                     </div>
 
-                    <!-- Step 4 -->
-                    <div class="glass-panel p-6 rounded-sm hover:border-white/20 transition-all duration-300 group reveal-up" style="transition-delay: 300ms;">
-                        <div class="w-10 h-10 bg-black border border-white/10 rounded-full flex items-center justify-center text-sm font-mono text-gray-500 mb-6 group-hover:text-orange-500 group-hover:border-orange-500 transition-colors">04</div>
-                        <h3 class="text-lg font-semibold text-white mb-3">Synthesize</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">
-                            Distilling insights into clear conclusions and decision rules. Usable intelligence.
-                        </p>
+                    <div class="glass glass-hover p-6 rounded-sm reveal" style="transition-delay: 240ms;">
+                        <div class="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center text-xs font-mono text-gray-500 mb-5">04</div>
+                        <h3 class="text-base font-semibold text-white mb-2">Synthesize</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Distill insights into clear conclusions and decision rules. Usable intelligence.</p>
                     </div>
 
-                    <!-- Step 5 -->
-                    <div class="glass-panel p-6 rounded-sm border-orange-500/30 shadow-[0_0_20px_rgba(255,69,0,0.05)] reveal-up" style="transition-delay: 400ms;">
-                        <div class="w-10 h-10 bg-orange-gradient rounded-full flex items-center justify-center text-sm font-mono text-black font-bold mb-6">05</div>
-                        <h3 class="text-lg font-semibold text-white mb-3">Deploy</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">
-                            Operationalizing insights into Agents, Strategy, or Systems. Closing the loop.
-                        </p>
+                    <div class="glass p-6 rounded-sm border-accent/20 shadow-[0_0_30px_rgba(255,69,0,0.06)] reveal" style="transition-delay: 320ms;">
+                        <div class="relative w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-accent flex items-center justify-center text-xs font-mono text-black font-bold mb-5 pulse-ring">05</div>
+                        <h3 class="text-base font-semibold text-white mb-2">Deploy</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Operationalize insights into Agents, Strategy, or Systems. Close the loop.</p>
                     </div>
+                </div>
+            </div>
 
+            <!-- Loop indicator -->
+            <div class="flex justify-center mt-12 reveal" style="transition-delay: 400ms;">
+                <div class="flex items-center gap-3 text-gray-600">
+                    <div class="h-px w-12 bg-white/10"></div>
+                    <i data-lucide="rotate-ccw" class="w-4 h-4 text-accent/50"></i>
+                    <span class="text-[11px] font-mono uppercase tracking-widest text-gray-600">Repeat & compound</span>
+                    <div class="h-px w-12 bg-white/10"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services -->
-    <section id="services" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal-up">
+    <hr class="section-divider">
+
+    <!-- ====== SERVICES ====== -->
+    <section id="services" class="py-28 md:py-36 px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-16 reveal">
                 <div>
-                    <h2 class="text-4xl font-medium text-white mb-2">Protocol Implementation</h2>
-                    <p class="text-gray-500">How we apply the loop to your reality.</p>
+                    <span class="text-xs font-mono text-accent tracking-widest uppercase mb-4 block">Services</span>
+                    <h2 class="text-4xl md:text-5xl font-medium text-white tracking-tight">Protocol Implementation</h2>
                 </div>
-                <div class="hidden md:block h-px flex-1 bg-white/10 mx-8 mb-4"></div>
-                <div class="text-right">
-                    <span class="text-xs font-mono text-orange-500 uppercase tracking-widest">Services</span>
-                </div>
+                <p class="text-gray-500 md:text-right md:max-w-xs leading-relaxed">How we apply the loop to your reality.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <!-- Card 1 -->
-                <div class="group relative p-8 border border-white/10 bg-black hover:bg-white/5 transition-all duration-500 reveal-up">
-                    <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">
-                        <i data-lucide="search" class="text-orange-500"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <div class="service-card p-8 border border-white/[0.06] bg-black/40 rounded-sm reveal" style="transition-delay: 0ms;">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-xs font-mono text-gray-600 tracking-wider">01</span>
+                        <i data-lucide="search" class="w-5 h-5 text-accent/40"></i>
                     </div>
                     <h3 class="text-xl font-medium text-white mb-4">Loop Audits</h3>
-                    <ul class="space-y-3 text-sm text-gray-400 mb-8">
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Identify where leverage is leaking
+                    <ul class="space-y-3 text-sm text-gray-500 mb-8">
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Identify where leverage is leaking
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Map broken cognitive loops
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Map broken cognitive loops
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Pre-automation feasibility check
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Pre-automation feasibility check
                         </li>
                     </ul>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: Audit" class="inline-block text-white text-sm border-b border-orange-500 pb-1 hover:text-orange-400 transition-colors">Identify Leaks &rarr;</a>
+                    <a href="mailto:contact@kxros.io?subject=Inquiry: Audit" class="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors group">
+                        Identify Leaks <span class="text-accent group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+                    </a>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="group relative p-8 border border-white/10 bg-black hover:bg-white/5 transition-all duration-500 reveal-up" style="transition-delay: 100ms;">
-                    <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">
-                        <i data-lucide="users" class="text-orange-500"></i>
+                <div class="service-card p-8 border border-white/[0.06] bg-black/40 rounded-sm reveal" style="transition-delay: 100ms;">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-xs font-mono text-gray-600 tracking-wider">02</span>
+                        <i data-lucide="users" class="w-5 h-5 text-accent/40"></i>
                     </div>
                     <h3 class="text-xl font-medium text-white mb-4">Consulting</h3>
-                    <ul class="space-y-3 text-sm text-gray-400 mb-8">
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Design Capture & Synthesis systems
+                    <ul class="space-y-3 text-sm text-gray-500 mb-8">
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Design Capture & Synthesis systems
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Structure research workflows
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Structure research workflows
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Define deployment pathways
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Define deployment pathways
                         </li>
                     </ul>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: Consulting" class="inline-block text-white text-sm border-b border-orange-500 pb-1 hover:text-orange-400 transition-colors">Design The Loop &rarr;</a>
+                    <a href="mailto:contact@kxros.io?subject=Inquiry: Consulting" class="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors group">
+                        Design The Loop <span class="text-accent group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+                    </a>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="group relative p-8 border border-white/10 bg-black hover:bg-white/5 transition-all duration-500 reveal-up" style="transition-delay: 200ms;">
-                    <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">
-                        <i data-lucide="cpu" class="text-orange-500"></i>
+                <div class="service-card p-8 border border-white/[0.06] bg-black/40 rounded-sm reveal" style="transition-delay: 200ms;">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-xs font-mono text-gray-600 tracking-wider">03</span>
+                        <i data-lucide="cpu" class="w-5 h-5 text-accent/40"></i>
                     </div>
                     <h3 class="text-xl font-medium text-white mb-4">Human + AI Systems</h3>
-                    <ul class="space-y-3 text-sm text-gray-400 mb-8">
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Deploy internal AI agents
+                    <ul class="space-y-3 text-sm text-gray-500 mb-8">
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Deploy internal AI agents
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Build hybrid execution flows
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Build hybrid execution flows
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-orange-500 mt-1">▹</span> Turn loop into infrastructure
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Turn loop into infrastructure
                         </li>
                     </ul>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: System Implementation" class="inline-block text-white text-sm border-b border-orange-500 pb-1 hover:text-orange-400 transition-colors">Install Systems &rarr;</a>
+                    <a href="mailto:contact@kxros.io?subject=Inquiry: System Implementation" class="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors group">
+                        Install Systems <span class="text-accent group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+                    </a>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-20 px-6 border-t border-white/5 bg-black">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="text-center md:text-left">
-                <h2 class="text-2xl font-mono font-bold tracking-tighter text-white mb-2">KXROS</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-widest">Leverage Engineering Agency</p>
-            </div>
-            
-            <div class="flex gap-8">
-                <!-- Using placeholder links -->
-                <a href="https://twitter.com" target="_blank" class="text-gray-500 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-                <a href="https://linkedin.com" target="_blank" class="text-gray-500 hover:text-white transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-                <a href="mailto:contact@kxros.io" class="text-gray-500 hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
-            </div>
+    <hr class="section-divider">
+
+    <!-- ====== CTA BAND ====== -->
+    <section class="py-24 md:py-32 px-6 lg:px-8 relative overflow-hidden">
+        <div class="absolute inset-0 bg-accent/[0.02]"></div>
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <h2 class="text-3xl md:text-4xl font-medium text-white tracking-tight mb-5">Ready to close the loop?</h2>
+            <p class="text-gray-500 mb-10 leading-relaxed">Stop leaking leverage. Let's audit your system and build something that compounds.</p>
+            <a href="mailto:contact@kxros.io?subject=Let's Talk" class="btn-primary inline-flex items-center justify-center px-10 py-4 text-sm font-bold uppercase tracking-wider text-black rounded-sm shadow-[0_0_20px_rgba(255,69,0,0.25)]">
+                Start a Conversation
+            </a>
         </div>
-        <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 text-center md:text-left flex flex-col md:flex-row justify-between text-xs text-gray-600">
-            <p>&copy; 2024 Kairos Systems LLC. All rights reserved.</p>
-            <p>Parent of Brandwell & The Next Atlas.</p>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="border-t border-white/[0.04] bg-black">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
+                <div class="text-center md:text-left">
+                    <span class="text-xl font-mono font-bold tracking-tight text-white">KXROS</span>
+                    <p class="text-[11px] text-gray-600 uppercase tracking-[0.2em] mt-1">Leverage Engineering</p>
+                </div>
+                <div class="flex gap-6">
+                    <a href="https://twitter.com" target="_blank" rel="noopener" class="text-gray-600 hover:text-white transition-colors duration-200" aria-label="Twitter">
+                        <i data-lucide="twitter" class="w-[18px] h-[18px]"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="text-gray-600 hover:text-white transition-colors duration-200" aria-label="LinkedIn">
+                        <i data-lucide="linkedin" class="w-[18px] h-[18px]"></i>
+                    </a>
+                    <a href="mailto:contact@kxros.io" class="text-gray-600 hover:text-white transition-colors duration-200" aria-label="Email">
+                        <i data-lucide="mail" class="w-[18px] h-[18px]"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-white/[0.04] pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-gray-700">
+                <p>&copy; 2025 Kairos Systems LLC. All rights reserved.</p>
+                <p>Parent of Brandwell & The Next Atlas.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script>
-        // Initialize Icons
+        // Initialize Lucide icons
         lucide.createIcons();
 
-        // Scroll Reveal Animation
-        const revealElements = document.querySelectorAll('.reveal-up');
-
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            const elementVisible = 100;
-
-            revealElements.forEach((reveal) => {
-                const elementTop = reveal.getBoundingClientRect().top;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveal.classList.add('active');
+        // Intersection Observer for scroll reveals
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
-        };
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-        window.addEventListener('scroll', revealOnScroll);
-        // Trigger once on load
-        revealOnScroll();
+        document.querySelectorAll('.reveal, .reveal-scale').forEach(el => observer.observe(el));
 
-        // Smooth Scroll for Anchors
+        // Navbar glass on scroll
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY;
+            if (y > 60) {
+                navbar.classList.add('glass');
+            } else {
+                navbar.classList.remove('glass');
+            }
+            lastScroll = y;
+        }, { passive: true });
+
+        // Mobile menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
+        menuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        });
+
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', (e) => {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         });
     </script>
