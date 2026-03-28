@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KXROS | Leverage Engineering</title>
-    <meta name="description" content="Turning thinking, knowledge, and decision-making into repeatable systems that compound.">
-    <meta name="theme-color" content="#050505">
+    <title>KXROS | We Make Your Business Think Better</title>
+    <meta name="description" content="KXROS helps businesses stop losing good ideas. We build simple systems that turn scattered thinking into real results.">
+    <meta name="theme-color" content="#fafafa">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -23,11 +23,13 @@
                         mono: ['Space Grotesk', 'monospace'],
                     },
                     colors: {
-                        obsidian: '#050505',
-                        charcoal: '#0a0a0a',
-                        smoke: '#111111',
-                        silver: '#e0e0e0',
-                        accent: '#ff4500',
+                        surface: '#fafafa',
+                        paper: '#ffffff',
+                        ink: '#111111',
+                        muted: '#6b7280',
+                        faint: '#e5e7eb',
+                        pop: '#e85d04',
+                        'pop-light': '#fff4ed',
                     },
                 }
             }
@@ -35,538 +37,291 @@
     </script>
 
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
-            background-color: #050505;
-            color: #c8c8c8;
-            overflow-x: hidden;
+            background-color: #fafafa;
+            color: #111111;
         }
 
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #444; }
+        ::-webkit-scrollbar-track { background: #fafafa; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 
-        /* Typography */
-        .text-gradient {
-            background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .text-gradient-accent {
-            background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Glass */
-        .glass {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .glass-hover {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .glass-hover:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* Reveal Animations */
         .reveal {
             opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        .reveal-scale {
-            opacity: 0;
-            transform: scale(0.96);
-            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal-scale.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
 
-        /* Noise texture overlay */
-        .noise::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            opacity: 0.015;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        /* Subtle grid */
-        .grid-pattern {
-            background-size: 60px 60px;
-            background-image:
-                linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px);
-        }
-
-        /* Horizontal rule accent */
-        .rule-accent {
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,69,0,0.4) 50%, transparent 100%);
-        }
-
-        /* Loop step connector */
-        .step-connector {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(255,69,0,0.15) 10%,
-                rgba(255,69,0,0.3) 50%,
-                rgba(255,69,0,0.15) 90%,
-                transparent 100%
-            );
-            transform: translateY(-50%);
-        }
-
-        /* Pulse ring on deploy step */
-        @keyframes pulse-ring {
-            0% { transform: scale(1); opacity: 0.3; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-        .pulse-ring::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 1px solid #ff4500;
-            animation: pulse-ring 2s ease-out infinite;
-        }
-
-        /* CTA shimmer */
-        .btn-primary {
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #ff8c00, #ff4500);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-        .btn-primary:hover {
-            box-shadow: 0 0 30px rgba(255,69,0,0.4);
-            transform: translateY(-1px);
-        }
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-            transition: left 0.6s ease;
-        }
-        .btn-primary:hover::after {
-            left: 120%;
-        }
-
-        .btn-secondary {
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-        }
-        .btn-secondary:hover {
-            border-color: rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.03);
-            transform: translateY(-1px);
-        }
-
-        /* Mobile menu */
         .mobile-menu {
             transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .mobile-menu.open {
             transform: translateX(0);
         }
-
-        /* Service card top border glow */
-        .service-card {
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,69,0,0), transparent);
-            transition: background 0.4s ease;
-        }
-        .service-card:hover::before {
-            background: linear-gradient(90deg, transparent, rgba(255,69,0,0.6), transparent);
-        }
-        .service-card:hover {
-            border-color: rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.02);
-            transform: translateY(-4px);
-        }
-
-        /* Smooth counter for stats */
-        @keyframes count-up {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Section divider */
-        .section-divider {
-            border: none;
-            height: 1px;
-            background: rgba(255,255,255,0.04);
-        }
     </style>
 </head>
-<body class="antialiased noise">
+<body class="antialiased">
 
-    <!-- Ambient background -->
-    <div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
-        <div class="absolute top-[-30%] left-[-15%] w-[60vw] h-[60vw] rounded-full bg-white/[0.02] blur-[120px]"></div>
-        <div class="absolute bottom-[-25%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-accent/[0.04] blur-[150px]"></div>
-        <div class="absolute top-[40%] left-[50%] -translate-x-1/2 w-[30vw] h-[30vw] rounded-full bg-accent/[0.02] blur-[100px]"></div>
-    </div>
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-lg border-b border-faint">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-1.5">
+                <span class="text-lg font-mono font-bold tracking-tight text-ink">KXROS</span>
+                <span class="h-1.5 w-1.5 rounded-full bg-pop"></span>
+            </a>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50" id="navbar">
-        <div class="max-w-6xl mx-auto px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <a href="#" class="flex items-center gap-2 group">
-                    <span class="text-xl font-mono font-bold tracking-tight text-white">KXROS</span>
-                    <span class="block h-1.5 w-1.5 rounded-full bg-accent group-hover:scale-125 transition-transform"></span>
-                </a>
-
-                <div class="hidden md:flex items-center gap-10">
-                    <a href="#philosophy" class="text-sm text-gray-500 hover:text-white transition-colors duration-200">Philosophy</a>
-                    <a href="#engine" class="text-sm text-gray-500 hover:text-white transition-colors duration-200">The Engine</a>
-                    <a href="#services" class="text-sm text-gray-500 hover:text-white transition-colors duration-200">Services</a>
-                </div>
-
-                <div class="hidden md:block">
-                    <a href="mailto:contact@kxros.io" class="text-xs font-semibold tracking-widest uppercase text-white/80 hover:text-white border border-white/10 hover:border-white/30 px-5 py-2.5 transition-all duration-200">
-                        Get in Touch
-                    </a>
-                </div>
-
-                <!-- Mobile hamburger -->
-                <button id="menu-toggle" class="md:hidden text-white p-2 -mr-2" aria-label="Open menu">
-                    <i data-lucide="menu" class="w-5 h-5"></i>
-                </button>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#problem" class="text-sm text-muted hover:text-ink transition-colors">The Problem</a>
+                <a href="#how" class="text-sm text-muted hover:text-ink transition-colors">How It Works</a>
+                <a href="#services" class="text-sm text-muted hover:text-ink transition-colors">What We Do</a>
             </div>
+
+            <a href="mailto:contact@kxros.io" class="hidden md:inline-flex text-sm font-semibold text-paper bg-ink hover:bg-ink/80 px-5 py-2 rounded-full transition-colors">
+                Talk to Us
+            </a>
+
+            <button id="menu-toggle" class="md:hidden text-ink p-2 -mr-2" aria-label="Open menu">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
         </div>
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu fixed inset-0 z-[60] bg-obsidian/98 backdrop-blur-xl flex flex-col justify-center items-center gap-8">
-        <button id="menu-close" class="absolute top-6 right-6 text-white p-2" aria-label="Close menu">
+    <div id="mobile-menu" class="mobile-menu fixed inset-0 z-[60] bg-surface flex flex-col justify-center items-center gap-8">
+        <button id="menu-close" class="absolute top-5 right-5 text-ink p-2" aria-label="Close menu">
             <i data-lucide="x" class="w-6 h-6"></i>
         </button>
-        <a href="#philosophy" class="mobile-link text-2xl text-gray-300 hover:text-white transition-colors">Philosophy</a>
-        <a href="#engine" class="mobile-link text-2xl text-gray-300 hover:text-white transition-colors">The Engine</a>
-        <a href="#services" class="mobile-link text-2xl text-gray-300 hover:text-white transition-colors">Services</a>
-        <div class="mt-4">
-            <a href="mailto:contact@kxros.io" class="text-sm font-semibold tracking-widest uppercase text-white border border-white/20 px-6 py-3 hover:bg-white hover:text-black transition-all">
-                Get in Touch
-            </a>
-        </div>
+        <a href="#problem" class="mobile-link text-2xl font-medium text-ink">The Problem</a>
+        <a href="#how" class="mobile-link text-2xl font-medium text-ink">How It Works</a>
+        <a href="#services" class="mobile-link text-2xl font-medium text-ink">What We Do</a>
+        <a href="mailto:contact@kxros.io" class="mt-4 text-sm font-semibold text-paper bg-ink px-6 py-3 rounded-full">Talk to Us</a>
     </div>
 
     <!-- ====== HERO ====== -->
-    <header class="relative min-h-screen flex items-center grid-pattern">
-        <div class="max-w-6xl mx-auto px-6 lg:px-8 pt-20 pb-24 relative z-10 w-full">
+    <header class="pt-32 pb-20 md:pt-44 md:pb-32 px-6">
+        <div class="max-w-5xl mx-auto">
 
-            <div class="reveal" style="transition-delay: 0ms;">
-                <span class="inline-flex items-center gap-2 px-3 py-1.5 border border-white/8 rounded-full bg-white/[0.03] backdrop-blur-sm mb-8">
-                    <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
-                    <span class="text-[11px] font-mono text-gray-400 uppercase tracking-[0.2em]">Kairos (n.) — The Opportune Moment</span>
+            <div class="reveal">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pop-light text-pop text-xs font-semibold tracking-wide mb-8">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                    Leverage Engineering Agency
                 </span>
             </div>
 
-            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-[-0.03em] leading-[1.05] text-white mb-8 reveal" style="transition-delay: 80ms;">
-                Turn Cognition<br>
-                <span class="text-gradient">Into Compound Assets.</span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-ink mb-6 reveal" style="transition-delay: 60ms;">
+                Your best ideas<br>
+                <span class="text-pop">shouldn't get lost.</span>
             </h1>
 
-            <p class="text-lg md:text-xl text-gray-400 max-w-2xl leading-relaxed mb-14 reveal" style="transition-delay: 160ms;">
-                Most leverage leaks through the cracks of scattered systems.
-                <span class="text-white font-medium">KXROS</span> is a leverage engineering agency — we audit, restructure, and automate the way your business thinks, ensuring every decision compounds.
+            <p class="text-lg md:text-xl text-muted max-w-xl leading-relaxed mb-10 reveal" style="transition-delay: 120ms;">
+                Every day, your team has great ideas. Most of them disappear — stuck in someone's head, buried in a chat, or forgotten by Monday. We fix that.
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 reveal" style="transition-delay: 240ms;">
-                <a href="#services" class="btn-primary inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider text-black rounded-sm shadow-[0_0_20px_rgba(255,69,0,0.25)]">
-                    Audit Your System
+            <div class="flex flex-col sm:flex-row gap-3 reveal" style="transition-delay: 180ms;">
+                <a href="#services" class="inline-flex items-center justify-center px-7 py-3.5 bg-pop text-paper font-semibold text-sm rounded-full hover:bg-pop/90 shadow-lg shadow-pop/20 transition-all hover:-translate-y-0.5">
+                    See How We Help
                 </a>
-                <a href="#engine" class="btn-secondary inline-flex items-center justify-center px-8 py-4 text-sm font-medium text-gray-300 rounded-sm">
-                    View The Protocol
+                <a href="#how" class="inline-flex items-center justify-center px-7 py-3.5 border border-faint text-ink font-medium text-sm rounded-full hover:bg-paper hover:border-gray-300 transition-all">
+                    How It Works
                 </a>
-            </div>
-
-            <!-- Scroll indicator -->
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 reveal" style="transition-delay: 500ms;">
-                <div class="flex flex-col items-center gap-2 text-gray-600">
-                    <span class="text-[10px] font-mono uppercase tracking-[0.3em]">Scroll</span>
-                    <div class="w-px h-8 bg-gradient-to-b from-gray-600 to-transparent"></div>
-                </div>
             </div>
         </div>
     </header>
 
-    <hr class="section-divider">
-
-    <!-- ====== PHILOSOPHY ====== -->
-    <section id="philosophy" class="py-28 md:py-36 px-6 lg:px-8 relative">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-12 gap-12 md:gap-16 items-start">
-
-                <!-- Left column: copy -->
-                <div class="md:col-span-7 reveal">
-                    <span class="text-xs font-mono text-accent tracking-widest uppercase mb-4 block">The Problem</span>
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight leading-tight mb-8">
-                        Trapped in<br>the Abstract.
-                    </h2>
-
-                    <div class="space-y-6 text-gray-400 leading-relaxed">
-                        <p>
-                            Most organizations are trapped inside their own heads. Ideas live in fragments. Decisions are re-made repeatedly. Execution resets every cycle.
-                        </p>
-                        <p class="text-gray-500">
-                            Leverage is impossible under these conditions.
-                        </p>
-                        <blockquote class="border-l-2 border-accent pl-5 text-white/90 font-normal leading-relaxed">
-                            We don't sell tools. We don't sell generic prompts. We install a recursive engine that enforces a disciplined flow from raw thought to scalable deployment.
-                        </blockquote>
-                    </div>
-                </div>
-
-                <!-- Right column: cards -->
-                <div class="md:col-span-5 space-y-4">
-                    <div class="glass glass-hover p-7 rounded-sm reveal" style="transition-delay: 50ms;">
-                        <i data-lucide="brain-circuit" class="w-7 h-7 text-gray-500 mb-4"></i>
-                        <h3 class="text-white font-medium mb-1.5">Cognition</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Currently trapped in memory and chats.</p>
-                    </div>
-                    <div class="glass glass-hover p-7 rounded-sm border-accent/15 bg-accent/[0.03] reveal" style="transition-delay: 150ms;">
-                        <i data-lucide="zap" class="w-7 h-7 text-accent mb-4"></i>
-                        <h3 class="text-white font-medium mb-1.5">Leverage</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">The result of externalizing and automating thought.</p>
-                    </div>
-                    <div class="glass glass-hover p-7 rounded-sm reveal" style="transition-delay: 250ms;">
-                        <i data-lucide="infinity" class="w-7 h-7 text-gray-400 mb-4"></i>
-                        <h3 class="text-white font-medium mb-1.5">Recursive Improvement</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Every deployment generates data that improves the next decision.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <hr class="section-divider">
-
-    <!-- ====== THE ENGINE ====== -->
-    <section id="engine" class="py-28 md:py-36 px-6 lg:px-8 relative overflow-hidden">
-        <!-- Faint radial glow behind section -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[40vw] bg-accent/[0.03] blur-[150px] rounded-full pointer-events-none"></div>
-
-        <div class="max-w-6xl mx-auto relative z-10">
-            <div class="text-center mb-20 reveal">
-                <span class="text-xs font-mono text-accent tracking-widest uppercase mb-4 block">The Protocol</span>
-                <h2 class="text-4xl md:text-5xl font-medium text-white tracking-tight mb-5">The Leverage Loop</h2>
-                <p class="text-gray-500 max-w-xl mx-auto leading-relaxed">
-                    No extra frameworks. No depth for depth's sake. Five steps — the engine we install into your business.
+    <!-- ====== THE PROBLEM ====== -->
+    <section id="problem" class="py-20 md:py-28 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="max-w-2xl reveal">
+                <span class="text-xs font-semibold text-pop uppercase tracking-widest mb-3 block">The Problem</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-ink tracking-tight mb-6">Good thinking goes to waste.</h2>
+                <p class="text-muted text-lg leading-relaxed mb-4">
+                    Think about your last great idea at work. Where did it end up? Probably in a Slack message no one can find, or in a meeting that no one wrote notes for.
+                </p>
+                <p class="text-muted leading-relaxed">
+                    When ideas don't have a place to live, they vanish. Your team ends up solving the same problems over and over. Decisions get made, forgotten, then made again. It's like running on a treadmill — lots of effort, no progress.
                 </p>
             </div>
 
-            <div class="relative">
-                <!-- Desktop connector line -->
-                <div class="hidden lg:block step-connector"></div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 relative z-10">
-
-                    <div class="glass glass-hover p-6 rounded-sm reveal" style="transition-delay: 0ms;">
-                        <div class="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center text-xs font-mono text-gray-500 mb-5">01</div>
-                        <h3 class="text-base font-semibold text-white mb-2">Externalize</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Pull thinking out of heads. Assumptions and mental models must be made explicit.</p>
+            <div class="grid sm:grid-cols-3 gap-5 mt-14">
+                <div class="bg-paper border border-faint rounded-2xl p-7 reveal hover:-translate-y-1 transition-transform" style="transition-delay: 0ms;">
+                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-5">
+                        <i data-lucide="brain" class="w-5 h-5 text-pop"></i>
                     </div>
-
-                    <div class="glass glass-hover p-6 rounded-sm reveal" style="transition-delay: 80ms;">
-                        <div class="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center text-xs font-mono text-gray-500 mb-5">02</div>
-                        <h3 class="text-base font-semibold text-white mb-2">Capture</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Store information in durable containers. Convert "exhaust" into assets.</p>
-                    </div>
-
-                    <div class="glass glass-hover p-6 rounded-sm reveal" style="transition-delay: 160ms;">
-                        <div class="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center text-xs font-mono text-gray-500 mb-5">03</div>
-                        <h3 class="text-base font-semibold text-white mb-2">Research</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Enrich and stress-test the captured material. Remove blind spots.</p>
-                    </div>
-
-                    <div class="glass glass-hover p-6 rounded-sm reveal" style="transition-delay: 240ms;">
-                        <div class="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center text-xs font-mono text-gray-500 mb-5">04</div>
-                        <h3 class="text-base font-semibold text-white mb-2">Synthesize</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Distill insights into clear conclusions and decision rules. Usable intelligence.</p>
-                    </div>
-
-                    <div class="glass p-6 rounded-sm border-accent/20 shadow-[0_0_30px_rgba(255,69,0,0.06)] reveal" style="transition-delay: 320ms;">
-                        <div class="relative w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-accent flex items-center justify-center text-xs font-mono text-black font-bold mb-5 pulse-ring">05</div>
-                        <h3 class="text-base font-semibold text-white mb-2">Deploy</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Operationalize insights into Agents, Strategy, or Systems. Close the loop.</p>
-                    </div>
+                    <h3 class="font-semibold text-ink mb-2">Ideas Get Stuck</h3>
+                    <p class="text-sm text-muted leading-relaxed">Great thinking lives in people's heads or scattered across a dozen apps. It never becomes something useful.</p>
                 </div>
-            </div>
 
-            <!-- Loop indicator -->
-            <div class="flex justify-center mt-12 reveal" style="transition-delay: 400ms;">
-                <div class="flex items-center gap-3 text-gray-600">
-                    <div class="h-px w-12 bg-white/10"></div>
-                    <i data-lucide="rotate-ccw" class="w-4 h-4 text-accent/50"></i>
-                    <span class="text-[11px] font-mono uppercase tracking-widest text-gray-600">Repeat & compound</span>
-                    <div class="h-px w-12 bg-white/10"></div>
+                <div class="bg-paper border border-faint rounded-2xl p-7 reveal hover:-translate-y-1 transition-transform" style="transition-delay: 80ms;">
+                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-5">
+                        <i data-lucide="repeat" class="w-5 h-5 text-pop"></i>
+                    </div>
+                    <h3 class="font-semibold text-ink mb-2">Work Gets Repeated</h3>
+                    <p class="text-sm text-muted leading-relaxed">Without a system, your team solves the same problems again and again, wasting time and energy.</p>
+                </div>
+
+                <div class="bg-paper border border-faint rounded-2xl p-7 reveal hover:-translate-y-1 transition-transform" style="transition-delay: 160ms;">
+                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-5">
+                        <i data-lucide="trending-down" class="w-5 h-5 text-pop"></i>
+                    </div>
+                    <h3 class="font-semibold text-ink mb-2">Growth Slows Down</h3>
+                    <p class="text-sm text-muted leading-relaxed">When nothing builds on what came before, your business can't pick up speed. Every week starts from scratch.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <hr class="section-divider">
+    <!-- ====== HOW IT WORKS ====== -->
+    <section id="how" class="py-20 md:py-28 px-6 bg-paper border-y border-faint">
+        <div class="max-w-5xl mx-auto">
+
+            <div class="text-center mb-16 reveal">
+                <span class="text-xs font-semibold text-pop uppercase tracking-widest mb-3 block">How It Works</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">Five simple steps. One big loop.</h2>
+                <p class="text-muted max-w-lg mx-auto leading-relaxed">
+                    We install a repeatable process so your best thinking turns into real action — and keeps getting better over time.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+
+                <div class="bg-surface border border-faint rounded-2xl p-6 reveal" style="transition-delay: 0ms;">
+                    <span class="text-xs font-bold text-pop bg-pop-light px-2 py-0.5 rounded-md mb-4 inline-block">Step 1</span>
+                    <h3 class="font-semibold text-ink mb-2">Get It Out</h3>
+                    <p class="text-sm text-muted leading-relaxed">Take what's in people's heads and write it down. No idea should stay invisible.</p>
+                </div>
+
+                <div class="bg-surface border border-faint rounded-2xl p-6 reveal" style="transition-delay: 60ms;">
+                    <span class="text-xs font-bold text-pop bg-pop-light px-2 py-0.5 rounded-md mb-4 inline-block">Step 2</span>
+                    <h3 class="font-semibold text-ink mb-2">Save It</h3>
+                    <p class="text-sm text-muted leading-relaxed">Put ideas somewhere they won't get lost — organized, searchable, and easy to find later.</p>
+                </div>
+
+                <div class="bg-surface border border-faint rounded-2xl p-6 reveal" style="transition-delay: 120ms;">
+                    <span class="text-xs font-bold text-pop bg-pop-light px-2 py-0.5 rounded-md mb-4 inline-block">Step 3</span>
+                    <h3 class="font-semibold text-ink mb-2">Test It</h3>
+                    <p class="text-sm text-muted leading-relaxed">Look at each idea honestly. Does it hold up? What's missing? Fill in the gaps.</p>
+                </div>
+
+                <div class="bg-surface border border-faint rounded-2xl p-6 reveal" style="transition-delay: 180ms;">
+                    <span class="text-xs font-bold text-pop bg-pop-light px-2 py-0.5 rounded-md mb-4 inline-block">Step 4</span>
+                    <h3 class="font-semibold text-ink mb-2">Make It Clear</h3>
+                    <p class="text-sm text-muted leading-relaxed">Turn messy information into simple answers. "Here's what we know, here's what to do."</p>
+                </div>
+
+                <div class="bg-pop text-paper rounded-2xl p-6 reveal" style="transition-delay: 240ms;">
+                    <span class="text-xs font-bold text-pop bg-paper px-2 py-0.5 rounded-md mb-4 inline-block">Step 5</span>
+                    <h3 class="font-semibold mb-2">Put It to Work</h3>
+                    <p class="text-sm text-paper/80 leading-relaxed">Launch it. Automate it. Build it into how your team operates every day.</p>
+                </div>
+            </div>
+
+            <div class="flex justify-center mt-10 reveal" style="transition-delay: 300ms;">
+                <div class="flex items-center gap-3 text-muted">
+                    <div class="h-px w-10 bg-faint"></div>
+                    <i data-lucide="refresh-cw" class="w-4 h-4 text-pop"></i>
+                    <span class="text-xs font-semibold uppercase tracking-widest">Then repeat — it gets better each time</span>
+                    <div class="h-px w-10 bg-faint"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ====== SERVICES ====== -->
-    <section id="services" class="py-28 md:py-36 px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-16 reveal">
-                <div>
-                    <span class="text-xs font-mono text-accent tracking-widest uppercase mb-4 block">Services</span>
-                    <h2 class="text-4xl md:text-5xl font-medium text-white tracking-tight">Protocol Implementation</h2>
-                </div>
-                <p class="text-gray-500 md:text-right md:max-w-xs leading-relaxed">How we apply the loop to your reality.</p>
+    <section id="services" class="py-20 md:py-28 px-6">
+        <div class="max-w-5xl mx-auto">
+
+            <div class="text-center mb-16 reveal">
+                <span class="text-xs font-semibold text-pop uppercase tracking-widest mb-3 block">What We Do</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">Three ways we can help.</h2>
+                <p class="text-muted max-w-lg mx-auto leading-relaxed">
+                    Whether you need a checkup, a game plan, or a full build — we've got you.
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-3 gap-6">
 
-                <div class="service-card p-8 border border-white/[0.06] bg-black/40 rounded-sm reveal" style="transition-delay: 0ms;">
-                    <div class="flex items-center justify-between mb-6">
-                        <span class="text-xs font-mono text-gray-600 tracking-wider">01</span>
-                        <i data-lucide="search" class="w-5 h-5 text-accent/40"></i>
+                <div class="bg-paper border border-faint rounded-2xl p-8 hover:-translate-y-1 transition-transform reveal" style="transition-delay: 0ms;">
+                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-6">
+                        <i data-lucide="search" class="w-5 h-5 text-pop"></i>
                     </div>
-                    <h3 class="text-xl font-medium text-white mb-4">Loop Audits</h3>
-                    <ul class="space-y-3 text-sm text-gray-500 mb-8">
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Identify where leverage is leaking
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Map broken cognitive loops
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Pre-automation feasibility check
-                        </li>
-                    </ul>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: Audit" class="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors group">
-                        Identify Leaks <span class="text-accent group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+                    <h3 class="text-xl font-semibold text-ink mb-3">Find the Leaks</h3>
+                    <p class="text-sm text-muted leading-relaxed mb-6">
+                        We look at how your team thinks, communicates, and makes decisions. Then we show you exactly where good ideas are falling through the cracks.
+                    </p>
+                    <a href="mailto:contact@kxros.io?subject=Inquiry: Audit" class="inline-flex items-center gap-1.5 text-sm font-semibold text-pop hover:underline">
+                        Get an audit <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
                 </div>
 
-                <div class="service-card p-8 border border-white/[0.06] bg-black/40 rounded-sm reveal" style="transition-delay: 100ms;">
-                    <div class="flex items-center justify-between mb-6">
-                        <span class="text-xs font-mono text-gray-600 tracking-wider">02</span>
-                        <i data-lucide="users" class="w-5 h-5 text-accent/40"></i>
+                <div class="bg-paper border border-faint rounded-2xl p-8 hover:-translate-y-1 transition-transform reveal" style="transition-delay: 100ms;">
+                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-6">
+                        <i data-lucide="pen-tool" class="w-5 h-5 text-pop"></i>
                     </div>
-                    <h3 class="text-xl font-medium text-white mb-4">Consulting</h3>
-                    <ul class="space-y-3 text-sm text-gray-500 mb-8">
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Design Capture & Synthesis systems
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Structure research workflows
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Define deployment pathways
-                        </li>
-                    </ul>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: Consulting" class="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors group">
-                        Design The Loop <span class="text-accent group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+                    <h3 class="text-xl font-semibold text-ink mb-3">Design the System</h3>
+                    <p class="text-sm text-muted leading-relaxed mb-6">
+                        We work with your team to create a simple, clear system for capturing ideas, making decisions, and actually following through.
+                    </p>
+                    <a href="mailto:contact@kxros.io?subject=Inquiry: Consulting" class="inline-flex items-center gap-1.5 text-sm font-semibold text-pop hover:underline">
+                        Start designing <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
                 </div>
 
-                <div class="service-card p-8 border border-white/[0.06] bg-black/40 rounded-sm reveal" style="transition-delay: 200ms;">
-                    <div class="flex items-center justify-between mb-6">
-                        <span class="text-xs font-mono text-gray-600 tracking-wider">03</span>
-                        <i data-lucide="cpu" class="w-5 h-5 text-accent/40"></i>
+                <div class="bg-paper border border-faint rounded-2xl p-8 hover:-translate-y-1 transition-transform reveal" style="transition-delay: 200ms;">
+                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-6">
+                        <i data-lucide="bot" class="w-5 h-5 text-pop"></i>
                     </div>
-                    <h3 class="text-xl font-medium text-white mb-4">Human + AI Systems</h3>
-                    <ul class="space-y-3 text-sm text-gray-500 mb-8">
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Deploy internal AI agents
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Build hybrid execution flows
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-accent/60 mt-0.5 text-xs">&#9656;</span> Turn loop into infrastructure
-                        </li>
-                    </ul>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: System Implementation" class="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors group">
-                        Install Systems <span class="text-accent group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+                    <h3 class="text-xl font-semibold text-ink mb-3">Build It With AI</h3>
+                    <p class="text-sm text-muted leading-relaxed mb-6">
+                        We set up smart tools and AI helpers that do the heavy lifting — so your team can focus on the work that actually matters.
+                    </p>
+                    <a href="mailto:contact@kxros.io?subject=Inquiry: AI Systems" class="inline-flex items-center gap-1.5 text-sm font-semibold text-pop hover:underline">
+                        Let's build <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <hr class="section-divider">
-
-    <!-- ====== CTA BAND ====== -->
-    <section class="py-24 md:py-32 px-6 lg:px-8 relative overflow-hidden">
-        <div class="absolute inset-0 bg-accent/[0.02]"></div>
-        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
-            <h2 class="text-3xl md:text-4xl font-medium text-white tracking-tight mb-5">Ready to close the loop?</h2>
-            <p class="text-gray-500 mb-10 leading-relaxed">Stop leaking leverage. Let's audit your system and build something that compounds.</p>
-            <a href="mailto:contact@kxros.io?subject=Let's Talk" class="btn-primary inline-flex items-center justify-center px-10 py-4 text-sm font-bold uppercase tracking-wider text-black rounded-sm shadow-[0_0_20px_rgba(255,69,0,0.25)]">
+    <!-- ====== CTA ====== -->
+    <section class="py-20 md:py-28 px-6 bg-ink">
+        <div class="max-w-2xl mx-auto text-center reveal">
+            <h2 class="text-3xl md:text-4xl font-bold text-paper tracking-tight mb-4">Stop losing your best thinking.</h2>
+            <p class="text-gray-400 leading-relaxed mb-8">
+                Let's have a quick conversation about where your ideas are getting stuck — and what we can do about it. No pitch, no pressure.
+            </p>
+            <a href="mailto:contact@kxros.io?subject=Let's Talk" class="inline-flex items-center justify-center px-8 py-3.5 bg-pop text-paper font-semibold text-sm rounded-full hover:bg-pop/90 shadow-lg shadow-pop/30 transition-all hover:-translate-y-0.5">
                 Start a Conversation
             </a>
         </div>
     </section>
 
     <!-- ====== FOOTER ====== -->
-    <footer class="border-t border-white/[0.04] bg-black">
-        <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
+    <footer class="border-t border-faint bg-surface">
+        <div class="max-w-5xl mx-auto px-6 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10">
                 <div class="text-center md:text-left">
-                    <span class="text-xl font-mono font-bold tracking-tight text-white">KXROS</span>
-                    <p class="text-[11px] text-gray-600 uppercase tracking-[0.2em] mt-1">Leverage Engineering</p>
+                    <span class="text-lg font-mono font-bold tracking-tight text-ink">KXROS</span>
+                    <p class="text-xs text-muted mt-0.5">Making businesses think better.</p>
                 </div>
-                <div class="flex gap-6">
-                    <a href="https://twitter.com" target="_blank" rel="noopener" class="text-gray-600 hover:text-white transition-colors duration-200" aria-label="Twitter">
+                <div class="flex gap-5">
+                    <a href="https://twitter.com" target="_blank" rel="noopener" class="text-muted hover:text-ink transition-colors" aria-label="Twitter">
                         <i data-lucide="twitter" class="w-[18px] h-[18px]"></i>
                     </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="text-gray-600 hover:text-white transition-colors duration-200" aria-label="LinkedIn">
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="text-muted hover:text-ink transition-colors" aria-label="LinkedIn">
                         <i data-lucide="linkedin" class="w-[18px] h-[18px]"></i>
                     </a>
-                    <a href="mailto:contact@kxros.io" class="text-gray-600 hover:text-white transition-colors duration-200" aria-label="Email">
+                    <a href="mailto:contact@kxros.io" class="text-muted hover:text-ink transition-colors" aria-label="Email">
                         <i data-lucide="mail" class="w-[18px] h-[18px]"></i>
                     </a>
                 </div>
             </div>
-            <div class="border-t border-white/[0.04] pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-gray-700">
+            <div class="border-t border-faint pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-muted">
                 <p>&copy; 2025 Kairos Systems LLC. All rights reserved.</p>
                 <p>Parent of Brandwell & The Next Atlas.</p>
             </div>
@@ -574,10 +329,8 @@
     </footer>
 
     <script>
-        // Initialize Lucide icons
         lucide.createIcons();
 
-        // Intersection Observer for scroll reveals
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -585,43 +338,25 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-        document.querySelectorAll('.reveal, .reveal-scale').forEach(el => observer.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Navbar glass on scroll
-        const navbar = document.getElementById('navbar');
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const y = window.scrollY;
-            if (y > 60) {
-                navbar.classList.add('glass');
-            } else {
-                navbar.classList.remove('glass');
-            }
-            lastScroll = y;
-        }, { passive: true });
-
-        // Mobile menu
         const menuToggle = document.getElementById('menu-toggle');
         const menuClose = document.getElementById('menu-close');
         const mobileMenu = document.getElementById('mobile-menu');
 
         menuToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
         menuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
-
         document.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => mobileMenu.classList.remove('open'));
         });
 
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = document.querySelector(anchor.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>
