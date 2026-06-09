@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KXROS | We Make Your Business Think Better</title>
-    <meta name="description" content="KXROS helps businesses stop losing good ideas. We build simple systems that turn scattered thinking into real results.">
-    <meta name="theme-color" content="#fafafa">
-
+    <title>KAIROS | Strategic Narrative & Market Expansion</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -19,345 +16,680 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['Space Grotesk', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        surface: '#fafafa',
-                        paper: '#ffffff',
-                        ink: '#111111',
-                        muted: '#6b7280',
-                        faint: '#e5e7eb',
-                        pop: '#e85d04',
-                        'pop-light': '#fff4ed',
+                        background: '#030303',
+                        surface: '#0A0A0A',
+                        surfaceHover: '#111111',
+                        border: 'rgba(255, 255, 255, 0.08)',
+                        textMain: '#EDEDED',
+                        textMuted: '#888888',
                     },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, #2a8af6 0deg, #a853ba 180deg, #e92a67 360deg)',
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite alternate',
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
                 }
             }
         }
     </script>
 
     <style>
+        /* Base Reset & Typography Setup */
         body {
-            background-color: #fafafa;
-            color: #111111;
+            background-color: #030303;
+            color: #EDEDED;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #fafafa; }
-        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+        ::selection {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
 
+        /* Abstract Noise Texture overlay for matte finish */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Utility classes for text gradients */
+        .text-gradient {
+            background: linear-gradient(180deg, #FFFFFF 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .text-gradient-horizontal {
+            background: linear-gradient(90deg, #FFFFFF 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Scroll Reveal Animation Classes */
         .reveal {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .reveal.visible {
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .mobile-menu {
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        /* Premium Card Hover Effects */
+        .glass-card {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
-        .mobile-menu.open {
-            transform: translateX(0);
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(15, 15, 15, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Abstract Node Network Lines */
+        .node-connector {
+            position: absolute;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.1) 100%);
+            height: 1px;
+            width: 100%;
+            z-index: 0;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background: #EDEDED;
+            color: #030303;
+            box-shadow: 0 0 0 1px transparent, 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background: #FFFFFF;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.5), 0 4px 12px rgba(255,255,255,0.15);
+            transform: scale(1.02);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #EDEDED;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        /* Grid background */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, transparent, black, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black, transparent);
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased relative selection:bg-white/20 selection:text-white">
 
-    <!-- Nav -->
-    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-lg border-b border-faint">
-        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-1.5">
-                <span class="text-lg font-mono font-bold tracking-tight text-ink">KXROS</span>
-                <span class="h-1.5 w-1.5 rounded-full bg-pop"></span>
-            </a>
+    <!-- Global Noise Texture -->
+    <div class="noise-overlay"></div>
 
-            <div class="hidden md:flex items-center gap-8">
-                <a href="#problem" class="text-sm text-muted hover:text-ink transition-colors">The Problem</a>
-                <a href="#how" class="text-sm text-muted hover:text-ink transition-colors">How It Works</a>
-                <a href="#services" class="text-sm text-muted hover:text-ink transition-colors">What We Do</a>
+    <nav class="fixed top-0 left-0 w-full z-40 border-b border-border bg-background/70 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <!-- Abstract Logo Symbol -->
+                <div class="w-6 h-6 border border-white/20 rounded-sm flex items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent"></div>
+                    <div class="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <span class="font-medium tracking-widest text-sm uppercase">Kairos</span>
             </div>
-
-            <a href="mailto:contact@kxros.io" class="hidden md:inline-flex text-sm font-semibold text-paper bg-ink hover:bg-ink/80 px-5 py-2 rounded-full transition-colors">
-                Talk to Us
-            </a>
-
-            <button id="menu-toggle" class="md:hidden text-ink p-2 -mr-2" aria-label="Open menu">
-                <i data-lucide="menu" class="w-5 h-5"></i>
-            </button>
+            <div class="hidden md:flex items-center gap-8 text-sm text-textMuted font-light">
+                <a href="#methodology" class="hover:text-white transition-colors">Methodology</a>
+                <a href="#systems" class="hover:text-white transition-colors">Systems</a>
+                <a href="#process" class="hover:text-white transition-colors">Process</a>
+            </div>
+            <a href="#contact" class="btn-primary px-4 py-2 rounded-full text-xs font-medium">Book Strategy Call</a>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu fixed inset-0 z-[60] bg-surface flex flex-col justify-center items-center gap-8">
-        <button id="menu-close" class="absolute top-5 right-5 text-ink p-2" aria-label="Close menu">
-            <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-        <a href="#problem" class="mobile-link text-2xl font-medium text-ink">The Problem</a>
-        <a href="#how" class="mobile-link text-2xl font-medium text-ink">How It Works</a>
-        <a href="#services" class="mobile-link text-2xl font-medium text-ink">What We Do</a>
-        <a href="mailto:contact@kxros.io" class="mt-4 text-sm font-semibold text-paper bg-ink px-6 py-3 rounded-full">Talk to Us</a>
-    </div>
+    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden flex flex-col items-center justify-center min-h-[90vh]">
+        <!-- Background Grid & Glows -->
+        <div class="absolute inset-0 bg-grid opacity-50 z-0"></div>
+        
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px] animate-blob z-0 pointer-events-none"></div>
 
-    <!-- ====== HERO ====== -->
-    <header class="pt-32 pb-20 md:pt-44 md:pb-32 px-6">
-        <div class="max-w-5xl mx-auto">
-
-            <div class="reveal">
-                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pop-light text-pop text-xs font-semibold tracking-wide mb-8">
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                    Leverage Engineering Agency
-                </span>
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-xs font-medium text-textMuted mb-8 reveal">
+                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                Signal Expansion & Strategic Narrative
             </div>
 
-            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-ink mb-6 reveal" style="transition-delay: 60ms;">
-                Your best ideas<br>
-                <span class="text-pop">shouldn't get lost.</span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-light tracking-tighter leading-[1.1] mb-6 reveal" style="animation-delay: 0.1s;">
+                <span class="block">Your Next Customer</span>
+                <span class="text-gradient">Already Exists.</span>
             </h1>
 
-            <p class="text-lg md:text-xl text-muted max-w-xl leading-relaxed mb-10 reveal" style="transition-delay: 120ms;">
-                Every day, your team has great ideas. Most of them disappear — stuck in someone's head, buried in a chat, or forgotten by Monday. We fix that.
+            <p class="text-lg md:text-xl text-textMuted font-light max-w-2xl mx-auto leading-relaxed mb-10 reveal" style="animation-delay: 0.2s;">
+                They just don't see themselves in your marketing yet. Most businesses aren't suffering from a lack of products. <span class="text-white">They're suffering from a lack of narrative coverage.</span>
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-3 reveal" style="transition-delay: 180ms;">
-                <a href="#services" class="inline-flex items-center justify-center px-7 py-3.5 bg-pop text-paper font-semibold text-sm rounded-full hover:bg-pop/90 shadow-lg shadow-pop/20 transition-all hover:-translate-y-0.5">
-                    See How We Help
-                </a>
-                <a href="#how" class="inline-flex items-center justify-center px-7 py-3.5 border border-faint text-ink font-medium text-sm rounded-full hover:bg-paper hover:border-gray-300 transition-all">
-                    How It Works
+            <div class="flex flex-col sm:flex-row items-center gap-4 reveal" style="animation-delay: 0.3s;">
+                <a href="#contact" class="btn-primary px-8 py-3.5 rounded-full text-sm font-medium flex items-center gap-2 w-full sm:w-auto justify-center">
+                    Book Strategy Call <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
             </div>
-        </div>
-    </header>
 
-    <!-- ====== THE PROBLEM ====== -->
-    <section id="problem" class="py-20 md:py-28 px-6">
-        <div class="max-w-5xl mx-auto">
-            <div class="max-w-2xl reveal">
-                <span class="text-xs font-semibold text-pop uppercase tracking-widest mb-3 block">The Problem</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-ink tracking-tight mb-6">Good thinking goes to waste.</h2>
-                <p class="text-muted text-lg leading-relaxed mb-4">
-                    Think about your last great idea at work. Where did it end up? Probably in a Slack message no one can find, or in a meeting that no one wrote notes for.
-                </p>
-                <p class="text-muted leading-relaxed">
-                    When ideas don't have a place to live, they vanish. Your team ends up solving the same problems over and over. Decisions get made, forgotten, then made again. It's like running on a treadmill — lots of effort, no progress.
-                </p>
-            </div>
-
-            <div class="grid sm:grid-cols-3 gap-5 mt-14">
-                <div class="bg-paper border border-faint rounded-2xl p-7 reveal hover:-translate-y-1 transition-transform" style="transition-delay: 0ms;">
-                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-5">
-                        <i data-lucide="brain" class="w-5 h-5 text-pop"></i>
-                    </div>
-                    <h3 class="font-semibold text-ink mb-2">Ideas Get Stuck</h3>
-                    <p class="text-sm text-muted leading-relaxed">Great thinking lives in people's heads or scattered across a dozen apps. It never becomes something useful.</p>
-                </div>
-
-                <div class="bg-paper border border-faint rounded-2xl p-7 reveal hover:-translate-y-1 transition-transform" style="transition-delay: 80ms;">
-                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-5">
-                        <i data-lucide="repeat" class="w-5 h-5 text-pop"></i>
-                    </div>
-                    <h3 class="font-semibold text-ink mb-2">Work Gets Repeated</h3>
-                    <p class="text-sm text-muted leading-relaxed">Without a system, your team solves the same problems again and again, wasting time and energy.</p>
-                </div>
-
-                <div class="bg-paper border border-faint rounded-2xl p-7 reveal hover:-translate-y-1 transition-transform" style="transition-delay: 160ms;">
-                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-5">
-                        <i data-lucide="trending-down" class="w-5 h-5 text-pop"></i>
-                    </div>
-                    <h3 class="font-semibold text-ink mb-2">Growth Slows Down</h3>
-                    <p class="text-sm text-muted leading-relaxed">When nothing builds on what came before, your business can't pick up speed. Every week starts from scratch.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ====== HOW IT WORKS ====== -->
-    <section id="how" class="py-20 md:py-28 px-6 bg-paper border-y border-faint">
-        <div class="max-w-5xl mx-auto">
-
-            <div class="text-center mb-16 reveal">
-                <span class="text-xs font-semibold text-pop uppercase tracking-widest mb-3 block">How It Works</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">Five simple steps. One big loop.</h2>
-                <p class="text-muted max-w-lg mx-auto leading-relaxed">
-                    We install a repeatable process so your best thinking turns into real action — and keeps getting better over time.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-
-                <div class="bg-surface border border-faint rounded-2xl p-6 reveal" style="transition-delay: 0ms;">
-                    <span class="text-xs font-bold text-pop bg-pop-light px-2 py-0.5 rounded-md mb-4 inline-block">Step 1</span>
-                    <h3 class="font-semibold text-ink mb-2">Get It Out</h3>
-                    <p class="text-sm text-muted leading-relaxed">Take what's in people's heads and write it down. No idea should stay invisible.</p>
-                </div>
-
-                <div class="bg-surface border border-faint rounded-2xl p-6 reveal" style="transition-delay: 60ms;">
-                    <span class="text-xs font-bold text-pop bg-pop-light px-2 py-0.5 rounded-md mb-4 inline-block">Step 2</span>
-                    <h3 class="font-semibold text-ink mb-2">Save It</h3>
-                    <p class="text-sm text-muted leading-relaxed">Put ideas somewhere they won't get lost — organized, searchable, and easy to find later.</p>
-                </div>
-
-                <div class="bg-surface border border-faint rounded-2xl p-6 reveal" style="transition-delay: 120ms;">
-                    <span class="text-xs font-bold text-pop bg-pop-light px-2 py-0.5 rounded-md mb-4 inline-block">Step 3</span>
-                    <h3 class="font-semibold text-ink mb-2">Test It</h3>
-                    <p class="text-sm text-muted leading-relaxed">Look at each idea honestly. Does it hold up? What's missing? Fill in the gaps.</p>
-                </div>
-
-                <div class="bg-surface border border-faint rounded-2xl p-6 reveal" style="transition-delay: 180ms;">
-                    <span class="text-xs font-bold text-pop bg-pop-light px-2 py-0.5 rounded-md mb-4 inline-block">Step 4</span>
-                    <h3 class="font-semibold text-ink mb-2">Make It Clear</h3>
-                    <p class="text-sm text-muted leading-relaxed">Turn messy information into simple answers. "Here's what we know, here's what to do."</p>
-                </div>
-
-                <div class="bg-pop text-paper rounded-2xl p-6 reveal" style="transition-delay: 240ms;">
-                    <span class="text-xs font-bold text-pop bg-paper px-2 py-0.5 rounded-md mb-4 inline-block">Step 5</span>
-                    <h3 class="font-semibold mb-2">Put It to Work</h3>
-                    <p class="text-sm text-paper/80 leading-relaxed">Launch it. Automate it. Build it into how your team operates every day.</p>
-                </div>
-            </div>
-
-            <div class="flex justify-center mt-10 reveal" style="transition-delay: 300ms;">
-                <div class="flex items-center gap-3 text-muted">
-                    <div class="h-px w-10 bg-faint"></div>
-                    <i data-lucide="refresh-cw" class="w-4 h-4 text-pop"></i>
-                    <span class="text-xs font-semibold uppercase tracking-widest">Then repeat — it gets better each time</span>
-                    <div class="h-px w-10 bg-faint"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ====== SERVICES ====== -->
-    <section id="services" class="py-20 md:py-28 px-6">
-        <div class="max-w-5xl mx-auto">
-
-            <div class="text-center mb-16 reveal">
-                <span class="text-xs font-semibold text-pop uppercase tracking-widest mb-3 block">What We Do</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">Three ways we can help.</h2>
-                <p class="text-muted max-w-lg mx-auto leading-relaxed">
-                    Whether you need a checkup, a game plan, or a full build — we've got you.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-6">
-
-                <div class="bg-paper border border-faint rounded-2xl p-8 hover:-translate-y-1 transition-transform reveal" style="transition-delay: 0ms;">
-                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-6">
-                        <i data-lucide="search" class="w-5 h-5 text-pop"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-ink mb-3">Find the Leaks</h3>
-                    <p class="text-sm text-muted leading-relaxed mb-6">
-                        We look at how your team thinks, communicates, and makes decisions. Then we show you exactly where good ideas are falling through the cracks.
-                    </p>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: Audit" class="inline-flex items-center gap-1.5 text-sm font-semibold text-pop hover:underline">
-                        Get an audit <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </a>
-                </div>
-
-                <div class="bg-paper border border-faint rounded-2xl p-8 hover:-translate-y-1 transition-transform reveal" style="transition-delay: 100ms;">
-                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-6">
-                        <i data-lucide="pen-tool" class="w-5 h-5 text-pop"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-ink mb-3">Design the System</h3>
-                    <p class="text-sm text-muted leading-relaxed mb-6">
-                        We work with your team to create a simple, clear system for capturing ideas, making decisions, and actually following through.
-                    </p>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: Consulting" class="inline-flex items-center gap-1.5 text-sm font-semibold text-pop hover:underline">
-                        Start designing <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </a>
-                </div>
-
-                <div class="bg-paper border border-faint rounded-2xl p-8 hover:-translate-y-1 transition-transform reveal" style="transition-delay: 200ms;">
-                    <div class="w-11 h-11 rounded-xl bg-pop-light flex items-center justify-center mb-6">
-                        <i data-lucide="bot" class="w-5 h-5 text-pop"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-ink mb-3">Build It With AI</h3>
-                    <p class="text-sm text-muted leading-relaxed mb-6">
-                        We set up smart tools and AI helpers that do the heavy lifting — so your team can focus on the work that actually matters.
-                    </p>
-                    <a href="mailto:contact@kxros.io?subject=Inquiry: AI Systems" class="inline-flex items-center gap-1.5 text-sm font-semibold text-pop hover:underline">
-                        Let's build <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ====== CTA ====== -->
-    <section class="py-20 md:py-28 px-6 bg-ink">
-        <div class="max-w-2xl mx-auto text-center reveal">
-            <h2 class="text-3xl md:text-4xl font-bold text-paper tracking-tight mb-4">Stop losing your best thinking.</h2>
-            <p class="text-gray-400 leading-relaxed mb-8">
-                Let's have a quick conversation about where your ideas are getting stuck — and what we can do about it. No pitch, no pressure.
+            <p class="mt-8 text-xs text-textMuted font-light max-w-lg reveal" style="animation-delay: 0.4s;">
+                Kairos helps companies uncover untapped customer segments, hidden buyer motivations, and overlooked positioning opportunities—then turns them into acquisition systems that scale.
             </p>
-            <a href="mailto:contact@kxros.io?subject=Let's Talk" class="inline-flex items-center justify-center px-8 py-3.5 bg-pop text-paper font-semibold text-sm rounded-full hover:bg-pop/90 shadow-lg shadow-pop/30 transition-all hover:-translate-y-0.5">
-                Start a Conversation
+        </div>
+    </section>
+
+    <section class="py-24 md:py-32 border-t border-border bg-surface relative" id="methodology">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <div class="reveal">
+                    <h2 class="text-3xl md:text-5xl font-light tracking-tight mb-8">
+                        Most Businesses Speak To <span class="text-gradient">One Audience.</span><br>
+                        The market doesn't.
+                    </h2>
+                    
+                    <div class="space-y-6 text-textMuted font-light text-lg">
+                        <p>
+                            The same product can solve different problems for different people. 
+                            <span class="text-white block mt-2">Different pain points. Different desires. Different identities. Different moments.</span>
+                        </p>
+                        <p>
+                            But most businesses communicate through a single lens. As a result, entire customer groups never realize the product was built for them.
+                        </p>
+                        <p class="text-white font-medium border-l border-white/20 pl-4">
+                            That creates invisible revenue leaks.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Abstract Visual representing the "Single Lens" problem -->
+                <div class="relative h-[400px] w-full rounded-2xl border border-border bg-background flex items-center justify-center overflow-hidden reveal">
+                    <!-- Lines merging into one -->
+                    <div class="absolute left-0 w-1/2 h-full flex flex-col justify-center space-y-8 pl-8">
+                        <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-white/50 relative">
+                            <div class="absolute right-0 w-2 h-2 rounded-full bg-white/50 -mt-[3.5px]"></div>
+                        </div>
+                        <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-white/50 relative">
+                            <div class="absolute right-0 w-2 h-2 rounded-full bg-white/50 -mt-[3.5px]"></div>
+                        </div>
+                        <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-white/50 relative">
+                            <div class="absolute right-0 w-2 h-2 rounded-full bg-white/50 -mt-[3.5px]"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- The Filter/Lens -->
+                    <div class="absolute left-1/2 -translate-x-1/2 w-16 h-48 border border-white/20 bg-white/5 backdrop-blur-md rounded-full flex items-center justify-center z-10 shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                        <i data-lucide="filter" class="text-white/40 w-6 h-6"></i>
+                    </div>
+
+                    <!-- Single Output -->
+                    <div class="absolute right-0 w-1/2 flex items-center justify-start pr-8">
+                        <div class="w-full h-[2px] bg-gradient-to-r from-white/80 to-transparent relative">
+                            <div class="absolute left-0 w-3 h-3 rounded-full bg-white -mt-[5px] shadow-[0_0_15px_rgba(255,255,255,0.5)]"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 md:py-32 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-3xl md:text-5xl font-light tracking-tight mb-4 text-gradient">One Offer. Multiple Markets.</h2>
+                <p class="text-textMuted font-light max-w-2xl mx-auto">
+                    One product can create dozens of opportunities when viewed through different customer perspectives.
+                </p>
+            </div>
+
+            <!-- Complex Flowchart / Map -->
+            <div class="relative max-w-5xl mx-auto reveal overflow-x-auto pb-8 hide-scrollbar">
+                <div class="min-w-[800px] flex items-center justify-between gap-4">
+                    
+                    <!-- 1. Product -->
+                    <div class="flex flex-col items-center">
+                        <div class="glass-card w-24 h-24 rounded-2xl flex items-center justify-center border border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.05)] relative z-10">
+                            <i data-lucide="box" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <span class="mt-4 text-xs tracking-widest text-textMuted uppercase font-medium">Product</span>
+                    </div>
+
+                    <!-- Connection -->
+                    <div class="flex-1 h-[1px] bg-white/20 relative z-0">
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-white/40"></i>
+                        </div>
+                    </div>
+
+                    <!-- 2. KAIROS Hub -->
+                    <div class="flex flex-col items-center relative">
+                        <div class="absolute inset-0 bg-white/10 blur-xl rounded-full"></div>
+                        <div class="w-32 h-32 rounded-full border border-white/30 bg-surface flex items-center justify-center relative z-10 shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+                            <span class="font-medium tracking-widest text-sm uppercase">Kairos</span>
+                        </div>
+                    </div>
+
+                    <!-- Connection to Map -->
+                    <div class="flex-1 h-[1px] bg-white/20 relative z-0">
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-white/40"></i>
+                        </div>
+                    </div>
+
+                    <!-- 3. Expanded Signals -->
+                    <div class="flex flex-col gap-4 relative z-10">
+                        <!-- Custom connecting lines for the stack -->
+                        <div class="absolute left-[-20px] top-[10%] bottom-[10%] w-[1px] bg-white/20"></div>
+                        <div class="absolute left-[-20px] top-[10%] w-[20px] h-[1px] bg-white/20"></div>
+                        <div class="absolute left-[-20px] top-[30%] w-[20px] h-[1px] bg-white/20"></div>
+                        <div class="absolute left-[-20px] top-[50%] w-[20px] h-[1px] bg-white/20"></div>
+                        <div class="absolute left-[-20px] top-[70%] w-[20px] h-[1px] bg-white/20"></div>
+                        <div class="absolute left-[-20px] top-[90%] w-[20px] h-[1px] bg-white/20"></div>
+
+                        <div class="glass-card px-4 py-3 rounded-lg text-sm border border-white/10 text-white/80 whitespace-nowrap">Pain Points</div>
+                        <div class="glass-card px-4 py-3 rounded-lg text-sm border border-white/10 text-white/80 whitespace-nowrap">Use Cases</div>
+                        <div class="glass-card px-4 py-3 rounded-lg text-sm border border-white/10 text-white/80 whitespace-nowrap flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-white"></div> Customer Segments</div>
+                        <div class="glass-card px-4 py-3 rounded-lg text-sm border border-white/10 text-white/80 whitespace-nowrap">Buyer Motivations</div>
+                        <div class="glass-card px-4 py-3 rounded-lg text-sm border border-white/10 text-white/80 whitespace-nowrap">Acquisition Angles</div>
+                    </div>
+
+                    <!-- Connection -->
+                    <div class="w-16 h-[1px] bg-white/20 relative z-0">
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-white/40"></i>
+                        </div>
+                    </div>
+
+                    <!-- 4. Outputs (Systems) -->
+                    <div class="flex flex-col gap-3 relative z-10">
+                        <div class="px-6 py-4 rounded-xl border border-white/10 bg-[#111] text-sm text-center">Content</div>
+                        <div class="px-6 py-4 rounded-xl border border-white/10 bg-[#111] text-sm text-center">Funnels</div>
+                        <div class="px-6 py-4 rounded-xl border border-white/10 bg-[#111] text-sm text-center">Ads & Offers</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 border-t border-border bg-surface" id="systems">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="mb-16 md:w-2/3 reveal">
+                <span class="text-xs uppercase tracking-widest text-textMuted mb-4 block">What We Do</span>
+                <h2 class="text-3xl md:text-5xl font-light tracking-tight mb-6">We Expand The Surface Area Of Your Business.</h2>
+                <p class="text-textMuted font-light text-lg">
+                    We identify the stories, positioning angles, customer segments, and buying motivations already hidden inside your business. Then we transform them into scalable acquisition systems.
+                </p>
+            </div>
+
+            <!-- Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <div class="glass-card p-6 rounded-2xl reveal flex flex-col justify-between aspect-square lg:aspect-auto">
+                    <i data-lucide="network" class="w-6 h-6 text-white/60 mb-8"></i>
+                    <div>
+                        <h3 class="text-white font-medium mb-1">Narrative Expansion</h3>
+                        <p class="text-sm text-textMuted font-light">Multiplying the stories you can tell about your offer.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl reveal flex flex-col justify-between aspect-square lg:aspect-auto" style="animation-delay: 0.1s;">
+                    <i data-lucide="target" class="w-6 h-6 text-white/60 mb-8"></i>
+                    <div>
+                        <h3 class="text-white font-medium mb-1">Market Expansion</h3>
+                        <p class="text-sm text-textMuted font-light">Finding new audiences with high intent.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl reveal flex flex-col justify-between aspect-square lg:aspect-auto" style="animation-delay: 0.2s;">
+                    <i data-lucide="film" class="w-6 h-6 text-white/60 mb-8"></i>
+                    <div>
+                        <h3 class="text-white font-medium mb-1">Trial Reels</h3>
+                        <p class="text-sm text-textMuted font-light">Rapid iteration testing to find winning hooks.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl reveal flex flex-col justify-between aspect-square lg:aspect-auto" style="animation-delay: 0.3s;">
+                    <i data-lucide="git-merge" class="w-6 h-6 text-white/60 mb-8"></i>
+                    <div>
+                        <h3 class="text-white font-medium mb-1">Funnel Architecture</h3>
+                        <p class="text-sm text-textMuted font-light">Building pathways mapped to buyer psychology.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-6 space-y-32">
+            
+            <!-- Feature 1 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 relative h-[400px] rounded-2xl border border-white/10 bg-surface overflow-hidden flex items-center justify-center reveal">
+                    <!-- Abstract Map Graphic -->
+                    <div class="w-full h-full relative">
+                        <div class="absolute top-1/2 left-1/4 w-3 h-3 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,1)]"></div>
+                        
+                        <!-- Branching SVGs -->
+                        <svg class="absolute inset-0 w-full h-full" style="pointer-events: none;">
+                            <path d="M 25% 50% C 50% 50%, 50% 20%, 75% 20%" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                            <path d="M 25% 50% C 50% 50%, 50% 35%, 75% 35%" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="4"/>
+                            <path d="M 25% 50% C 50% 50%, 50% 50%, 75% 50%" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                            <path d="M 25% 50% C 50% 50%, 50% 65%, 75% 65%" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                            <path d="M 25% 50% C 50% 50%, 50% 80%, 75% 80%" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                        </svg>
+
+                        <!-- Nodes at the end -->
+                        <div class="absolute top-[20%] right-[25%] -translate-y-1/2 w-2 h-2 bg-white/50 rounded-full"></div>
+                        <div class="absolute top-[35%] right-[25%] -translate-y-1/2 w-2 h-2 bg-white/50 rounded-full"></div>
+                        <div class="absolute top-[50%] right-[25%] -translate-y-1/2 w-2 h-2 bg-white rounded-full"></div>
+                        <div class="absolute top-[65%] right-[25%] -translate-y-1/2 w-2 h-2 bg-white/50 rounded-full"></div>
+                        <div class="absolute top-[80%] right-[25%] -translate-y-1/2 w-2 h-2 bg-white/50 rounded-full"></div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 reveal">
+                    <span class="text-xs tracking-widest text-textMuted uppercase mb-2 block">Narrative Expansion</span>
+                    <h3 class="text-3xl md:text-4xl font-light tracking-tight mb-6">One Story Becomes <span class="text-white font-normal">Twenty.</span></h3>
+                    <p class="text-textMuted font-light mb-6">
+                        Most founders know their product. Few know all the reasons people buy it. The result is a larger addressable market without changing what you sell.
+                    </p>
+                    <ul class="space-y-3 font-light text-sm text-white/80">
+                        <li class="flex items-center gap-3"><div class="w-1 h-1 bg-white/50 rounded-full"></div> Alternative use cases</li>
+                        <li class="flex items-center gap-3"><div class="w-1 h-1 bg-white/50 rounded-full"></div> Untapped demographics</li>
+                        <li class="flex items-center gap-3"><div class="w-1 h-1 bg-white/50 rounded-full"></div> Hidden pain points & emotional triggers</li>
+                        <li class="flex items-center gap-3"><div class="w-1 h-1 bg-white/50 rounded-full"></div> Customer language & objections</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <span class="text-xs tracking-widest text-textMuted uppercase mb-2 block">Trial Reels</span>
+                    <h3 class="text-3xl md:text-4xl font-light tracking-tight mb-6">Test Before You <span class="text-white font-normal">Scale.</span></h3>
+                    <p class="text-textMuted font-light mb-6">
+                        Most companies invest heavily in creative before discovering what resonates. We take the opposite approach.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="border-l border-white/20 pl-4">
+                            <p class="text-white font-medium text-sm">Winning Messages</p>
+                            <p class="text-textMuted text-xs mt-1">Become scalable campaigns.</p>
+                        </div>
+                        <div class="border-l border-white/20 pl-4">
+                            <p class="text-white/50 font-medium text-sm line-through">Losing Messages</p>
+                            <p class="text-textMuted text-xs mt-1">Eliminated quickly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative h-[400px] rounded-2xl border border-white/10 bg-surface overflow-hidden flex flex-col justify-center gap-4 p-8 reveal">
+                    <!-- Abstract Iteration Graphic -->
+                    <div class="flex items-center gap-4 w-full opacity-30">
+                        <div class="w-12 h-8 rounded bg-white/10"></div>
+                        <div class="flex-1 h-2 rounded-full bg-white/5"></div>
+                    </div>
+                    <div class="flex items-center gap-4 w-full opacity-50">
+                        <div class="w-12 h-8 rounded bg-white/20"></div>
+                        <div class="flex-1 h-2 rounded-full bg-white/10"></div>
+                    </div>
+                    <div class="flex items-center gap-4 w-full transform scale-105 border border-white/20 p-2 rounded-lg bg-white/5 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+                        <div class="w-12 h-8 rounded bg-white flex items-center justify-center">
+                            <i data-lucide="check" class="text-black w-4 h-4"></i>
+                        </div>
+                        <div class="flex-1 h-2 rounded-full bg-gradient-to-r from-white/50 to-white"></div>
+                    </div>
+                    <div class="flex items-center gap-4 w-full opacity-20">
+                        <div class="w-12 h-8 rounded bg-white/5"></div>
+                        <div class="flex-1 h-2 rounded-full bg-white/5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 relative h-[400px] rounded-2xl border border-white/10 bg-surface overflow-hidden flex items-center justify-center reveal p-8">
+                    <!-- Funnel Architecture Graphic -->
+                    <div class="w-full flex flex-col items-center gap-2 relative">
+                        <div class="w-full max-w-[280px] h-12 rounded-t-xl border border-white/20 bg-white/5 flex items-center justify-center text-xs text-white/50 tracking-widest">AWARENESS</div>
+                        
+                        <div class="w-full flex justify-center gap-4 relative">
+                            <!-- Paths splitting -->
+                            <div class="w-full max-w-[130px] h-12 border border-white/20 bg-white/5 flex items-center justify-center text-xs text-white/70">Segment A</div>
+                            <div class="w-full max-w-[130px] h-12 border border-white/20 bg-white/5 flex items-center justify-center text-xs text-white/70">Segment B</div>
+                        </div>
+
+                        <div class="w-full flex justify-center gap-4">
+                            <div class="w-full max-w-[110px] h-12 border border-white/20 bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)] flex items-center justify-center text-xs text-white">Specific Funnel</div>
+                            <div class="w-full max-w-[110px] h-12 border border-white/20 bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)] flex items-center justify-center text-xs text-white">Specific Funnel</div>
+                        </div>
+
+                        <div class="w-full max-w-[80px] h-12 rounded-b-xl border border-white/40 bg-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center text-xs text-white font-bold mt-2">CONVERSION</div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 reveal">
+                    <span class="text-xs tracking-widest text-textMuted uppercase mb-2 block">Funnel Architecture</span>
+                    <h3 class="text-3xl md:text-4xl font-light tracking-tight mb-6">Different Customers Need <span class="text-white font-normal">Different Journeys.</span></h3>
+                    <p class="text-textMuted font-light mb-6">
+                        Not every customer buys for the same reason. Which means they shouldn't enter through the same funnel.
+                    </p>
+                    <p class="text-textMuted font-light mb-8">
+                        We build conversion pathways designed around specific customer motivations and buying psychology.
+                    </p>
+                    <div class="flex gap-6">
+                        <div>
+                            <p class="text-white font-medium text-lg mb-1">More</p>
+                            <p class="text-textMuted text-sm font-light">Relevance</p>
+                        </div>
+                        <div>
+                            <p class="text-white font-medium text-lg mb-1">Higher</p>
+                            <p class="text-textMuted text-sm font-light">Intent</p>
+                        </div>
+                        <div>
+                            <p class="text-white font-medium text-lg mb-1">Better</p>
+                            <p class="text-textMuted text-sm font-light">Conversion</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-24 border-t border-border bg-[#050505]" id="process">
+        <div class="max-w-5xl mx-auto px-6">
+            
+            <div class="text-center mb-20 reveal">
+                <span class="text-xs uppercase tracking-widest text-textMuted mb-4 block">Process</span>
+                <h2 class="text-3xl md:text-5xl font-light tracking-tight mb-4 text-gradient">How Kairos Works</h2>
+            </div>
+
+            <div class="space-y-6">
+                
+                <!-- Step 1 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col md:flex-row gap-6 items-start reveal">
+                    <div class="text-white/20 font-light text-4xl w-16 shrink-0">01</div>
+                    <div>
+                        <h4 class="text-xl font-medium text-white mb-2">Discovery</h4>
+                        <p class="text-textMuted font-light">Understand the product, market, audience, and existing assets.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col md:flex-row gap-6 items-start reveal">
+                    <div class="text-white/20 font-light text-4xl w-16 shrink-0">02</div>
+                    <div>
+                        <h4 class="text-xl font-medium text-white mb-2">Narrative Mapping</h4>
+                        <p class="text-textMuted font-light">Identify hidden opportunities, segments, and messaging angles.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col md:flex-row gap-6 items-start reveal">
+                    <div class="text-white/20 font-light text-4xl w-16 shrink-0">03</div>
+                    <div>
+                        <h4 class="text-xl font-medium text-white mb-2">Market Expansion</h4>
+                        <p class="text-textMuted font-light">Develop audience-specific positioning and acquisition strategies.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col md:flex-row gap-6 items-start reveal">
+                    <div class="text-white/20 font-light text-4xl w-16 shrink-0">04</div>
+                    <div>
+                        <h4 class="text-xl font-medium text-white mb-2">Validation</h4>
+                        <p class="text-textMuted font-light">Test narratives through content, creative, and campaigns.</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col md:flex-row gap-6 items-start border-white/20 bg-[#111] reveal">
+                    <div class="text-white/60 font-medium text-4xl w-16 shrink-0">05</div>
+                    <div>
+                        <h4 class="text-xl font-medium text-white mb-2">Scale</h4>
+                        <p class="text-textMuted font-light">Build funnels and systems around what the market proves.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 border-t border-border bg-background">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                
+                <div class="reveal">
+                    <h2 class="text-3xl md:text-5xl font-light tracking-tight mb-6">Built For Businesses Ready To <span class="text-gradient">Expand.</span></h2>
+                    <p class="text-textMuted font-light text-lg mb-8">
+                        Especially those with traction, expertise, and strong products that haven't fully explored their market potential.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 reveal">
+                    <div class="glass-card p-6 rounded-xl flex items-center justify-center text-center text-sm font-medium border border-white/5">E-commerce brands</div>
+                    <div class="glass-card p-6 rounded-xl flex items-center justify-center text-center text-sm font-medium border border-white/5">Service businesses</div>
+                    <div class="glass-card p-6 rounded-xl flex items-center justify-center text-center text-sm font-medium border border-white/5">Personal brands</div>
+                    <div class="glass-card p-6 rounded-xl flex items-center justify-center text-center text-sm font-medium border border-white/5">Education companies</div>
+                    <div class="glass-card p-6 rounded-xl flex items-center justify-center text-center text-sm font-medium border border-white/5">SaaS products</div>
+                    <div class="glass-card p-6 rounded-xl flex items-center justify-center text-center text-sm font-medium border border-white/5">High-ticket offers</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 relative overflow-hidden" id="contact">
+        <!-- Subtle background glow for CTA -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-[150px] z-0 pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
+            <h2 class="text-4xl md:text-6xl font-light tracking-tight mb-6 text-gradient">
+                The Fastest Way To Grow Isn't Always A New Product.
+            </h2>
+            <p class="text-xl text-textMuted font-light mb-10 max-w-2xl mx-auto">
+                Sometimes it's helping more people understand why the current one matters. Let's uncover the customers your business isn't reaching yet.
+            </p>
+            <a href="mailto:hello@kairos.io" class="btn-primary px-8 py-4 rounded-full text-base font-medium inline-flex items-center gap-2">
+                Book A Strategy Call <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </a>
         </div>
     </section>
 
-    <!-- ====== FOOTER ====== -->
-    <footer class="border-t border-faint bg-surface">
-        <div class="max-w-5xl mx-auto px-6 py-12">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10">
-                <div class="text-center md:text-left">
-                    <span class="text-lg font-mono font-bold tracking-tight text-ink">KXROS</span>
-                    <p class="text-xs text-muted mt-0.5">Making businesses think better.</p>
+    <footer class="py-8 border-t border-border bg-[#030303]">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-white/50">
+                <div class="w-4 h-4 border border-white/20 rounded-sm flex items-center justify-center">
+                    <div class="w-1 h-1 bg-white/50 rounded-full"></div>
                 </div>
-                <div class="flex gap-5">
-                    <a href="https://twitter.com" target="_blank" rel="noopener" class="text-muted hover:text-ink transition-colors" aria-label="Twitter">
-                        <i data-lucide="twitter" class="w-[18px] h-[18px]"></i>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="text-muted hover:text-ink transition-colors" aria-label="LinkedIn">
-                        <i data-lucide="linkedin" class="w-[18px] h-[18px]"></i>
-                    </a>
-                    <a href="mailto:contact@kxros.io" class="text-muted hover:text-ink transition-colors" aria-label="Email">
-                        <i data-lucide="mail" class="w-[18px] h-[18px]"></i>
-                    </a>
-                </div>
+                <span class="text-xs uppercase tracking-widest font-medium">Kairos</span>
             </div>
-            <div class="border-t border-faint pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-muted">
-                <p>&copy; 2025 Kairos Systems LLC. All rights reserved.</p>
-                <p>Parent of Brandwell & The Next Atlas.</p>
+            <div class="text-xs text-textMuted font-light">
+                &copy; <span id="year"></span> Kairos.io. All rights reserved.
             </div>
         </div>
     </footer>
 
     <script>
+        // Initialize Lucide Icons
         lucide.createIcons();
 
-        const observer = new IntersectionObserver((entries) => {
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Scroll Reveal Animation Logic
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run once
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        const menuToggle = document.getElementById('menu-toggle');
-        const menuClose = document.getElementById('menu-close');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
-        menuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
         });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(anchor.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-            });
+        
+        // Add a simple parallax effect to the hero blob
+        document.addEventListener('mousemove', (e) => {
+            const blob = document.querySelector('.animate-blob');
+            if(blob) {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                blob.style.transform = `translate(${x * 50 - 25}px, ${y * 50 - 25}px)`;
+            }
         });
     </script>
 </body>
