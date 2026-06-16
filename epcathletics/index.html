@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPC Athletics Online Monetization Partnership</title>
+    
+    <!-- Fonts: Montserrat for sleek, premium headings, Inter for readable body copy -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS (via CDN for single-file self-containment) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        background: 'var(--background)',
+                        surface: 'var(--surface)',
+                        primary: 'var(--text-primary)',
+                        secondary: 'var(--text-secondary)',
+                        dark: 'var(--dark-section)',
+                        darkText: 'var(--dark-text)',
+                        accent: 'var(--accent)',
+                        borderSubtle: 'var(--border)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --background: #ffffff;
+            --surface: #fafafa;
+            --text-primary: #171717;
+            --text-secondary: #525252;
+            --dark-section: #171717;
+            --dark-text: #ffffff;
+            --accent: #B89B72; /* Sleek Premium Gold/Bronze */
+            --border: rgba(23, 23, 23, 0.1);
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-display {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Editorial Typography Scaling */
+        .text-fluid-hero { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 1.1; letter-spacing: -0.02em; }
+        .text-fluid-h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.15; letter-spacing: -0.01em; }
+        .text-fluid-h3 { font-size: clamp(1.5rem, 3vw, 2.25rem); line-height: 1.3; }
+        .text-fluid-body { font-size: clamp(1.125rem, 1.5vw, 1.3125rem); line-height: 1.6; max-width: 720px; }
+        .text-fluid-number { font-size: clamp(4rem, 8vw, 7.5rem); line-height: 1; letter-spacing: -0.03em; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--background); }
+        ::-webkit-scrollbar-thumb { background: #d1cfc7; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a6a0; }
+
+        /* UI Elements */
+        .editorial-border { border-color: var(--border); }
+        .btn-primary {
+            background-color: var(--dark-section);
+            color: var(--dark-text);
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover { background-color: var(--text-secondary); }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: #ffffff;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        .btn-accent:hover { filter: brightness(0.9); }
+
+        /* Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            width: 0%;
+            z-index: 100;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Scroll Animations */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.active { opacity: 1; transform: translateY(0); }
+
+        /* Specific Component Styles */
+        .hero-word { transition: color 0.4s ease, transform 0.4s ease; display: inline-block; }
+        .hero-word.active { color: var(--accent); transform: scale(1.05); }
+        
+        .system-line { stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 2s ease-in-out; }
+        .system-line.active { stroke-dashoffset: 0; }
+
+        /* Tab hiding */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Navigation */
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0;
+            background-color: currentColor; transition: width 0.2s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+    </style>
+</head>
+<body class="antialiased relative selection:bg-accent selection:text-dark">
+
+    <!-- CONFIGURATION SCRIPT -->
+    <script>
+        const proposalConfig = {
+            clientName: "EPC Athletics",
+            clientContact: "Emma",
+            proposalTitle: "EPC Athletics Online Monetization Partnership",
+            initialFee: "$1,500",
+            revenueShare: "25%",
+            infrastructureTimeline: "14–21 days",
+            growthPeriod: "90 days",
+            preparedBy: "Chase",
+            operatorCompany: "KXROS Systems",
+            agreementUrl: "#",
+            primaryAccent: "#B89B72"
+        };
+    </script>
+
+    <div id="scroll-progress"></div>
+
+    <!-- STICKY NAVIGATION -->
+    <nav class="fixed top-0 w-full bg-background/90 backdrop-blur-md z-50 border-b editorial-border transition-all duration-300" id="main-nav">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex justify-between items-center">
+            <div class="font-display font-bold text-lg tracking-tight"><span class="dynamic-client">EPC Athletics</span></div>
+            <div class="hidden md:flex space-x-6 text-sm font-medium text-secondary">
+                <a href="#opportunity" class="nav-link text-primary">Opportunity</a>
+                <a href="#diagnosis" class="nav-link hover:text-primary">Diagnosis</a>
+                <a href="#system" class="nav-link hover:text-primary">System</a>
+                <a href="#execution" class="nav-link hover:text-primary">Execution</a>
+                <a href="#investment" class="nav-link hover:text-primary">Investment</a>
+            </div>
+            <a href="#investment" class="text-sm font-semibold uppercase tracking-wider hidden sm:block hover:text-secondary transition-colors">View Investment →</a>
+        </div>
+    </nav>
+
+    <!-- 00. OPENING HERO -->
+    <section class="min-h-screen flex flex-col justify-center px-6 lg:px-12 pt-32 pb-24 border-b editorial-border relative overflow-hidden">
+        <div class="max-w-7xl mx-auto w-full z-10">
+            <p class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 reveal-up">
+                <span class="dynamic-client">EPC Athletics</span> × <span class="dynamic-operator">KXROS Systems</span>
+            </p>
+            <h1 class="text-fluid-hero font-bold mb-8 reveal-up" style="transition-delay: 0.1s;">
+                <span class="dynamic-client">EPC Athletics</span><br>Online Monetization Partnership
+            </h1>
+            
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start reveal-up" style="transition-delay: 0.2s;">
+                <div>
+                    <p class="text-fluid-body text-secondary mb-8">
+                        Building the infrastructure that turns <span class="dynamic-client">EPC Athletics</span>’ existing attention into captured leads, digital product customers, coaching clients, and long-term customer value.
+                    </p>
+                    <p class="text-xl md:text-2xl font-display font-semibold mb-2">
+                        First, we plug the leaks. Then, we increase the flow.
+                    </p>
+                    <p class="text-secondary text-sm">
+                        A proposed infrastructure sprint followed by a <span class="dynamic-growth">90-day</span> organic growth and monetization partnership.
+                    </p>
+                </div>
+                
+                <div class="bg-surface border editorial-border p-8 rounded-xl shadow-sm">
+                    <h3 class="text-xs uppercase tracking-widest text-secondary mb-6">The Sequence</h3>
+                    <div class="flex flex-wrap gap-2 text-xl md:text-3xl font-display font-bold" id="hero-animation">
+                        <span class="hero-word">Attention</span>
+                        <span class="text-borderSubtle">→</span>
+                        <span class="hero-word">Leads</span>
+                        <span class="text-borderSubtle">→</span>
+                        <span class="hero-word">Customers</span>
+                        <span class="text-borderSubtle">→</span>
+                        <span class="hero-word">Coaching</span>
+                        <span class="text-borderSubtle">→</span>
+                        <span class="hero-word">Retention</span>
+                    </div>
+                    <div class="mt-8 pt-6 border-t editorial-border grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="block text-secondary text-xs uppercase mb-1">Focus</span>
+                            <span class="font-medium">Online Monetization</span>
+                        </div>
+                        <div>
+                            <span class="block text-secondary text-xs uppercase mb-1">Initial Build</span>
+                            <span class="font-medium dynamic-sprint">14–21 Days</span>
+                        </div>
+                        <div>
+                            <span class="block text-secondary text-xs uppercase mb-1">Growth Period</span>
+                            <span class="font-medium dynamic-growth">90 Days</span>
+                        </div>
+                        <div>
+                            <span class="block text-secondary text-xs uppercase mb-1">Primary Traffic</span>
+                            <span class="font-medium">Organic Content</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-6 lg:left-12 flex items-center gap-3 text-sm font-medium text-secondary animate-bounce">
+            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+            Scroll to explore the system
+        </div>
+    </section>
+
+    <!-- 01. THE OPPORTUNITY -->
+    <section id="opportunity" class="py-24 md:py-32 px-6 lg:px-12 border-b editorial-border">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4 mb-12 reveal-up">
+                <span class="text-sm font-semibold uppercase tracking-wider text-secondary">01 — The Opportunity</span>
+                <div class="h-px bg-border flex-grow"></div>
+            </div>
+            
+            <h2 class="text-fluid-h2 font-bold mb-12 reveal-up max-w-4xl">The hardest ingredients are already present.</h2>
+            
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-24">
+                <div class="lg:col-span-5 reveal-up">
+                    <p class="text-fluid-body text-secondary mb-6">
+                        <span class="dynamic-client text-primary font-medium">EPC Athletics</span> is not beginning from zero. The brand already has several of the assets that most businesses spend years trying to build:
+                    </p>
+                    <ul class="space-y-4 text-lg text-primary mb-8 font-medium">
+                        <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-6 h-6 text-accent flex-shrink-0"></i> An established personal brand</li>
+                        <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-6 h-6 text-accent flex-shrink-0"></i> An active content engine</li>
+                        <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-6 h-6 text-accent flex-shrink-0"></i> Existing audience trust</li>
+                        <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-6 h-6 text-accent flex-shrink-0"></i> Digital products & Coaching offer</li>
+                        <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-6 h-6 text-accent flex-shrink-0"></i> Demonstrated organic reach</li>
+                    </ul>
+                    <p class="text-fluid-body text-secondary">
+                        The opportunity is not to replace what already exists. The opportunity is to connect these assets into one deliberate online monetization ecosystem.
+                    </p>
+                </div>
+                
+                <div class="lg:col-span-7 bg-surface border editorial-border rounded-xl p-8 lg:p-12 relative flex flex-col items-center justify-center min-h-[400px] reveal-up">
+                    <div class="text-center absolute inset-0 flex flex-col items-center justify-center opacity-10 transition-opacity duration-1000" id="opp-chaos">
+                        <!-- Floating Assets Simulation -->
+                        <span class="absolute top-10 left-10 border editorial-border px-4 py-2 rounded-full font-medium">Content</span>
+                        <span class="absolute top-20 right-20 border editorial-border px-4 py-2 rounded-full font-medium">Products</span>
+                        <span class="absolute bottom-20 left-24 border editorial-border px-4 py-2 rounded-full font-medium">Audience</span>
+                        <span class="absolute bottom-12 right-12 border editorial-border px-4 py-2 rounded-full font-medium">Coaching</span>
+                    </div>
+                    
+                    <div class="relative z-10 w-full max-w-md">
+                        <div class="p-6 bg-dark text-darkText rounded-xl text-center shadow-2xl transform scale-95 transition-transform duration-700 hover:scale-100">
+                            <h4 class="font-display font-bold text-xl mb-2"><span class="dynamic-client">EPC Athletics</span></h4>
+                            <p class="text-accent font-medium">Monetization System</p>
+                        </div>
+                        <!-- SVG Connecting Lines -->
+                        <svg class="absolute inset-0 w-full h-full -z-10 pointer-events-none" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150%; height: 150%;">
+                            <path d="M 50 50 Q 150 150 250 200" stroke="var(--border)" stroke-width="2" fill="none" class="system-line" />
+                            <path d="M 450 50 Q 350 150 250 200" stroke="var(--border)" stroke-width="2" fill="none" class="system-line" />
+                            <path d="M 50 350 Q 150 250 250 200" stroke="var(--border)" stroke-width="2" fill="none" class="system-line" />
+                            <path d="M 450 350 Q 350 250 250 200" stroke="var(--border)" stroke-width="2" fill="none" class="system-line" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 border-l-4 border-dark pl-6 py-2 max-w-4xl reveal-up">
+                <p class="text-2xl md:text-3xl font-display font-medium leading-snug">
+                    "The next stage of growth does not begin with more attention. It begins by creating more commercial value from the attention <span class="dynamic-client">EPC Athletics</span> already earns."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 02. THE DIAGNOSIS -->
+    <section id="diagnosis" class="py-24 md:py-32 px-6 lg:px-12 bg-white border-b editorial-border">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4 mb-12 reveal-up">
+                <span class="text-sm font-semibold uppercase tracking-wider text-secondary">02 — The Diagnosis</span>
+                <div class="h-px bg-border flex-grow"></div>
+            </div>
+
+            <h2 class="text-fluid-h2 font-bold mb-4 reveal-up">
+                <span class="dynamic-client">EPC Athletics</span> does not have an attention problem.
+            </h2>
+            <h3 class="text-fluid-h3 text-secondary mb-16 reveal-up">It has an infrastructure opportunity.</h3>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center reveal-up">
+                <div>
+                    <p class="text-fluid-body text-secondary mb-6">
+                        Content is already generating awareness, interest, engagement, and trust. However, that interest is not yet being consistently:
+                    </p>
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm font-medium text-primary mb-8 bg-background p-6 rounded-xl border editorial-border">
+                        <div class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400"></i> Captured</div>
+                        <div class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400"></i> Cross-sold</div>
+                        <div class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400"></i> Segmented</div>
+                        <div class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400"></i> Ascended</div>
+                        <div class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400"></i> Nurtured</div>
+                        <div class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400"></i> Retained</div>
+                    </div>
+                    <p class="text-fluid-body text-secondary">
+                        As a result, people can engage with the brand, receive value, and leave without entering a measurable path toward a product, coaching offer, or future conversation.<br><br>
+                        <strong>The goal of this partnership is to build that path.</strong>
+                    </p>
+                </div>
+
+                <!-- Interactive Diagnosis Visual -->
+                <div class="bg-dark text-darkText p-8 rounded-xl shadow-xl border border-gray-800">
+                    <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+                        <h4 class="font-display text-lg uppercase tracking-wider text-gray-400">System Status</h4>
+                        <button id="btn-connect-system" class="btn-accent px-4 py-2 text-sm rounded-md flex items-center gap-2">
+                            <i data-lucide="zap" class="w-4 h-4"></i> Connect the system
+                        </button>
+                    </div>
+
+                    <div class="flex gap-4 items-stretch relative">
+                        <!-- Left: Current -->
+                        <div class="flex-1 space-y-4">
+                            <div class="bg-gray-900 p-4 rounded border border-gray-800 text-sm">Attention generated</div>
+                            <div class="bg-gray-900 p-4 rounded border border-gray-800 text-sm">Interest created</div>
+                            <div class="bg-gray-900 p-4 rounded border border-gray-800 text-sm">Trust developing</div>
+                        </div>
+
+                        <!-- Center: The Break / Connection -->
+                        <div class="w-16 flex flex-col items-center justify-center relative">
+                            <div id="status-line" class="absolute w-1 h-full bg-red-500/50 border-r-2 border-dashed border-red-500 transition-all duration-500"></div>
+                            <i id="status-icon" data-lucide="alert-triangle" class="w-8 h-8 text-red-500 relative z-10 bg-dark p-1"></i>
+                        </div>
+
+                        <!-- Right: Missing -->
+                        <div id="status-right" class="flex-1 space-y-4 opacity-30 transition-opacity duration-500 blur-[2px]">
+                            <div class="bg-gray-900 p-4 rounded border border-gray-800 text-sm text-gray-400 transition-colors duration-500">Capture & Follow-up</div>
+                            <div class="bg-gray-900 p-4 rounded border border-gray-800 text-sm text-gray-400 transition-colors duration-500">Offer routing</div>
+                            <div class="bg-gray-900 p-4 rounded border border-gray-800 text-sm text-gray-400 transition-colors duration-500">Conversion & Retention</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 03. REVENUE LEAKS -->
+    <section class="py-24 md:py-32 px-6 lg:px-12 border-b editorial-border bg-background">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4 mb-12 reveal-up">
+                <span class="text-sm font-semibold uppercase tracking-wider text-secondary">03 — Revenue Leaks</span>
+                <div class="h-px bg-border flex-grow"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-16">
+                <div class="lg:col-span-5 reveal-up">
+                    <h2 class="text-fluid-h3 font-bold mb-6">Attention is entering the business.<br>Revenue is escaping between the steps.</h2>
+                    <p class="text-secondary mb-12">The following are not failures of the brand. They are gaps between valuable assets that have not yet been connected.</p>
+                    
+                    <div class="space-y-8">
+                        <div class="border-l-2 border-dark pl-4">
+                            <h4 class="font-display font-semibold text-lg">1. Viral attention has nowhere to go</h4>
+                            <p class="text-sm text-secondary mt-1">Followers engage and leave without entering a measurable conversion path.</p>
+                        </div>
+                        <div class="border-l-2 border-dark pl-4">
+                            <h4 class="font-display font-semibold text-lg">2. Coaching offer is under-positioned</h4>
+                            <p class="text-sm text-secondary mt-1">Not presented as a dedicated flagship offer with its own conversion experience.</p>
+                        </div>
+                        <div class="border-l-2 border-dark pl-4">
+                            <h4 class="font-display font-semibold text-lg">3. No centralized email ecosystem</h4>
+                            <p class="text-sm text-secondary mt-1">Dependency on social platforms to reach the same interested people again.</p>
+                        </div>
+                        <div class="border-l-2 border-dark pl-4">
+                            <h4 class="font-display font-semibold text-lg">4. Products operate independently</h4>
+                            <p class="text-sm text-secondary mt-1">Missing cross-sells, upsells, and post-purchase ascension.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Journey Comparison -->
+                <div class="lg:col-span-7 bg-surface rounded-xl border editorial-border p-8 reveal-up">
+                    <div class="flex items-center justify-between mb-8 pb-4 border-b editorial-border">
+                        <h3 class="font-display font-semibold">Customer Journey Comparison</h3>
+                        <div class="flex bg-background p-1 rounded-lg border editorial-border">
+                            <button onclick="toggleJourney('current')" id="btn-journey-current" class="px-4 py-1.5 text-sm font-medium rounded-md bg-surface shadow-sm">Current</button>
+                            <button onclick="toggleJourney('connected')" id="btn-journey-connected" class="px-4 py-1.5 text-sm font-medium rounded-md text-secondary hover:text-primary">Connected</button>
+                        </div>
+                    </div>
+
+                    <!-- Current Journey -->
+                    <div id="journey-current" class="space-y-4">
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-8 h-8 rounded-full bg-background border editorial-border flex items-center justify-center text-xs font-bold text-primary">1</div>
+                            <div class="flex-1 bg-background p-4 rounded-lg border editorial-border">Watches viral content</div>
+                        </div>
+                        <div class="pl-4 border-l-2 border-dashed border-red-300 ml-4 py-2 text-xs text-red-500 font-medium">Leak: No specific CTA / Doesn't click</div>
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-8 h-8 rounded-full bg-background border editorial-border flex items-center justify-center text-xs font-bold text-primary">2</div>
+                            <div class="flex-1 bg-background p-4 rounded-lg border editorial-border">Purchases one digital product</div>
+                        </div>
+                        <div class="pl-4 border-l-2 border-dashed border-red-300 ml-4 py-2 text-xs text-red-500 font-medium">Leak: No email nurture / No cross-sell</div>
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-8 h-8 rounded-full bg-background border editorial-border flex items-center justify-center text-xs font-bold text-primary">3</div>
+                            <div class="flex-1 bg-background p-4 rounded-lg border editorial-border opacity-50">Never hears from the brand again</div>
+                        </div>
+                    </div>
+
+                    <!-- Connected Journey -->
+                    <div id="journey-connected" class="space-y-4 hidden">
+                        <div class="flex items-center gap-4 text-primary">
+                            <div class="w-8 h-8 rounded-full bg-dark text-darkText flex items-center justify-center text-xs font-bold">1</div>
+                            <div class="flex-1 bg-background p-4 rounded-lg border border-accent">Watches relevant content & Responds to CTA</div>
+                        </div>
+                        <div class="pl-4 border-l-2 border-solid border-accent ml-4 py-2 text-xs text-dark font-medium flex items-center gap-2">
+                            <i data-lucide="arrow-down" class="w-3 h-3"></i> Enters ManyChat / Email captured
+                        </div>
+                        <div class="flex items-center gap-4 text-primary">
+                            <div class="w-8 h-8 rounded-full bg-dark text-darkText flex items-center justify-center text-xs font-bold">2</div>
+                            <div class="flex-1 bg-background p-4 rounded-lg border border-accent">Receives relevant offer & Follow-up</div>
+                        </div>
+                        <div class="pl-4 border-l-2 border-solid border-accent ml-4 py-2 text-xs text-dark font-medium flex items-center gap-2">
+                            <i data-lucide="arrow-down" class="w-3 h-3"></i> Purchases & Receives Next Best Offer
+                        </div>
+                        <div class="flex items-center gap-4 text-primary">
+                            <div class="w-8 h-8 rounded-full bg-dark text-darkText flex items-center justify-center text-xs font-bold">3</div>
+                            <div class="flex-1 bg-accent p-4 rounded-lg font-medium">Renews, Ascends to Coaching, or Refers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 04. STRATEGIC PRIORITY -->
+    <section class="py-24 md:py-32 px-6 lg:px-12 bg-white border-b editorial-border">
+        <div class="max-w-7xl mx-auto text-center reveal-up">
+            <span class="text-sm font-semibold uppercase tracking-wider text-secondary block mb-6">04 — The Priority</span>
+            <h2 class="text-fluid-h2 font-bold mb-6">We are not starting with paid advertising.</h2>
+            <p class="text-xl text-secondary max-w-3xl mx-auto mb-16">Paid traffic should amplify a functioning system—not expose an unfinished one.</p>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
+                <!-- Scenario A -->
+                <div class="border editorial-border rounded-xl p-8 bg-background opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-display font-bold text-lg text-secondary">Scenario A: Traffic First</h4>
+                        <i data-lucide="x-circle" class="text-red-400"></i>
+                    </div>
+                    <p class="text-sm text-secondary mb-6">More traffic enters a visibly leaking system, creating untracked visitors, missed follow-ups, and pressure on Emma.</p>
+                    <div class="h-2 w-full bg-gray-200 rounded overflow-hidden flex">
+                        <div class="h-full bg-red-400 w-1/3"></div>
+                        <div class="h-full bg-transparent w-2/3 border-b-2 border-dashed border-red-300"></div>
+                    </div>
+                </div>
+                <!-- Scenario B -->
+                <div class="border-2 border-dark rounded-xl p-8 bg-surface shadow-md">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-display font-bold text-lg text-primary">Scenario B: Infrastructure First</h4>
+                        <i data-lucide="check-circle-2" class="text-accent w-6 h-6"></i>
+                    </div>
+                    <p class="text-sm text-primary mb-6">Traffic enters a connected system, moves through clear stages, and organic attention tests the market reliably.</p>
+                    <div class="h-2 w-full bg-gray-200 rounded overflow-hidden flex">
+                        <div class="h-full bg-accent w-full transition-all duration-1000 origin-left scale-x-0" id="scenario-b-bar"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="mt-16 text-xl font-display font-medium max-w-2xl mx-auto italic">
+                "Organic attention is already testing the market. The first objective is to capture what it is telling us."
+            </p>
+        </div>
+    </section>
+
+    <!-- 05. THE SYSTEM -->
+    <section id="system" class="py-24 md:py-32 px-6 lg:px-12 bg-dark text-darkText border-b border-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4 mb-12 reveal-up">
+                <span class="text-sm font-semibold uppercase tracking-wider text-gray-400">05 — The System</span>
+                <div class="h-px bg-gray-800 flex-grow"></div>
+            </div>
+
+            <h2 class="text-fluid-h2 font-bold mb-6 reveal-up">Every meaningful interaction should create a clear next step.</h2>
+            <p class="text-xl text-gray-400 max-w-3xl mb-16 reveal-up">The system should not force every person toward the same offer. It captures interest and directs them toward the most relevant outcome.</p>
+
+            <!-- Interactive Diagram -->
+            <div class="grid lg:grid-cols-12 gap-12 reveal-up">
+                <div class="lg:col-span-6 flex flex-col gap-2">
+                    <button class="sys-stage bg-gray-900 hover:bg-gray-800 border border-gray-700 p-4 rounded-lg text-left transition-colors active-stage" onclick="showSystemDetails('content', this)">
+                        <span class="text-accent font-bold mr-3">01</span> Content & Attention
+                    </button>
+                    <div class="flex justify-center"><i data-lucide="arrow-down" class="text-gray-600 w-4 h-4"></i></div>
+                    <button class="sys-stage bg-gray-900 hover:bg-gray-800 border border-gray-700 p-4 rounded-lg text-left transition-colors" onclick="showSystemDetails('capture', this)">
+                        <span class="text-accent font-bold mr-3">02</span> ManyChat / Landing Page Capture
+                    </button>
+                    <div class="flex justify-center"><i data-lucide="arrow-down" class="text-gray-600 w-4 h-4"></i></div>
+                    <button class="sys-stage bg-gray-900 hover:bg-gray-800 border border-gray-700 p-4 rounded-lg text-left transition-colors" onclick="showSystemDetails('nurture', this)">
+                        <span class="text-accent font-bold mr-3">03</span> Automated Nurture Sequence
+                    </button>
+                    <div class="flex justify-center"><i data-lucide="arrow-down" class="text-gray-600 w-4 h-4"></i></div>
+                    <button class="sys-stage bg-gray-900 hover:bg-gray-800 border border-gray-700 p-4 rounded-lg text-left transition-colors" onclick="showSystemDetails('convert', this)">
+                        <span class="text-accent font-bold mr-3">04</span> Purchase / Booked Call
+                    </button>
+                    <div class="flex justify-center"><i data-lucide="arrow-down" class="text-gray-600 w-4 h-4"></i></div>
+                    <button class="sys-stage bg-gray-900 hover:bg-gray-800 border border-gray-700 p-4 rounded-lg text-left transition-colors" onclick="showSystemDetails('ascend', this)">
+                        <span class="text-accent font-bold mr-3">05</span> Cross-sell / Upsell / Retain
+                    </button>
+                </div>
+
+                <!-- Side Panel Details -->
+                <div class="lg:col-span-6 bg-gray-900 border border-gray-800 rounded-xl p-8" id="sys-detail-panel">
+                    <!-- Default Content Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 06 & 07. EXECUTION (TIMELINE) -->
+    <section id="execution" class="py-24 md:py-32 px-6 lg:px-12 bg-white border-b editorial-border overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4 mb-16 reveal-up">
+                <span class="text-sm font-semibold uppercase tracking-wider text-secondary">06 & 07 — Execution</span>
+                <div class="h-px bg-border flex-grow"></div>
+            </div>
+
+            <!-- Phase 1 -->
+            <div class="mb-24 reveal-up">
+                <h3 class="text-sm font-bold text-accent uppercase tracking-widest mb-2">Phase One</h3>
+                <h2 class="text-fluid-h3 font-display font-bold mb-4">Infrastructure Sprint</h2>
+                <p class="text-secondary max-w-2xl mb-12">Build the machine before the <span class="dynamic-growth">90-day</span> growth period begins. Estimated duration: <strong class="text-primary dynamic-sprint">14-21 Days</strong>.</p>
+                
+                <div class="grid md:grid-cols-3 gap-6 relative">
+                    <!-- Connecting line -->
+                    <div class="hidden md:block absolute top-6 left-0 w-full h-px bg-border -z-10"></div>
+                    
+                    <div class="bg-surface border editorial-border p-6 rounded-xl shadow-sm">
+                        <div class="w-12 h-12 bg-dark text-darkText rounded-full flex items-center justify-center font-bold mb-6">W1</div>
+                        <h4 class="font-display font-bold mb-2">Architecture</h4>
+                        <ul class="text-sm text-secondary space-y-2 list-disc pl-4">
+                            <li>Audit offers & map journeys</li>
+                            <li>Clarify coaching positioning</li>
+                            <li>Confirm tracking structure</li>
+                        </ul>
+                    </div>
+                    <div class="bg-surface border editorial-border p-6 rounded-xl shadow-sm">
+                        <div class="w-12 h-12 bg-dark text-darkText rounded-full flex items-center justify-center font-bold mb-6">W2</div>
+                        <h4 class="font-display font-bold mb-2">Build</h4>
+                        <ul class="text-sm text-secondary space-y-2 list-disc pl-4">
+                            <li>Create landing pages</li>
+                            <li>Configure ManyChat paths</li>
+                            <li>Set up email sequences</li>
+                        </ul>
+                    </div>
+                    <div class="bg-surface border editorial-border p-6 rounded-xl shadow-sm">
+                        <div class="w-12 h-12 bg-dark text-darkText rounded-full flex items-center justify-center font-bold mb-6">W3</div>
+                        <h4 class="font-display font-bold mb-2">Launch & Verify</h4>
+                        <ul class="text-sm text-secondary space-y-2 list-disc pl-4">
+                            <li>Test customer journeys</li>
+                            <li>Confirm tracking</li>
+                            <li>Prepare 90-day roadmap</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="reveal-up">
+                <h3 class="text-sm font-bold text-accent uppercase tracking-widest mb-2">Phase Two</h3>
+                <h2 class="text-fluid-h3 font-display font-bold mb-4"><span class="dynamic-growth">90-Day</span> Growth Partnership</h2>
+                <p class="text-secondary max-w-2xl mb-12">The sprint builds the machine. The partnership operates and improves it.</p>
+
+                <!-- Horizontal Accordion (Desktop) / Vertical (Mobile) -->
+                <div class="grid lg:grid-cols-3 gap-4 h-auto lg:h-80" id="phase-2-accordion">
+                    
+                    <div class="border border-dark bg-dark text-darkText rounded-xl p-6 transition-all duration-500 cursor-pointer flex flex-col justify-between overflow-hidden group" onmouseenter="expandPanel(this)" data-expanded="true" style="flex-grow: 3;">
+                        <div>
+                            <h4 class="font-display font-bold text-2xl mb-2 text-accent">Month 1</h4>
+                            <h5 class="text-lg mb-4">Activate</h5>
+                            <ul class="text-sm text-gray-300 space-y-2 opacity-100 transition-opacity duration-300 panel-content">
+                                <li>Route content into conversion paths</li>
+                                <li>Launch foundational sequences</li>
+                                <li>Collect baseline data</li>
+                                <li>Identify immediate friction</li>
+                            </ul>
+                        </div>
+                        <i data-lucide="activity" class="w-8 h-8 text-gray-700 group-hover:text-accent transition-colors self-end mt-4"></i>
+                    </div>
+
+                    <div class="border editorial-border bg-surface text-primary rounded-xl p-6 transition-all duration-500 cursor-pointer flex flex-col justify-between overflow-hidden group" onmouseenter="expandPanel(this)" data-expanded="false" style="flex-grow: 1;">
+                        <div>
+                            <h4 class="font-display font-bold text-2xl mb-2 text-secondary group-hover:text-primary transition-colors">Month 2</h4>
+                            <h5 class="text-lg mb-4 whitespace-nowrap">Optimize</h5>
+                            <ul class="text-sm text-secondary space-y-2 hidden opacity-0 transition-opacity duration-300 panel-content">
+                                <li>Improve calls to action</li>
+                                <li>Refine landing pages</li>
+                                <li>Address recurring objections</li>
+                                <li>Expand trust assets</li>
+                            </ul>
+                        </div>
+                        <i data-lucide="sliders" class="w-8 h-8 text-gray-300 group-hover:text-primary transition-colors self-end mt-4"></i>
+                    </div>
+
+                    <div class="border editorial-border bg-surface text-primary rounded-xl p-6 transition-all duration-500 cursor-pointer flex flex-col justify-between overflow-hidden group" onmouseenter="expandPanel(this)" data-expanded="false" style="flex-grow: 1;">
+                        <div>
+                            <h4 class="font-display font-bold text-2xl mb-2 text-secondary group-hover:text-primary transition-colors">Month 3</h4>
+                            <h5 class="text-lg mb-4 whitespace-nowrap">Compound</h5>
+                            <ul class="text-sm text-secondary space-y-2 hidden opacity-0 transition-opacity duration-300 panel-content">
+                                <li>Scale strongest conversion paths</li>
+                                <li>Introduce upsells</li>
+                                <li>Strengthen retention systems</li>
+                                <li>Prepare next growth stage</li>
+                            </ul>
+                        </div>
+                        <i data-lucide="trending-up" class="w-8 h-8 text-gray-300 group-hover:text-primary transition-colors self-end mt-4"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 08-11. TACTICAL DEEP DIVES (Grid Layout) -->
+    <section class="py-24 md:py-32 px-6 lg:px-12 bg-background border-b editorial-border">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-fluid-h2 font-bold mb-16 text-center reveal-up max-w-4xl mx-auto">Organic attention should always have somewhere relevant to go.</h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                
+                <!-- Content to Offer Mapping -->
+                <div class="bg-surface border editorial-border p-8 rounded-xl reveal-up">
+                    <h3 class="font-display font-bold text-xl mb-6">Content-to-Offer Mapping</h3>
+                    <p class="text-sm text-secondary mb-6">Predefined cadences ensure consistent promotion without feeling excessively sales-driven.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 border editorial-border rounded hover:border-dark transition-colors cursor-pointer group">
+                            <span class="font-medium text-sm">Educational Content</span>
+                            <span class="text-xs bg-background px-2 py-1 rounded text-secondary group-hover:text-dark">→ Lead Magnet</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border editorial-border rounded hover:border-dark transition-colors cursor-pointer group">
+                            <span class="font-medium text-sm">Transformation Story</span>
+                            <span class="text-xs bg-background px-2 py-1 rounded text-secondary group-hover:text-dark">→ Coaching App</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border editorial-border rounded hover:border-dark transition-colors cursor-pointer group">
+                            <span class="font-medium text-sm">Tactical Fitness</span>
+                            <span class="text-xs bg-background px-2 py-1 rounded text-secondary group-hover:text-dark">→ Digital Product</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ManyChat Demo -->
+                <div class="bg-dark text-darkText border border-gray-800 p-8 rounded-xl reveal-up">
+                    <h3 class="font-display font-bold text-xl mb-6">Reusable Conversion Paths</h3>
+                    <p class="text-sm text-gray-400 mb-6">Build the backend once. Route users automatically based on keywords.</p>
+                    
+                    <!-- Simulated Chat -->
+                    <div class="bg-gray-900 rounded-lg p-4 border border-gray-700 h-64 overflow-hidden relative">
+                        <button onclick="simulateChat()" id="btn-chat" class="absolute inset-0 w-full h-full bg-gray-900/80 z-10 flex items-center justify-center font-medium text-sm hover:text-accent transition-colors backdrop-blur-sm">
+                            Click to simulate interaction
+                        </button>
+                        
+                        <div class="space-y-4 text-xs" id="chat-container">
+                            <div class="flex justify-end opacity-0 transform translate-y-2 transition-all duration-300 chat-msg">
+                                <div class="bg-blue-600 text-white px-3 py-2 rounded-lg rounded-tr-none max-w-[80%]">COACHING</div>
+                            </div>
+                            <div class="flex justify-start opacity-0 transform translate-y-2 transition-all duration-300 chat-msg" style="transition-delay: 600ms;">
+                                <div class="bg-gray-800 text-gray-200 px-3 py-2 rounded-lg rounded-tl-none max-w-[80%] border border-gray-700">Appreciate you reaching out. What are you currently working toward?</div>
+                            </div>
+                            <div class="flex justify-start gap-2 flex-wrap opacity-0 transform translate-y-2 transition-all duration-300 chat-msg" style="transition-delay: 1200ms;">
+                                <span class="bg-surface text-primary px-3 py-1.5 rounded-full border border-gray-500 shadow-sm cursor-pointer hover:bg-accent hover:border-accent font-medium">Fat loss</span>
+                                <span class="bg-surface text-primary px-3 py-1.5 rounded-full border border-gray-500 shadow-sm cursor-pointer hover:bg-accent hover:border-accent font-medium">Strength</span>
+                                <span class="bg-surface text-primary px-3 py-1.5 rounded-full border border-gray-500 shadow-sm cursor-pointer hover:bg-accent hover:border-accent font-medium">Performance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Infrastructure -->
+                <div class="bg-surface border editorial-border p-8 rounded-xl reveal-up md:col-span-2">
+                    <h3 class="font-display font-bold text-xl mb-2">Owned Audience Infrastructure</h3>
+                    <p class="text-sm text-secondary mb-8">Email becomes the connective tissue. Convert rented algorithm attention into an owned relationship.</p>
+                    
+                    <div class="flex flex-col md:flex-row gap-4 justify-between items-center bg-background p-6 rounded-lg border editorial-border">
+                        <div class="text-center md:text-left flex-1">
+                            <div class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Day 0</div>
+                            <div class="font-medium text-sm">Deliver requested value</div>
+                        </div>
+                        <i data-lucide="arrow-right" class="hidden md:block text-borderSubtle"></i>
+                        <div class="text-center md:text-left flex-1">
+                            <div class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Day 1-3</div>
+                            <div class="font-medium text-sm">Expand problem & Build trust</div>
+                        </div>
+                        <i data-lucide="arrow-right" class="hidden md:block text-borderSubtle"></i>
+                        <div class="text-center md:text-left flex-1">
+                            <div class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Day 5-7</div>
+                            <div class="font-medium text-sm">Address objections & Pitch offer</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 12-14. OFFERS & READINESS -->
+    <section class="py-24 md:py-32 px-6 lg:px-12 bg-white border-b editorial-border">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16">
+                
+                <!-- Coaching Value Ladder -->
+                <div class="reveal-up">
+                    <h2 class="text-fluid-h3 font-display font-bold mb-4">The Flagship Offer</h2>
+                    <p class="text-secondary mb-12">Coaching should become a primary business asset with a structured journey, not an optional service hidden on a website.</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Ladder steps -->
+                        <div class="flex">
+                            <div class="w-8"></div><div class="w-8"></div><div class="w-8"></div>
+                            <div class="flex-1 bg-dark text-darkText p-4 rounded-t-lg border-b border-gray-800">
+                                <span class="text-xs uppercase tracking-widest text-accent font-bold">L4</span>
+                                <h4 class="font-bold">Premium Coaching / Continuation</h4>
+                            </div>
+                        </div>
+                        <div class="flex -mt-4">
+                            <div class="w-8"></div><div class="w-8"></div>
+                            <div class="flex-1 bg-surface border-x border-t editorial-border p-4 rounded-tl-lg shadow-sm">
+                                <span class="text-xs uppercase tracking-widest text-secondary font-bold">L3</span>
+                                <h4 class="font-bold">Standard Coaching (Flagship)</h4>
+                            </div>
+                        </div>
+                        <div class="flex -mt-4">
+                            <div class="w-8"></div>
+                            <div class="flex-1 bg-background border-x border-t editorial-border p-4 rounded-tl-lg">
+                                <span class="text-xs uppercase tracking-widest text-secondary font-bold">L2</span>
+                                <h4 class="font-bold">Digital Products & Guides</h4>
+                            </div>
+                        </div>
+                        <div class="flex -mt-4">
+                            <div class="flex-1 bg-gray-50 border editorial-border p-4 rounded-tl-lg rounded-bl-lg rounded-br-lg">
+                                <span class="text-xs uppercase tracking-widest text-secondary font-bold">L1</span>
+                                <h4 class="font-bold">Free Resources & Educational Content</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Readiness -->
+                <div class="reveal-up">
+                    <h2 class="text-fluid-h3 font-display font-bold mb-4">Delivery Readiness</h2>
+                    <p class="text-secondary mb-12">More leads only help when the business is prepared to convert and fulfill them without operational overwhelm.</p>
+                    
+                    <div class="border editorial-border rounded-xl divide-y divide-gray-200 bg-surface">
+                        <details class="group" open>
+                            <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+                                <span>Sales Readiness</span>
+                                <span class="transition group-open:rotate-180">
+                                    <i data-lucide="chevron-down"></i>
+                                </span>
+                            </summary>
+                            <div class="text-sm text-secondary p-6 pt-0 border-t border-gray-50">
+                                Qualification flows, calendar availability, pre-call education, expectation setting, and objection handling.
+                            </div>
+                        </details>
+                        <details class="group">
+                            <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+                                <span>Onboarding Readiness</span>
+                                <span class="transition group-open:rotate-180">
+                                    <i data-lucide="chevron-down"></i>
+                                </span>
+                            </summary>
+                            <div class="text-sm text-secondary p-6 pt-0 border-t border-gray-50">
+                                Payment processing, enrollment, client intake, program access, and immediate communication.
+                            </div>
+                        </details>
+                        <details class="group">
+                            <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+                                <span>Delivery & Retention</span>
+                                <span class="transition group-open:rotate-180">
+                                    <i data-lucide="chevron-down"></i>
+                                </span>
+                            </summary>
+                            <div class="text-sm text-secondary p-6 pt-0 border-t border-gray-50">
+                                Progress milestones, accountability systems, testimonial collection, and renewal/continuation pathways.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 15. PARTNERSHIP (RESPONSIBILITY) -->
+    <section class="py-24 md:py-32 px-6 lg:px-12 bg-background border-b editorial-border">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex items-center gap-4 mb-16 reveal-up">
+                <span class="text-sm font-semibold uppercase tracking-wider text-secondary">15 — Operating Partnership</span>
+                <div class="h-px bg-border flex-grow"></div>
+            </div>
+
+            <h2 class="text-fluid-h2 font-bold mb-12 text-center reveal-up">The system requires both architecture and execution.</h2>
+
+            <div class="bg-surface border editorial-border rounded-xl overflow-hidden reveal-up shadow-sm">
+                <div class="flex border-b editorial-border">
+                    <button class="flex-1 py-4 font-display font-bold text-lg text-center bg-dark text-darkText" id="tab-chase" onclick="switchTab('resp', 'chase')"><span class="dynamic-operator">Chase</span> (Architecture)</button>
+                    <button class="flex-1 py-4 font-display font-bold text-lg text-center bg-surface text-secondary hover:text-primary transition-colors" id="tab-emma" onclick="switchTab('resp', 'emma')"><span class="dynamic-clientContact">Emma</span> (Execution)</button>
+                </div>
+                
+                <div class="p-8 md:p-12">
+                    <div id="content-chase" class="tab-content active space-y-6">
+                        <h4 class="text-sm uppercase tracking-widest text-accent font-bold">Role: Growth Operator & Architect</h4>
+                        <div class="grid md:grid-cols-2 gap-x-12 gap-y-4 text-sm">
+                            <ul class="space-y-3 list-disc pl-4 text-secondary">
+                                <li>Growth strategy & Ecosystem architecture</li>
+                                <li>Funnel planning & Offer positioning</li>
+                                <li>Landing-page & ManyChat structure</li>
+                                <li>Email-sequence strategy</li>
+                            </ul>
+                            <ul class="space-y-3 list-disc pl-4 text-secondary">
+                                <li>Content-to-offer mapping</li>
+                                <li>Conversion & Onboarding optimization</li>
+                                <li>Weekly performance & testing priorities</li>
+                                <li>Tracking and attribution setup</li>
+                            </ul>
+                        </div>
+                        <p class="pt-6 border-t editorial-border text-sm font-medium italic">
+                            The role is not limited to delivering isolated assets. It is to connect and optimize the monetization system as a whole.
+                        </p>
+                    </div>
+
+                    <div id="content-emma" class="tab-content space-y-6">
+                        <h4 class="text-sm uppercase tracking-widest text-primary font-bold">Role: Brand, Content & Fulfillment</h4>
+                        <div class="grid md:grid-cols-2 gap-x-12 gap-y-4 text-sm">
+                            <ul class="space-y-3 list-disc pl-4 text-secondary">
+                                <li>Providing platform access & approvals</li>
+                                <li>Supplying brand/product info</li>
+                                <li>Recording required videos/voice notes</li>
+                                <li>Maintaining agreed content cadence</li>
+                            </ul>
+                            <ul class="space-y-3 list-disc pl-4 text-secondary">
+                                <li>Delivering coaching & sales calls</li>
+                                <li>Providing customer feedback</li>
+                                <li>Fulfilling product promises</li>
+                                <li>Paying approved 3rd-party software costs</li>
+                            </ul>
+                        </div>
+                        <p class="pt-6 border-t editorial-border text-sm font-medium italic">
+                            Growth requires both infrastructure and consistent execution. The strongest system cannot compensate for prolonged delays or unfulfilled promises.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 18. INVESTMENT & COMMERCIAL STRUCTURE -->
+    <section id="investment" class="py-32 px-6 lg:px-12 bg-dark text-darkText relative overflow-hidden">
+        <!-- Abstract BG Element -->
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-accent opacity-5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+        
+        <div class="max-w-5xl mx-auto relative z-10">
+            <div class="flex items-center gap-4 mb-16 reveal-up">
+                <span class="text-sm font-semibold uppercase tracking-wider text-accent">Commercial Structure</span>
+                <div class="h-px bg-gray-800 flex-grow"></div>
+            </div>
+
+            <h2 class="text-fluid-hero font-bold mb-16 reveal-up">Investment</h2>
+
+            <div class="grid md:grid-cols-2 gap-12 mb-16 reveal-up">
+                <div class="bg-gray-900 border border-gray-800 p-10 rounded-xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-surface"></div>
+                    <h3 class="text-sm uppercase tracking-widest text-gray-400 mb-4">Initial Build Fee</h3>
+                    <div class="text-fluid-number font-display font-bold text-white mb-4 leading-none dynamic-fee">$1,500</div>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Covers the infrastructure build (<span class="dynamic-sprint">14-21 days</span>) and Growth Operator involvement. Includes strategic architecture, implementation direction, core systems work, and ongoing optimization.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-800 p-10 rounded-xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-accent"></div>
+                    <h3 class="text-sm uppercase tracking-widest text-gray-400 mb-4">Performance Participation</h3>
+                    <div class="flex items-baseline gap-2 mb-4">
+                        <div class="text-fluid-number font-display font-bold text-accent leading-none dynamic-share">25%</div>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Of qualifying new revenue generated during the <span class="dynamic-growth">90-day</span> growth period. This period begins only after the agreed core infrastructure is operational.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Attribution Tabs -->
+            <div class="border-t border-gray-800 pt-16 reveal-up">
+                <h3 class="font-display font-bold text-2xl mb-8">Defining Qualifying Revenue (Attribution)</h3>
+                <p class="text-gray-400 mb-8 max-w-2xl">Performance compensation should reward measurable growth—not create ambiguity. Recommended structure:</p>
+                
+                <div class="flex flex-wrap gap-2 mb-8 border-b border-gray-800 pb-4">
+                    <button class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white" id="tab-base" onclick="switchTab('attr', 'base')">Above Baseline</button>
+                    <button class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white" id="tab-direct" onclick="switchTab('attr', 'direct')">Direct Attribution</button>
+                    <button class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-dark" id="tab-hybrid" onclick="switchTab('attr', 'hybrid')">Hybrid Model (Recommended)</button>
+                </div>
+
+                <div id="content-base" class="tab-content text-gray-300 max-w-3xl">
+                    <p class="mb-4">Establish average monthly revenue before engagement. 25% applied to revenue generated above that baseline.</p>
+                    <p class="text-sm"><strong class="text-white">Strength:</strong> Accounts for overall business growth.<br><strong class="text-gray-500">Consideration:</strong> Requires clear baseline and seasonality treatment.</p>
+                </div>
+                <div id="content-direct" class="tab-content text-gray-300 max-w-3xl">
+                    <p class="mb-4">25% applied to revenue generated directly through newly created assets (new funnels, specific links, ManyChat flows).</p>
+                    <p class="text-sm"><strong class="text-white">Strength:</strong> Creates direct attribution.<br><strong class="text-gray-500">Consideration:</strong> Multi-channel touchpoints can complicate tracking.</p>
+                </div>
+                <div id="content-hybrid" class="tab-content active text-gray-300 max-w-3xl">
+                    <p class="mb-4">Use both baseline and direct attribution to create the fairest assessment of growth.</p>
+                    <ul class="text-sm space-y-2 list-disc pl-4 text-gray-400 mb-4">
+                        <li>Establish current revenue baseline</li>
+                        <li>Track new revenue through dedicated links</li>
+                        <li>Exclude clearly pre-existing recurring revenue</li>
+                        <li>Define treatment for refunds, payment plans, and processing fees</li>
+                    </ul>
+                    <div class="bg-gray-800/50 p-4 rounded text-xs border border-gray-700 italic">
+                        Qualifying new revenue generally means collected revenue attributable to new/improved systems developed during the engagement, subject to final signed agreement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 20. MEASUREMENT DASHBOARD -->
+    <section class="py-24 px-6 lg:px-12 bg-surface border-b editorial-border">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-fluid-h3 font-bold mb-12 text-center reveal-up">Tracking should be simple enough to use<br>and clear enough to guide decisions.</h2>
+            
+            <div class="bg-background border editorial-border p-8 rounded-xl shadow-inner max-w-4xl mx-auto reveal-up">
+                <div class="flex justify-between items-center mb-8 pb-4 border-b editorial-border">
+                    <h3 class="font-display font-semibold uppercase text-sm tracking-widest text-secondary">Live Dashboard (Illustrative)</h3>
+                    <span class="text-xs bg-surface px-2 py-1 rounded border editorial-border text-secondary">Populated after tracking is connected</span>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                    <div>
+                        <div class="text-xs text-secondary uppercase mb-1">Leads Captured</div>
+                        <div class="text-3xl font-display font-bold text-primary">—</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-secondary uppercase mb-1">Calls Booked</div>
+                        <div class="text-3xl font-display font-bold text-primary">—</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-secondary uppercase mb-1">Product Sales</div>
+                        <div class="text-3xl font-display font-bold text-primary">—</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-accent uppercase font-bold mb-1">Attributed Rev</div>
+                        <div class="text-3xl font-display font-bold text-primary">—</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 21. DESIRED OUTCOME -->
+    <section class="py-24 md:py-32 px-6 lg:px-12 bg-white border-b editorial-border">
+        <div class="max-w-7xl mx-auto text-center reveal-up">
+            <span class="text-sm font-semibold uppercase tracking-wider text-secondary block mb-6">21 — Desired Outcome</span>
+            <h2 class="text-fluid-h2 font-bold mb-16"><span class="dynamic-client">EPC Athletics</span> becomes commercially prepared every time its content performs.</h2>
+
+            <div class="grid md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto">
+                <div class="bg-background border editorial-border p-10 rounded-xl">
+                    <h3 class="font-display font-bold text-2xl mb-6 text-secondary">Before</h3>
+                    <ul class="space-y-4 text-secondary">
+                        <li class="flex gap-3"><i data-lucide="minus" class="mt-1 flex-shrink-0"></i> Content creates temporary attention.</li>
+                        <li class="flex gap-3"><i data-lucide="minus" class="mt-1 flex-shrink-0"></i> One customer = one purchase.</li>
+                        <li class="flex gap-3"><i data-lucide="minus" class="mt-1 flex-shrink-0"></i> Follow-up depends on manual effort.</li>
+                        <li class="flex gap-3"><i data-lucide="minus" class="mt-1 flex-shrink-0"></i> Revenue sources are difficult to attribute.</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-dark text-darkText p-10 rounded-xl shadow-xl transform md:-translate-y-4 relative">
+                    <div class="absolute -top-3 -right-3 w-16 h-16 bg-accent rounded-full flex items-center justify-center -z-10"></div>
+                    <h3 class="font-display font-bold text-2xl mb-6 text-accent">After</h3>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3"><i data-lucide="arrow-right" class="mt-1 text-accent flex-shrink-0"></i> Content routes viewers to relevant offers.</li>
+                        <li class="flex gap-3"><i data-lucide="arrow-right" class="mt-1 text-accent flex-shrink-0"></i> Customers enter an owned follow-up system.</li>
+                        <li class="flex gap-3"><i data-lucide="arrow-right" class="mt-1 text-accent flex-shrink-0"></i> Trust assets answer questions automatically.</li>
+                        <li class="flex gap-3"><i data-lucide="arrow-right" class="mt-1 text-accent flex-shrink-0"></i> Performance becomes measurable.</li>
+                    </ul>
+                    
+                    <div class="mt-8 pt-6 border-t border-gray-800">
+                        <p class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-2">Customer Value Model</p>
+                        <p class="text-lg font-display">1 Customer = First Purchase + Follow-up + Cross-sell + Coaching + Renewal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLOSING VISION -->
+    <section class="py-32 px-6 lg:px-12 bg-dark text-darkText text-center relative overflow-hidden">
+        <div class="max-w-4xl mx-auto relative z-10 reveal-up">
+            <h3 class="text-sm font-bold text-accent uppercase tracking-widest mb-8">The Closing Vision</h3>
+            <h2 class="text-fluid-h2 font-bold mb-8"><span class="dynamic-client">EPC Athletics</span> already has the attention.</h2>
+            <p class="text-2xl md:text-3xl font-display text-gray-300 mb-16 leading-tight">
+                This partnership builds the infrastructure required to capture it, nurture it, convert it, and compound it.
+            </p>
+            
+            <div class="bg-gray-900 border border-gray-800 p-8 rounded-xl max-w-2xl mx-auto mb-16">
+                <p class="text-lg text-gray-300">
+                    The goal is not to add more software or launch a disconnected funnel. The goal is to build an online monetization ecosystem where your content, products, coaching, and audience reinforce one another.
+                </p>
+            </div>
+
+            <h3 class="font-display font-bold text-3xl mb-8">Ready to build the system?</h3>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#investment" class="btn-accent px-8 py-4 rounded-lg font-bold text-lg inline-flex justify-center items-center gap-2">
+                    Review Commercial Structure
+                </a>
+                <button onclick="toggleAgreement()" class="bg-transparent border border-gray-600 hover:border-white px-8 py-4 rounded-lg font-bold text-lg transition-colors inline-flex justify-center items-center gap-2">
+                    View Next Steps
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- OPTIONAL AGREEMENT PANEL (Hidden by default, triggered by button) -->
+    <div id="agreement-panel" class="fixed inset-0 bg-dark/95 backdrop-blur-md z-[100] hidden flex-col items-center justify-center p-6 overflow-y-auto opacity-0 transition-opacity duration-300">
+        <div class="bg-surface text-primary max-w-2xl w-full p-8 md:p-12 rounded-xl border editorial-border relative transform translate-y-8 transition-transform duration-300" id="agreement-card">
+            <button onclick="toggleAgreement()" class="absolute top-6 right-6 text-secondary hover:text-primary"><i data-lucide="x" class="w-6 h-6"></i></button>
+            
+            <h2 class="font-display font-bold text-3xl mb-6">Proposed Next Steps</h2>
+            <ul class="space-y-4 mb-8">
+                <li class="flex items-start gap-3"><div class="w-6 h-6 rounded border border-primary flex items-center justify-center flex-shrink-0 mt-0.5"><i class="w-4 h-4 hidden"></i></div> Confirm partnership scope.</li>
+                <li class="flex items-start gap-3"><div class="w-6 h-6 rounded border border-primary flex items-center justify-center flex-shrink-0 mt-0.5"><i class="w-4 h-4 hidden"></i></div> Confirm commercial and revenue-attribution terms.</li>
+                <li class="flex items-start gap-3"><div class="w-6 h-6 rounded border border-primary flex items-center justify-center flex-shrink-0 mt-0.5"><i class="w-4 h-4 hidden"></i></div> Sign the final operating agreement.</li>
+                <li class="flex items-start gap-3"><div class="w-6 h-6 rounded border border-primary flex items-center justify-center flex-shrink-0 mt-0.5"><i class="w-4 h-4 hidden"></i></div> Complete platform-access checklist.</li>
+                <li class="flex items-start gap-3"><div class="w-6 h-6 rounded border border-primary flex items-center justify-center flex-shrink-0 mt-0.5"><i class="w-4 h-4 hidden"></i></div> Begin the infrastructure sprint (<span class="dynamic-sprint font-bold">14-21 days</span>).</li>
+                <li class="flex items-start gap-3"><div class="w-6 h-6 rounded border border-primary flex items-center justify-center flex-shrink-0 mt-0.5"><i class="w-4 h-4 hidden"></i></div> Launch <span class="dynamic-growth font-bold">90-day</span> growth period once core infrastructure is live.</li>
+            </ul>
+
+            <a href="#" id="dynamic-agreement-btn" class="block w-full bg-dark text-darkText text-center py-4 rounded-lg font-bold hover:bg-gray-800 transition-colors">
+                Proceed to Agreement
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer & Disclaimer -->
+    <footer class="py-12 px-6 lg:px-12 bg-background border-t editorial-border text-center">
+        <div class="max-w-4xl mx-auto">
+            <button onclick="window.scrollTo(0,0)" class="text-sm font-semibold uppercase tracking-wider text-secondary hover:text-primary mb-12 inline-flex items-center gap-2 transition-colors">
+                <i data-lucide="arrow-up" class="w-4 h-4"></i> Back to Top
+            </button>
+            <p class="text-xs text-secondary/70 leading-relaxed text-justify md:text-center">
+                <strong>Disclaimer:</strong> This website presents a proposed strategic partnership and scope for discussion. Final deliverables, timelines, compensation definitions, attribution rules, and legal terms will be governed by a separately signed agreement. Examples shown throughout the site are illustrative and do not represent guaranteed performance. Third-party software costs and potential future ad spend are separate from the operator fee.
+            </p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVITY SCRIPTS -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 1. Populate dynamic config values
+        document.addEventListener('DOMContentLoaded', () => {
+            const updateText = (className, value) => {
+                document.querySelectorAll(`.${className}`).forEach(el => el.innerText = value);
+            };
+            
+            updateText('dynamic-client', proposalConfig.clientName);
+            updateText('dynamic-clientContact', proposalConfig.clientContact);
+            updateText('dynamic-operator', proposalConfig.operatorCompany);
+            updateText('dynamic-fee', proposalConfig.initialFee);
+            updateText('dynamic-share', proposalConfig.revenueShare);
+            updateText('dynamic-sprint', proposalConfig.infrastructureTimeline);
+            updateText('dynamic-growth', proposalConfig.growthPeriod);
+            
+            const agreementBtn = document.getElementById('dynamic-agreement-btn');
+            if(agreementBtn && proposalConfig.agreementUrl) {
+                agreementBtn.href = proposalConfig.agreementUrl;
+            }
+
+            // Update accent color variable dynamically if provided in config
+            if(proposalConfig.primaryAccent) {
+                document.documentElement.style.setProperty('--accent', proposalConfig.primaryAccent);
+            }
+
+            // Init default system view
+            document.querySelector('.sys-stage').click();
+        });
+
+        // 2. Scroll Progress & Navigation Styling
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+
+            const nav = document.getElementById('main-nav');
+            if (winScroll > 50) {
+                nav.classList.add('shadow-sm');
+                nav.classList.replace('py-4', 'py-2');
+            } else {
+                nav.classList.remove('shadow-sm');
+                nav.classList.replace('py-2', 'py-4');
+            }
+        });
+
+        // 3. Intersection Observer for Reveal Animations
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Trigger specific animations based on ID
+                    if (entry.target.id === 'opportunity' || entry.target.querySelector('#opp-chaos')) {
+                        setTimeout(() => {
+                            document.getElementById('opp-chaos').style.opacity = '0';
+                            document.querySelectorAll('.system-line').forEach(line => line.classList.add('active'));
+                        }, 1000);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-up, section').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 4. Hero Word Animation
+        const words = document.querySelectorAll('.hero-word');
+        let currentWord = 0;
+        setInterval(() => {
+            words.forEach(w => w.classList.remove('active'));
+            words[currentWord].classList.add('active');
+            currentWord = (currentWord + 1) % words.length;
+        }, 1500);
+
+        // 5. Diagnosis Connect Button
+        document.getElementById('btn-connect-system').addEventListener('click', function() {
+            const line = document.getElementById('status-line');
+            const icon = document.getElementById('status-icon');
+            const rightSide = document.getElementById('status-right');
+            const btn = this;
+
+            if (line.classList.contains('border-dashed')) {
+                // Connect
+                line.classList.replace('border-dashed', 'border-solid');
+                line.classList.replace('border-red-500', 'border-accent');
+                line.classList.replace('bg-red-500/50', 'bg-accent/50');
+                icon.setAttribute('data-lucide', 'check-circle');
+                icon.classList.replace('text-red-500', 'text-accent');
+                lucide.createIcons();
+                
+                rightSide.classList.remove('opacity-30', 'blur-[2px]');
+                rightSide.querySelectorAll('div').forEach(div => {
+                    div.classList.add('text-white', 'border-accent');
+                    div.classList.remove('text-gray-400', 'border-gray-800');
+                });
+                
+                btn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> System Connected';
+                lucide.createIcons();
+            } else {
+                // Reset (for replayability during presentation)
+                line.classList.replace('border-solid', 'border-dashed');
+                line.classList.replace('border-accent', 'border-red-500');
+                line.classList.replace('bg-accent/50', 'bg-red-500/50');
+                icon.setAttribute('data-lucide', 'alert-triangle');
+                icon.classList.replace('text-accent', 'text-red-500');
+                lucide.createIcons();
+                
+                rightSide.classList.add('opacity-30', 'blur-[2px]');
+                rightSide.querySelectorAll('div').forEach(div => {
+                    div.classList.remove('text-white', 'border-accent');
+                    div.classList.add('text-gray-400', 'border-gray-800');
+                });
+                
+                btn.innerHTML = '<i data-lucide="zap" class="w-4 h-4"></i> Connect the system';
+                lucide.createIcons();
+            }
+        });
+
+        // 6. Journey Toggle
+        function toggleJourney(type) {
+            const current = document.getElementById('journey-current');
+            const connected = document.getElementById('journey-connected');
+            const btnC = document.getElementById('btn-journey-current');
+            const btnConn = document.getElementById('btn-journey-connected');
+
+            if (type === 'current') {
+                current.classList.remove('hidden');
+                connected.classList.add('hidden');
+                btnC.classList.add('bg-surface', 'shadow-sm', 'text-primary');
+                btnC.classList.remove('text-secondary');
+                btnConn.classList.remove('bg-surface', 'shadow-sm', 'text-primary');
+                btnConn.classList.add('text-secondary');
+            } else {
+                current.classList.add('hidden');
+                connected.classList.remove('hidden');
+                btnConn.classList.add('bg-surface', 'shadow-sm', 'text-primary');
+                btnConn.classList.remove('text-secondary');
+                btnC.classList.remove('bg-surface', 'shadow-sm', 'text-primary');
+                btnC.classList.add('text-secondary');
+            }
+        }
+
+        // 7. System Details Interaction
+        const systemDetails = {
+            content: {
+                title: "Content & Attention",
+                purpose: "Generate awareness and top-of-funnel interest using organic social content.",
+                action: "Viewer watches, engages, or clicks bio link.",
+                gain: "Attention. Testing of market resonance."
+            },
+            capture: {
+                title: "ManyChat / Landing Page",
+                purpose: "Convert anonymous attention into identified leads.",
+                action: "Viewer comments a keyword or opts in on a page.",
+                gain: "Permission to follow up. Email address captured."
+            },
+            nurture: {
+                title: "Automated Nurture Sequence",
+                purpose: "Build trust and handle objections before the pitch.",
+                action: "User receives targeted emails based on requested resource.",
+                gain: "Increased certainty and desire for the core offer."
+            },
+            convert: {
+                title: "Purchase / Booked Call",
+                purpose: "Monetize the attention via digital products or coaching.",
+                action: "User completes checkout or submits qualification form.",
+                gain: "Revenue generation or qualified sales opportunity."
+            },
+            ascend: {
+                title: "Cross-sell / Upsell / Retain",
+                purpose: "Maximize Lifetime Value (LTV).",
+                action: "Customer is offered next logical step post-purchase.",
+                gain: "Higher average order value and recurring revenue."
+            }
+        };
+
+        function showSystemDetails(key, el) {
+            document.querySelectorAll('.sys-stage').forEach(btn => {
+                btn.classList.remove('bg-gray-800', 'border-accent');
+                btn.classList.add('bg-gray-900', 'border-gray-700');
+            });
+            el.classList.remove('bg-gray-900', 'border-gray-700');
+            el.classList.add('bg-gray-800', 'border-accent');
+
+            const data = systemDetails[key];
+            const panel = document.getElementById('sys-detail-panel');
+            
+            panel.style.opacity = 0;
+            setTimeout(() => {
+                panel.innerHTML = `
+                    <h4 class="font-display font-bold text-2xl mb-6 text-white">${data.title}</h4>
+                    <div class="space-y-6 text-sm">
+                        <div><strong class="block text-gray-400 uppercase tracking-widest text-xs mb-1">Purpose</strong><span class="text-gray-200">${data.purpose}</span></div>
+                        <div><strong class="block text-gray-400 uppercase tracking-widest text-xs mb-1">Customer Action</strong><span class="text-gray-200">${data.action}</span></div>
+                        <div><strong class="block text-gray-400 uppercase tracking-widest text-xs mb-1">Business Gain</strong><span class="text-accent font-medium">${data.gain}</span></div>
+                    </div>
+                `;
+                panel.style.opacity = 1;
+            }, 200);
+        }
+
+        // 8. Expandable Accordion (Phase 2)
+        function expandPanel(el) {
+            if(window.innerWidth < 1024) return; // Keep vertical stack standard on mobile
+            
+            const container = document.getElementById('phase-2-accordion');
+            const children = container.children;
+            
+            for(let i=0; i<children.length; i++) {
+                children[i].style.flexGrow = "1";
+                children[i].classList.remove('bg-dark', 'text-darkText', 'border-dark');
+                children[i].classList.add('bg-surface', 'text-primary', 'border-editorial-border');
+                
+                const title = children[i].querySelector('h4');
+                title.classList.remove('text-accent');
+                title.classList.add('text-secondary', 'group-hover:text-primary');
+
+                const content = children[i].querySelector('.panel-content');
+                content.classList.add('hidden', 'opacity-0');
+                content.classList.remove('opacity-100');
+            }
+            
+            el.style.flexGrow = "3";
+            el.classList.add('bg-dark', 'text-darkText', 'border-dark');
+            el.classList.remove('bg-surface', 'text-primary', 'border-editorial-border');
+            
+            const activeTitle = el.querySelector('h4');
+            activeTitle.classList.add('text-accent');
+            activeTitle.classList.remove('text-secondary', 'group-hover:text-primary');
+
+            const activeContent = el.querySelector('.panel-content');
+            activeContent.classList.remove('hidden');
+            setTimeout(() => { activeContent.classList.replace('opacity-0', 'opacity-100'); }, 50);
+        }
+
+        // 9. ManyChat Simulation
+        function simulateChat() {
+            document.getElementById('btn-chat').style.display = 'none';
+            const msgs = document.querySelectorAll('.chat-msg');
+            msgs.forEach((msg, index) => {
+                setTimeout(() => {
+                    msg.classList.remove('opacity-0', 'translate-y-2');
+                }, index * 600); // Sequence delay
+            });
+        }
+
+        // 10. Tab Switching (Responsibility & Attribution)
+        function switchTab(group, target) {
+            // Content
+            document.querySelectorAll(`[id^="content-"]`).forEach(el => {
+                if(el.closest('div').parentElement.innerHTML.includes(`switchTab('${group}'`)) {
+                    el.classList.remove('active');
+                }
+            });
+            document.getElementById(`content-${target}`).classList.add('active');
+
+            // Buttons (Responsibility)
+            if(group === 'resp') {
+                const btnChase = document.getElementById('tab-chase');
+                const btnEmma = document.getElementById('tab-emma');
+                if(target === 'chase') {
+                    btnChase.className = "flex-1 py-4 font-display font-bold text-lg text-center bg-dark text-darkText";
+                    btnEmma.className = "flex-1 py-4 font-display font-bold text-lg text-center bg-surface text-secondary hover:text-primary transition-colors";
+                } else {
+                    btnEmma.className = "flex-1 py-4 font-display font-bold text-lg text-center bg-dark text-darkText";
+                    btnChase.className = "flex-1 py-4 font-display font-bold text-lg text-center bg-surface text-secondary hover:text-primary transition-colors";
+                }
+            }
+            
+            // Buttons (Attribution)
+            if(group === 'attr') {
+                ['base', 'direct', 'hybrid'].forEach(t => {
+                    const btn = document.getElementById(`tab-${t}`);
+                    btn.className = "px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white";
+                });
+                document.getElementById(`tab-${target}`).className = "px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-dark";
+            }
+        }
+
+        // 11. Modal / Agreement Panel Toggle
+        function toggleAgreement() {
+            const panel = document.getElementById('agreement-panel');
+            const card = document.getElementById('agreement-card');
+            
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                panel.classList.add('flex');
+                // Trigger reflow for animation
+                void panel.offsetWidth;
+                panel.classList.replace('opacity-0', 'opacity-100');
+                card.classList.replace('translate-y-8', 'translate-y-0');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                panel.classList.replace('opacity-100', 'opacity-0');
+                card.classList.replace('translate-y-0', 'translate-y-8');
+                setTimeout(() => {
+                    panel.classList.add('hidden');
+                    panel.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+        }
+
+        // Init observer for scenario B
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        document.getElementById('scenario-b-bar').classList.replace('scale-x-0', 'scale-x-100');
+                    }, 500);
+                }
+            });
+        }, { threshold: 0.5 });
+        const bBar = document.getElementById('scenario-b-bar');
+        if(bBar) barObserver.observe(bBar.parentElement);
+
+    </script>
+</body>
+</html>
