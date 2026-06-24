@@ -3,42 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPC Athletics | Growth Partnership</title>
+    <title>Her Strongest Era | Emma</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23e82667'/%3E%3Cpath d='M32 13l3.9 10.1L46 27l-10.1 3.9L32 51l-3.9-20.1L18 27l10.1-3.9L32 13z' fill='white'/%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
                     },
                     colors: {
-                        brand: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            500: '#22c55e', // A vibrant athletic green
-                            600: '#16a34a',
-                            900: '#14532d',
-                        },
-                        dark: '#0f172a' // Slate 900
+                        background: '#fff4f8',
+                        surface: '#fffafc',
+                        surfaceDeep: '#fbd4e4',
+                        border: 'rgba(185, 28, 82, 0.14)',
+                        rose: '#e82667',
+                        roseDeep: '#b91548',
+                        blush: '#ffd8e8',
+                        cream: '#fff8ee',
+                        ink: '#30141f',
+                        muted: '#8d5f70',
+                        sky: '#bfe8f4',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
         }
     </script>
+
     <style>
-        /* Custom styles for animations and specific UI elements */
         body {
-            background-color: #fafafa;
-            color: #0f172a;
+            background: #fff4f8;
+            color: #30141f;
+            font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::selection {
+            background: rgba(232, 38, 103, 0.18);
+            color: #b91548;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .text-gradient {
+            background: linear-gradient(180deg, #e82667 0%, #821137 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .reveal.active {
@@ -46,674 +93,478 @@
             transform: translateY(0);
         }
 
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-        
-        #progress-bar {
-            transform-origin: 0% 50%;
+        .glass-card {
+            background: rgba(255, 250, 252, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(185, 28, 82, 0.12);
+            box-shadow: 0 18px 50px rgba(185, 28, 82, 0.08);
+            transition: all 0.3s ease;
         }
 
-        /* Animated connection line for hero */
-        .seq-word { opacity: 0; transform: translateX(-10px); transition: all 0.5s ease; }
-        .seq-arrow { opacity: 0; transition: all 0.5s ease; }
-        
-        .seq-active { opacity: 1; transform: translateX(0); }
+        .glass-card:hover {
+            border-color: rgba(185, 28, 82, 0.28);
+            transform: translateY(-2px);
+            box-shadow: 0 22px 60px rgba(185, 28, 82, 0.14);
+        }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        .btn-primary {
+            background: #e82667;
+            color: white;
+            box-shadow: 0 14px 30px rgba(232, 38, 103, 0.28);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #b91548;
+            transform: scale(1.02);
+            box-shadow: 0 18px 38px rgba(185, 21, 72, 0.34);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.52);
+            color: #b91548;
+            border: 1px solid rgba(185, 28, 82, 0.18);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            border-color: rgba(185, 28, 82, 0.35);
+        }
+
+        .bg-grid {
+            background-size: 42px 42px;
+            background-image: linear-gradient(to right, rgba(185, 28, 82, 0.055) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(185, 28, 82, 0.055) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, transparent, black 12%, black 84%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 84%, transparent);
+        }
+
+        .photo-frame {
+            border: 1px solid rgba(185, 28, 82, 0.14);
+            box-shadow: 0 26px 70px rgba(185, 28, 82, 0.16);
         }
     </style>
 </head>
-<body class="relative">
+<body class="antialiased relative">
 
-    <!-- Scroll Progress Bar -->
-    <div class="fixed top-0 left-0 w-full h-1 z-50 bg-gray-200">
-        <div id="progress-bar" class="h-full bg-brand-500 w-0"></div>
-    </div>
+    <div class="noise-overlay"></div>
 
-    <!-- Scroll to top button -->
-    <button id="backToTop" class="fixed bottom-8 right-8 bg-dark text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50 hover:bg-gray-800">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-    </button>
-
-    <!-- SECTION 1 — OPENING -->
-    <section class="min-h-screen flex flex-col items-center justify-center pt-20 pb-10 px-6 relative">
-        <div class="max-w-4xl mx-auto text-center reveal active">
-            <span class="inline-block py-1 px-3 rounded-full bg-gray-100 text-sm font-semibold tracking-wider text-gray-600 mb-6 uppercase">EPC Athletics</span>
-            
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-                Turning Attention<br>Into Online Sales
-            </h1>
-            
-            <p class="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-                EPC Athletics already has the audience, content, products, and coaching. Now we will connect everything into one simple system that helps turn more attention into leads, customers, and coaching clients.
-            </p>
-
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-16 inline-block text-left">
-                <p class="text-2xl font-bold mb-2">You keep creating the attention.</p>
-                <p class="text-2xl font-bold text-gray-400 mb-4">We build the system behind it.</p>
-                <p class="text-gray-500 font-medium">First, we plug the leaks. Then, we help the system grow.</p>
-            </div>
-
-            <!-- Animated Sequence Visual -->
-            <div id="hero-sequence" class="flex flex-wrap items-center justify-center gap-2 md:gap-4 text-lg md:text-xl font-bold text-dark">
-                <span class="seq-word bg-gray-100 px-4 py-2 rounded-lg">Content</span>
-                <span class="seq-arrow text-brand-500">→</span>
-                <span class="seq-word bg-gray-100 px-4 py-2 rounded-lg">Leads</span>
-                <span class="seq-arrow text-brand-500">→</span>
-                <span class="seq-word bg-gray-100 px-4 py-2 rounded-lg">Sales</span>
-                <span class="seq-arrow text-brand-500">→</span>
-                <span class="seq-word bg-brand-500 text-white px-4 py-2 rounded-lg shadow-md">Coaching</span>
-            </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50 text-gray-400">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-        </div>
-    </section>
-
-    <!-- SECTION 2 — WHERE YOU ARE NOW -->
-    <section class="py-24 px-6 bg-white">
-        <div class="max-w-5xl mx-auto">
-            <span class="text-brand-500 font-bold tracking-widest text-sm uppercase mb-4 block reveal">Where You Are Now</span>
-            
-            <div class="grid md:grid-cols-2 gap-16 items-start">
-                <div class="reveal">
-                    <h2 class="text-4xl font-bold mb-6">The hard part is already working.</h2>
-                    <p class="text-lg text-gray-600 mb-6">EPC Athletics already has:</p>
-                    <ul class="space-y-4 text-lg font-medium text-dark">
-                        <li class="flex items-center gap-3"><svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Consistent content</li>
-                        <li class="flex items-center gap-3"><svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Good traffic across multiple platforms</li>
-                        <li class="flex items-center gap-3"><svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> An audience that knows and trusts Emma</li>
-                        <li class="flex items-center gap-3"><svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Existing digital products</li>
-                        <li class="flex items-center gap-3"><svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> An online coaching offer</li>
-                        <li class="flex items-center gap-3"><svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> The ability to reach a large number of people</li>
-                    </ul>
+    <nav class="fixed top-0 left-0 w-full z-40 border-b border-border bg-background/82 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#top" class="flex items-center gap-2" aria-label="Her Strongest Era home">
+                <div class="w-7 h-7 rounded-full bg-rose flex items-center justify-center text-white">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
                 </div>
+                <span class="font-semibold tracking-widest text-xs md:text-sm uppercase text-ink">Her Strongest Era</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm text-muted font-light">
+                <a href="#framework" class="hover:text-rose transition-colors">Framework</a>
+                <a href="#ecosystem" class="hover:text-rose transition-colors">Programs</a>
+                <a href="#story" class="hover:text-rose transition-colors">Emma</a>
+            </div>
+            <a href="assets/her-strongest-era-7-day-reset.pdf" download class="btn-primary px-4 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-2">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                Reset Guide
+            </a>
+        </div>
+    </nav>
 
-                <div class="reveal delay-100 bg-gray-50 p-8 rounded-2xl border border-gray-100">
-                    <h2 class="text-3xl font-bold mb-4">But the pieces are not fully connected.</h2>
-                    <div class="space-y-4 text-gray-600">
-                        <p>The products, coaching, content, email, and follow-up systems are not yet working together.</p>
-                        <p>People can watch the content, enjoy it, and leave without seeing the next step.</p>
-                        <p>Someone may buy one product and never hear about another one.</p>
-                        <p>Someone may be interested in coaching but never enter a clear sales process.</p>
+    <main id="top">
+        <section class="relative pt-28 pb-16 md:pt-40 md:pb-28 overflow-hidden min-h-[92vh] flex items-center">
+            <div class="absolute inset-0 bg-grid opacity-75 z-0"></div>
+            <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent z-0"></div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
+                <div class="text-center lg:text-left flex flex-col items-center lg:items-start">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-white/60 backdrop-blur-sm text-xs font-semibold text-roseDeep mb-8 reveal">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose"></span>
+                        Reset. Refocus. Rise.
                     </div>
 
-                    <!-- Disconnected Visual -->
-                    <div class="mt-10 p-6 border-2 border-dashed border-gray-200 rounded-xl relative">
-                        <div class="flex flex-wrap justify-center gap-4">
-                            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-500 text-center p-2 shadow-sm">Content</div>
-                            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-500 text-center p-2 shadow-sm">Audience</div>
-                            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-500 text-center p-2 shadow-sm">Digital Products</div>
-                            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-500 text-center p-2 shadow-sm">Coaching</div>
-                            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-500 text-center p-2 shadow-sm">Email</div>
-                        </div>
-                        <p class="text-center mt-6 text-sm font-semibold text-gray-400 uppercase tracking-wide">Good pieces. No connected system yet.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                    <h1 class="font-display text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6 reveal" style="animation-delay: 0.1s;">
+                        <span class="block">Her Strongest</span>
+                        <span class="text-gradient">Era</span>
+                    </h1>
 
-    <!-- SECTION 3 — THE OPPORTUNITY -->
-    <section class="py-24 px-6 bg-gray-50">
-        <div class="max-w-5xl mx-auto text-center reveal">
-            <span class="text-brand-500 font-bold tracking-widest text-sm uppercase mb-4 block">The Opportunity</span>
-            <h2 class="text-4xl md:text-5xl font-bold mb-8">Build the system that sells behind the content.</h2>
-            
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-16">
-                The goal is to create the simple online system that EPC Athletics needs to capture more interested people, follow up automatically, sell products, book coaching calls, and make more money from the attention already being created.
-            </p>
-        </div>
-
-        <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 reveal delay-100">
-            <!-- Right Now -->
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center">
-                <h3 class="text-xl font-bold text-gray-400 uppercase tracking-wider mb-8">Right Now</h3>
-                
-                <div class="w-full flex flex-col items-center gap-4 text-lg font-medium text-gray-700">
-                    <div class="w-full bg-gray-100 p-4 rounded-xl text-center">Content</div>
-                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    <div class="w-full bg-gray-100 p-4 rounded-xl text-center">Views & Engagement</div>
-                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    <div class="w-full bg-red-50 text-red-600 border border-red-100 p-4 rounded-xl text-center">Many people leave</div>
-                </div>
-            </div>
-
-            <!-- After System -->
-            <div class="bg-dark text-white p-8 rounded-2xl shadow-xl flex flex-col items-center relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-500 rounded-full filter blur-3xl opacity-20 -mr-10 -mt-10"></div>
-                <h3 class="text-xl font-bold text-brand-500 uppercase tracking-wider mb-8 z-10">After System Built</h3>
-                
-                <div class="w-full flex flex-col items-center gap-3 text-lg font-medium z-10">
-                    <div class="w-full bg-gray-800 border border-gray-700 p-4 rounded-xl text-center">Content</div>
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    <div class="w-full bg-gray-800 border border-gray-700 p-4 rounded-xl text-center">Clear Next Step</div>
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    <div class="w-full bg-brand-900 border border-brand-500 text-brand-100 p-4 rounded-xl text-center">Email or DM Follow-up</div>
-                    <svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    <div class="w-full bg-brand-500 text-white shadow-lg p-4 rounded-xl text-center">Product Sale or Coaching Call</div>
-                    <svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    <div class="w-full bg-brand-600 text-white p-4 rounded-xl text-center">More Offers Over Time</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-3xl mx-auto mt-16 text-center reveal delay-200">
-            <p class="text-2xl font-bold text-dark">We are not asking you to become better at getting attention.</p>
-            <p class="text-xl text-gray-500 mt-2">We are building what needs to happen after you get it.</p>
-        </div>
-    </section>
-
-    <!-- SECTION 4 — STEP ONE -->
-    <section class="py-24 px-6 bg-white">
-        <div class="max-w-5xl mx-auto">
-            <span class="text-gray-400 font-bold tracking-widest text-sm uppercase mb-4 block reveal">Step One</span>
-            
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div class="reveal">
-                    <h2 class="text-4xl font-bold mb-6">Make every offer clear and connected.</h2>
-                    <p class="text-lg text-gray-600 mb-8">First, we will review everything EPC Athletics currently sells: Digital products, coaching, free resources, existing sales pages, and current calls to action.</p>
-                    
-                    <div class="space-y-8">
-                        <div>
-                            <h4 class="text-xl font-bold mb-2">Offer Audit</h4>
-                            <p class="text-gray-600">Review current products and coaching to understand what is working, unclear, or missing.</p>
-                        </div>
-                        <div>
-                            <h4 class="text-xl font-bold mb-2">Clear Positioning</h4>
-                            <p class="text-gray-600">Ensure every offer clearly explains: Who it's for, the problem it solves, what they get, and why they should buy.</p>
-                        </div>
-                        <div>
-                            <h4 class="text-xl font-bold mb-2">Fill Important Gaps</h4>
-                            <p class="text-gray-600">Create simple supporting assets if needed (free guides, checklists, entry-level products).</p>
+                    <div class="lg:hidden w-full max-w-[280px] mb-7 reveal" style="animation-delay: 0.15s;">
+                        <div class="photo-frame relative overflow-hidden rounded-[1.5rem] bg-white">
+                            <img src="assets/emma-hero.jpg" alt="Emma standing confidently in fitness wear" class="w-full h-52 object-cover object-top">
                         </div>
                     </div>
-                </div>
 
-                <!-- Staircase Visual -->
-                <div class="reveal delay-100">
-                    <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 flex flex-col items-start pt-16 pb-8 pl-8 pr-12 relative">
-                        <p class="absolute top-8 left-8 text-sm font-bold text-gray-400 uppercase tracking-wide">One Product Ecosystem</p>
-                        
-                        <!-- Stair 1 -->
-                        <div class="w-full flex justify-start mb-[-2px]">
-                            <div class="bg-white border-2 border-gray-200 text-gray-700 px-6 py-4 rounded-t-xl rounded-br-xl font-bold shadow-sm w-3/4 relative z-10">
-                                1. Free Value (Guide/Challenge)
-                            </div>
-                        </div>
-                        <!-- Stair 2 -->
-                        <div class="w-full flex justify-start pl-[10%] mb-[-2px]">
-                            <div class="bg-gray-100 border-2 border-gray-300 text-gray-800 px-6 py-4 rounded-tr-xl rounded-br-xl font-bold shadow-md w-[80%] relative z-20">
-                                2. Digital Product
-                            </div>
-                        </div>
-                        <!-- Stair 3 -->
-                        <div class="w-full flex justify-start pl-[20%] mb-[-2px]">
-                            <div class="bg-dark text-white px-6 py-4 rounded-tr-xl rounded-br-xl font-bold shadow-lg w-[85%] relative z-30">
-                                3. Coaching
-                            </div>
-                        </div>
-                        <!-- Stair 4 -->
-                        <div class="w-full flex justify-start pl-[30%]">
-                            <div class="bg-brand-500 text-white px-6 py-4 rounded-tr-xl rounded-b-xl font-bold shadow-xl w-[90%] relative z-40">
-                                4. Continued Support
-                            </div>
-                        </div>
+                    <p class="text-xl md:text-2xl text-ink font-medium max-w-2xl leading-snug mb-5 reveal" style="animation-delay: 0.2s;">
+                        Build the strongest body, confidence, and life you've ever had.
+                    </p>
+                    <p class="text-base md:text-lg text-muted font-light max-w-2xl leading-relaxed mb-10 reveal" style="animation-delay: 0.25s;">
+                        Stop starting over. Stop waiting for motivation. Install the habits, mindset, and support system that help you become the woman you've always known you could be.
+                    </p>
 
-                        <p class="mt-12 text-lg font-bold text-center w-full text-dark">Every offer should lead naturally to the next helpful step.</p>
+                    <div class="flex flex-col sm:flex-row items-center gap-4 reveal" style="animation-delay: 0.3s;">
+                        <a href="assets/her-strongest-era-7-day-reset.pdf" download class="btn-primary px-8 py-3.5 rounded-full text-sm font-semibold flex items-center gap-2 w-full sm:w-auto justify-center">
+                            Download The 7-Day Reset <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#ecosystem" class="btn-secondary px-8 py-3.5 rounded-full text-sm font-semibold flex items-center gap-2 w-full sm:w-auto justify-center">
+                            See The Path <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- SECTION 5 — STEP TWO -->
-    <section class="py-24 px-6 bg-dark text-white">
-        <div class="max-w-5xl mx-auto">
-            <span class="text-gray-400 font-bold tracking-widest text-sm uppercase mb-4 block reveal text-center">Step Two</span>
-            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-center reveal">Make follow-up happen automatically.</h2>
-            <p class="text-xl text-gray-400 text-center max-w-2xl mx-auto mb-16 reveal">Once the offers are clear, we will connect them through two main systems: ManyChat and Email.</p>
-
-            <div class="space-y-24">
-                
-                <!-- Part A: ManyChat -->
-                <div class="reveal">
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <span class="bg-blue-600 text-xs font-bold px-3 py-1 rounded-full tracking-wide uppercase mb-4 inline-block">Part A: ManyChat</span>
-                            <h3 class="text-3xl font-bold mb-4">Turn comments and DMs into the front door.</h3>
-                            <p class="text-gray-400 mb-6 text-lg">We will set up simple DM automations to move people from content into the right offer.</p>
-                            
-                            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-6">
-                                <p class="text-sm text-gray-400 mb-2">Example scenario:</p>
-                                <p class="font-medium">Emma posts a video: <span class="text-brand-400">"Comment GUIDE and I'll send it."</span></p>
-                                <ul class="mt-4 space-y-2 text-sm text-gray-300">
-                                    <li>✓ Sends the guide automatically</li>
-                                    <li>✓ Asks for their email</li>
-                                    <li>✓ Finds out what they need</li>
-                                    <li>✓ Sends them toward a product/coaching</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- ManyChat Visual -->
-                        <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700 flex items-center justify-between text-sm font-bold text-center gap-2 overflow-x-auto">
-                            <div class="bg-gray-700 p-3 rounded-lg min-w-[100px]">Social Post</div>
-                            <svg class="w-5 h-5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            <div class="bg-gray-700 p-3 rounded-lg min-w-[100px]">Comment / DM</div>
-                            <svg class="w-5 h-5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            <div class="bg-blue-600 p-3 rounded-lg min-w-[100px]">Auto Reply</div>
-                            <svg class="w-5 h-5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            <div class="bg-brand-500 text-dark p-3 rounded-lg min-w-[100px]">Offer Sent</div>
-                        </div>
-                    </div>
+                    <p class="mt-8 text-sm text-muted font-light max-w-lg reveal" style="animation-delay: 0.4s;">
+                        Trusted by thousands of women building healthier, stronger lives without extremes.
+                    </p>
                 </div>
 
-                <!-- Part B: Email -->
-                <div class="reveal">
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div class="md:order-2">
-                            <span class="bg-brand-500 text-dark text-xs font-bold px-3 py-1 rounded-full tracking-wide uppercase mb-4 inline-block">Part B: Email</span>
-                            <h3 class="text-3xl font-bold mb-4">Keep the conversation going.</h3>
-                            <p class="text-gray-400 mb-6 text-lg">Build an email list and simple follow-up campaigns so communication continues after they leave social media.</p>
-                            <p class="text-gray-400 mb-6">Different people receive different emails based on how they entered (e.g., downloaded a guide vs. showed interest in coaching).</p>
-                            
-                            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 border-l-4 border-l-brand-500">
-                                <p class="font-bold text-lg">The system keeps selling and following up without adding more daily work to Emma's plate.</p>
-                            </div>
-                        </div>
-
-                        <!-- Email Visual -->
-                        <div class="md:order-1 bg-gray-800 rounded-2xl p-8 border border-gray-700">
-                            <div class="flex flex-col gap-4">
-                                <div class="bg-gray-700 p-4 rounded-xl text-center font-bold">Person Enters System</div>
-                                <div class="flex justify-center"><svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></div>
-                                <div class="bg-gray-600 p-4 rounded-xl text-center font-medium">Helpful Email (Value)</div>
-                                <div class="flex justify-center"><svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></div>
-                                <div class="bg-gray-600 p-4 rounded-xl text-center font-medium">Follow-Up (Stories/Proof)</div>
-                                <div class="flex justify-center"><svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></div>
-                                <div class="bg-brand-500 text-dark p-4 rounded-xl text-center font-bold">Relevant Offer</div>
+                <div class="relative reveal hidden lg:block">
+                    <div class="photo-frame relative overflow-hidden rounded-[2rem] bg-white">
+                        <img src="assets/emma-hero.jpg" alt="Emma standing confidently in fitness wear" class="w-full h-[520px] object-cover object-top">
+                        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-[#30141f]/90 via-[#30141f]/28 to-transparent">
+                            <div class="inline-flex items-center gap-2 rounded-full bg-white/88 px-4 py-2 text-sm font-semibold text-roseDeep">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                                Strong mind. Strong body. Strong you.
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
+        <section class="py-20 md:py-28 border-y border-border bg-surface relative">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+                    <div class="reveal">
+                        <span class="text-xs uppercase tracking-[0.24em] text-roseDeep font-semibold mb-4 block">The Big Idea</span>
+                        <h2 class="font-display text-4xl md:text-6xl tracking-tight leading-tight mb-8">
+                            Your strongest era isn't about losing weight.
+                            <span class="text-gradient block">It's about becoming her.</span>
+                        </h2>
+                        <p class="text-lg text-muted font-light leading-relaxed mb-6">
+                            The woman who keeps promises to herself, feels confident in photos, has energy again, and walks into rooms differently.
+                        </p>
+                        <p class="text-lg text-ink font-medium border-l border-rose/40 pl-5">
+                            Most women don't need another meal plan. They need a new operating system.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 reveal">
+                        <div class="glass-card p-6 rounded-2xl">
+                            <i data-lucide="camera" class="w-6 h-6 text-rose mb-5"></i>
+                            <h3 class="font-semibold text-ink mb-2">Confidence</h3>
+                            <p class="text-sm text-muted">Feel good in photos and proud of how you're showing up.</p>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl">
+                            <i data-lucide="battery-charging" class="w-6 h-6 text-rose mb-5"></i>
+                            <h3 class="font-semibold text-ink mb-2">Energy</h3>
+                            <p class="text-sm text-muted">Build routines that give more back than they take from you.</p>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl">
+                            <i data-lucide="repeat-2" class="w-6 h-6 text-rose mb-5"></i>
+                            <h3 class="font-semibold text-ink mb-2">Consistency</h3>
+                            <p class="text-sm text-muted">No more constantly restarting or waiting for Monday.</p>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl">
+                            <i data-lucide="shield-check" class="w-6 h-6 text-rose mb-5"></i>
+                            <h3 class="font-semibold text-ink mb-2">Self-Trust</h3>
+                            <p class="text-sm text-muted">Create proof that you can follow through in real life.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 md:py-28 relative overflow-hidden" id="framework">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <span class="text-xs uppercase tracking-[0.24em] text-roseDeep font-semibold mb-4 block">The Framework</span>
+                    <h2 class="font-display text-4xl md:text-6xl tracking-tight mb-5 text-gradient">Build The Woman First.</h2>
+                    <p class="text-muted font-light max-w-2xl mx-auto text-lg">
+                        Instead of dieting, falling off, and starting over, Her Strongest Era gives you a path that compounds.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 reveal">
+                    <div class="glass-card p-7 rounded-2xl">
+                        <div class="text-rose/40 font-display text-5xl leading-none mb-6">01</div>
+                        <h3 class="text-xl font-semibold text-ink mb-3">Align</h3>
+                        <p class="text-sm text-muted mb-5">Get clear on who you're becoming.</p>
+                        <ul class="space-y-2 text-sm text-ink/75">
+                            <li>Identity</li>
+                            <li>Vision</li>
+                            <li>Standards</li>
+                            <li>Self-respect</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card p-7 rounded-2xl">
+                        <div class="text-rose/40 font-display text-5xl leading-none mb-6">02</div>
+                        <h3 class="text-xl font-semibold text-ink mb-3">Strengthen</h3>
+                        <p class="text-sm text-muted mb-5">Build sustainable habits that hold.</p>
+                        <ul class="space-y-2 text-sm text-ink/75">
+                            <li>Movement</li>
+                            <li>Nutrition</li>
+                            <li>Recovery</li>
+                            <li>Consistency</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card p-7 rounded-2xl">
+                        <div class="text-rose/40 font-display text-5xl leading-none mb-6">03</div>
+                        <h3 class="text-xl font-semibold text-ink mb-3">Transform</h3>
+                        <p class="text-sm text-muted mb-5">Create visible momentum.</p>
+                        <ul class="space-y-2 text-sm text-ink/75">
+                            <li>Confidence</li>
+                            <li>Energy</li>
+                            <li>Results</li>
+                            <li>Proof</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card p-7 rounded-2xl">
+                        <div class="text-rose/40 font-display text-5xl leading-none mb-6">04</div>
+                        <h3 class="text-xl font-semibold text-ink mb-3">Maintain</h3>
+                        <p class="text-sm text-muted mb-5">Make it your lifestyle.</p>
+                        <ul class="space-y-2 text-sm text-ink/75">
+                            <li>No all-or-nothing</li>
+                            <li>No quick fixes</li>
+                            <li>No waiting to begin</li>
+                            <li>No more starting over</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 md:py-28 border-y border-border bg-cream">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+                    <div class="grid grid-cols-2 gap-4 reveal">
+                        <img src="assets/emma-strength.jpg" alt="Emma training with dumbbells" class="rounded-2xl object-cover h-72 w-full photo-frame">
+                        <img src="assets/emma-confidence.jpg" alt="Emma posing in the gym" class="rounded-2xl object-cover h-72 w-full photo-frame mt-8">
+                        <img src="assets/emma-movement.jpg" alt="Emma training in the gym" class="rounded-2xl object-cover h-72 w-full photo-frame -mt-8">
+                        <img src="assets/emma-back.jpg" alt="Emma showing back strength" class="rounded-2xl object-cover h-72 w-full photo-frame">
+                    </div>
+
+                    <div class="reveal">
+                        <span class="text-xs uppercase tracking-[0.24em] text-roseDeep font-semibold mb-4 block">What You'll Develop</span>
+                        <h2 class="font-display text-4xl md:text-6xl tracking-tight leading-tight mb-8">
+                            Strength that changes how you move through life.
+                        </h2>
+                        <div class="space-y-5">
+                            <div class="flex gap-4">
+                                <i data-lucide="dumbbell" class="w-6 h-6 text-rose shrink-0 mt-1"></i>
+                                <div>
+                                    <h3 class="font-semibold text-ink">Physically stronger.</h3>
+                                    <p class="text-muted font-light">Train with structure, not punishment.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <i data-lucide="brain" class="w-6 h-6 text-rose shrink-0 mt-1"></i>
+                                <div>
+                                    <h3 class="font-semibold text-ink">Mentally stronger.</h3>
+                                    <p class="text-muted font-light">Learn how to keep going when motivation disappears.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <i data-lucide="users" class="w-6 h-6 text-rose shrink-0 mt-1"></i>
+                                <div>
+                                    <h3 class="font-semibold text-ink">Supported.</h3>
+                                    <p class="text-muted font-light">Growth becomes easier when you're not doing it alone.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <i data-lucide="trending-up" class="w-6 h-6 text-rose shrink-0 mt-1"></i>
+                                <div>
+                                    <h3 class="font-semibold text-ink">In motion.</h3>
+                                    <p class="text-muted font-light">Small wins compound into the proof you've been missing.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 md:py-28 relative overflow-hidden" id="ecosystem">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="mb-16 md:w-2/3 reveal">
+                    <span class="text-xs uppercase tracking-[0.24em] text-roseDeep font-semibold mb-4 block">The Program Ecosystem</span>
+                    <h2 class="font-display text-4xl md:text-6xl tracking-tight mb-6">Start where you are. Build from there.</h2>
+                    <p class="text-muted font-light text-lg">
+                        Her Strongest Era is not one random resource. It is a path from quick momentum to deeper support and personalized coaching.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="glass-card p-8 rounded-2xl reveal">
+                        <span class="text-xs uppercase tracking-[0.22em] text-roseDeep font-semibold">Start Here</span>
+                        <h3 class="font-display text-3xl text-ink mt-5 mb-4">The Strongest Era Challenge</h3>
+                        <p class="text-muted font-light mb-8">A simple challenge designed to help you build momentum quickly if you're feeling stuck and need a reset.</p>
+                        <a href="assets/her-strongest-era-7-day-reset.pdf" download class="btn-primary px-5 py-3 rounded-full text-sm font-semibold inline-flex items-center gap-2">
+                            Download The Reset <i data-lucide="download" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl reveal" style="animation-delay: 0.1s;">
+                        <span class="text-xs uppercase tracking-[0.22em] text-roseDeep font-semibold">Go Deeper</span>
+                        <h3 class="font-display text-3xl text-ink mt-5 mb-4">Her Strongest Era Community</h3>
+                        <p class="text-muted font-light mb-8">Weekly support, accountability, coaching, and connection so transformation becomes sustainable.</p>
+                        <a href="#download" class="btn-secondary px-5 py-3 rounded-full text-sm font-semibold inline-flex items-center gap-2">
+                            Join The Waitlist <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl reveal" style="animation-delay: 0.2s;">
+                        <span class="text-xs uppercase tracking-[0.22em] text-roseDeep font-semibold">Accelerate</span>
+                        <h3 class="font-display text-3xl text-ink mt-5 mb-4">1:1 Coaching</h3>
+                        <p class="text-muted font-light mb-8">Personalized guidance, custom strategy, and direct support for women ready for their fastest path forward.</p>
+                        <a href="#download" class="btn-secondary px-5 py-3 rounded-full text-sm font-semibold inline-flex items-center gap-2">
+                            Apply For Coaching <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 md:py-28 border-y border-border bg-surface">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+                    <div class="reveal">
+                        <span class="text-xs uppercase tracking-[0.24em] text-roseDeep font-semibold mb-4 block">Real Results</span>
+                        <h2 class="font-display text-4xl md:text-6xl tracking-tight leading-tight mb-8">What women are really gaining.</h2>
+                        <p class="text-lg text-muted font-light mb-8">
+                            They're not just losing weight. They're becoming the woman who works out consistently, follows through, has energy for life, and feels proud of herself.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="border-l border-rose/30 pl-4">
+                                <p class="text-ink font-semibold">More confidence</p>
+                                <p class="text-muted text-sm">In her body, choices, and routines.</p>
+                            </div>
+                            <div class="border-l border-rose/30 pl-4">
+                                <p class="text-ink font-semibold">More follow-through</p>
+                                <p class="text-muted text-sm">Because her plan fits real life.</p>
+                            </div>
+                            <div class="border-l border-rose/30 pl-4">
+                                <p class="text-ink font-semibold">More energy</p>
+                                <p class="text-muted text-sm">For training, work, and relationships.</p>
+                            </div>
+                            <div class="border-l border-rose/30 pl-4">
+                                <p class="text-ink font-semibold">More self-respect</p>
+                                <p class="text-muted text-sm">Built one kept promise at a time.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-[2rem] overflow-hidden reveal">
+                        <img src="assets/reset-guide-preview.jpg" alt="Her Strongest Era reset guide preview pages" class="w-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 md:py-28" id="story">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="text-center mb-14 reveal">
+                    <span class="text-xs uppercase tracking-[0.24em] text-roseDeep font-semibold mb-4 block">Emma's Story</span>
+                    <h2 class="font-display text-4xl md:text-6xl tracking-tight text-gradient">I wasn't always in my strongest era.</h2>
+                </div>
+
+                <div class="glass-card p-7 md:p-10 rounded-[2rem] reveal">
+                    <div class="grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] gap-8 items-center">
+                        <img src="assets/emma-movement.jpg" alt="Emma training in the gym" class="rounded-2xl object-cover h-[430px] w-full photo-frame">
+                        <div class="space-y-5 text-lg text-muted font-light">
+                            <p>There was a version of me that felt lost. A version rebuilding after heartbreak. A version trying to figure out who she was.</p>
+                            <p>Fitness wasn't the answer, but it became the vehicle. The gym taught me discipline. Discipline built confidence. Confidence changed my life.</p>
+                            <p class="text-ink font-medium">Her Strongest Era was born from that journey, because every woman deserves to experience what happens when she finally becomes the person she's been waiting for.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 md:py-28 border-y border-border bg-cream">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="reveal">
+                        <h2 class="font-display text-4xl md:text-5xl tracking-tight mb-8">Her Strongest Era is for you if:</h2>
+                        <div class="space-y-3">
+                            <p class="flex items-start gap-3 text-ink"><i data-lucide="check" class="w-5 h-5 text-rose shrink-0 mt-1"></i>You're tired of restarting.</p>
+                            <p class="flex items-start gap-3 text-ink"><i data-lucide="check" class="w-5 h-5 text-rose shrink-0 mt-1"></i>You've tried diets before.</p>
+                            <p class="flex items-start gap-3 text-ink"><i data-lucide="check" class="w-5 h-5 text-rose shrink-0 mt-1"></i>You want confidence, not just weight loss.</p>
+                            <p class="flex items-start gap-3 text-ink"><i data-lucide="check" class="w-5 h-5 text-rose shrink-0 mt-1"></i>You're ready to invest in yourself.</p>
+                            <p class="flex items-start gap-3 text-ink"><i data-lucide="check" class="w-5 h-5 text-rose shrink-0 mt-1"></i>You know you're capable of more.</p>
+                        </div>
+                    </div>
+
+                    <div class="reveal">
+                        <h2 class="font-display text-4xl md:text-5xl tracking-tight mb-8">This is not for you if:</h2>
+                        <div class="space-y-3">
+                            <p class="flex items-start gap-3 text-muted"><i data-lucide="x" class="w-5 h-5 text-roseDeep shrink-0 mt-1"></i>You're looking for a quick fix.</p>
+                            <p class="flex items-start gap-3 text-muted"><i data-lucide="x" class="w-5 h-5 text-roseDeep shrink-0 mt-1"></i>You want results without changing habits.</p>
+                            <p class="flex items-start gap-3 text-muted"><i data-lucide="x" class="w-5 h-5 text-roseDeep shrink-0 mt-1"></i>You expect motivation to do the work.</p>
+                            <p class="flex items-start gap-3 text-muted"><i data-lucide="x" class="w-5 h-5 text-roseDeep shrink-0 mt-1"></i>You're unwilling to take ownership of your growth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 md:py-32 relative overflow-hidden" id="download">
+            <div class="absolute inset-0 bg-grid opacity-60 z-0"></div>
+            <div class="relative z-10 max-w-4xl mx-auto px-6 text-center reveal">
+                <span class="text-xs uppercase tracking-[0.24em] text-roseDeep font-semibold mb-4 block">Free 7-Day Reset</span>
+                <h2 class="font-display text-5xl md:text-7xl tracking-tight leading-tight mb-6 text-gradient">
+                    Your strongest era is waiting.
+                </h2>
+                <p class="text-xl text-muted font-light mb-10 max-w-2xl mx-auto">
+                    Not next year. Not after you lose the weight. Not when life gets easier. Now. Start becoming her today.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="assets/her-strongest-era-7-day-reset.pdf" download class="btn-primary px-8 py-4 rounded-full text-base font-semibold inline-flex items-center gap-2 w-full sm:w-auto justify-center">
+                        Download The 7-Day Reset <i data-lucide="download" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#ecosystem" class="btn-secondary px-8 py-4 rounded-full text-base font-semibold inline-flex items-center gap-2 w-full sm:w-auto justify-center">
+                        Choose Your Next Step <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-8 border-t border-border bg-surface">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-muted">
+                <div class="w-5 h-5 rounded-full bg-rose flex items-center justify-center text-white">
+                    <i data-lucide="sparkles" class="w-3 h-3"></i>
+                </div>
+                <span class="text-xs uppercase tracking-widest font-semibold">Her Strongest Era</span>
+            </div>
+            <div class="text-xs text-muted font-light">
+                &copy; <span id="year"></span> Emma | EPC Athletics. All rights reserved.
             </div>
         </div>
-    </section>
-
-    <!-- SECTION 6 — STEP THREE -->
-    <section class="py-24 px-6 bg-white">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                <span class="text-gray-400 font-bold tracking-widest text-sm uppercase mb-4 block">Step Three</span>
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">Give every piece of content a clear job.</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">EPC Athletics is already good at earning attention. We will connect that content to the offers in a more consistent way with clear Calls to Action and specific content strategies.</p>
-            </div>
-
-            <!-- Content Map Grid -->
-            <div class="grid md:grid-cols-2 gap-6 reveal delay-100">
-                <!-- Box 1 -->
-                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 hover:border-brand-300 transition-colors">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm text-xl">💡</div>
-                    <h3 class="text-xl font-bold mb-2">Helpful Content</h3>
-                    <p class="text-gray-600 mb-4">Educational posts and videos.</p>
-                    <div class="text-sm font-bold text-brand-600 bg-brand-50 inline-block px-3 py-1 rounded-md">Leads to: Free Resource or Digital Product</div>
-                </div>
-
-                <!-- Box 2 -->
-                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 hover:border-brand-300 transition-colors">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm text-xl">📈</div>
-                    <h3 class="text-xl font-bold mb-2">Results Content</h3>
-                    <p class="text-gray-600 mb-4">Testimonials, before/afters, client wins.</p>
-                    <div class="text-sm font-bold text-brand-600 bg-brand-50 inline-block px-3 py-1 rounded-md">Leads to: Coaching Application</div>
-                </div>
-
-                <!-- Box 3 -->
-                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 hover:border-brand-300 transition-colors">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm text-xl">📦</div>
-                    <h3 class="text-xl font-bold mb-2">Product Content</h3>
-                    <p class="text-gray-600 mb-4">Directly showcasing a specific solution.</p>
-                    <div class="text-sm font-bold text-brand-600 bg-brand-50 inline-block px-3 py-1 rounded-md">Leads to: Product Page or DM Flow</div>
-                </div>
-
-                <!-- Box 4 -->
-                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 hover:border-brand-300 transition-colors">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm text-xl">👋</div>
-                    <h3 class="text-xl font-bold mb-2">Personal Content</h3>
-                    <p class="text-gray-600 mb-4">Behind the scenes, stories, daily life.</p>
-                    <div class="text-sm font-bold text-gray-600 bg-gray-200 inline-block px-3 py-1 rounded-md">Builds trust & connection</div>
-                </div>
-            </div>
-
-            <div class="mt-16 text-center reveal delay-200 bg-gray-900 text-white p-8 rounded-2xl">
-                <p class="text-2xl font-bold mb-2">The goal is not to make every post a sales post.</p>
-                <p class="text-brand-400 font-medium text-lg">The goal is to always give interested people a clear next step.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 7 — 90-DAY PARTNERSHIP -->
-    <section class="py-24 px-6 bg-gray-50 border-t border-b border-gray-200">
-        <div class="max-w-5xl mx-auto">
-            <span class="text-brand-500 font-bold tracking-widest text-sm uppercase mb-4 block text-center reveal">90-Day Partnership</span>
-            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-center reveal">Build. Watch. Improve.</h2>
-            <p class="text-xl text-gray-600 text-center max-w-3xl mx-auto mb-16 reveal">Once the main system is live, the 90-day growth period begins. We track what works and focus attention there.</p>
-
-            <!-- Simple Timeline -->
-            <div class="relative reveal delay-100">
-                <!-- Line -->
-                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2 z-0"></div>
-                
-                <div class="grid md:grid-cols-3 gap-8 relative z-10">
-                    <!-- Stage 1 -->
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center relative">
-                        <div class="w-10 h-10 bg-dark text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4 absolute -top-5 left-1/2 -translate-x-1/2 border-4 border-gray-50">1</div>
-                        <h3 class="text-2xl font-bold mb-3 mt-4">Build</h3>
-                        <p class="text-gray-600">Set up the offers, ManyChat, email, sales paths, and content plan.</p>
-                    </div>
-
-                    <!-- Stage 2 -->
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center relative">
-                        <div class="w-10 h-10 bg-brand-500 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4 absolute -top-5 left-1/2 -translate-x-1/2 border-4 border-gray-50">2</div>
-                        <h3 class="text-2xl font-bold mb-3 mt-4">Launch</h3>
-                        <p class="text-gray-600">Start sending people from content into the newly connected system.</p>
-                    </div>
-
-                    <!-- Stage 3 -->
-                    <div class="bg-dark text-white p-8 rounded-2xl shadow-lg border border-gray-800 text-center relative">
-                        <div class="w-10 h-10 bg-white text-dark rounded-full flex items-center justify-center font-bold mx-auto mb-4 absolute -top-5 left-1/2 -translate-x-1/2 border-4 border-gray-50">3</div>
-                        <h3 class="text-2xl font-bold mb-3 mt-4">Improve</h3>
-                        <p class="text-gray-400">Use real customer behavior to tweak copy, fix drops, and make the system better.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-16 text-center reveal delay-200">
-                <p class="text-2xl font-bold text-dark mb-2">We will not guess forever.</p>
-                <p class="text-lg text-gray-500">We will use real data from EPC Athletics' audience to guide what we improve next.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 8 — ADDITIONAL OPPORTUNITIES -->
-    <section class="py-24 px-6 bg-white">
-        <div class="max-w-4xl mx-auto reveal">
-            <span class="text-gray-400 font-bold tracking-widest text-sm uppercase mb-4 block">Additional Opportunities</span>
-            <h2 class="text-4xl font-bold mb-6">Once the system works, add more fuel.</h2>
-            <p class="text-lg text-gray-600 mb-12">The first goal is the foundation. During the 90 days, we may test simple ways to create conversations with people already showing interest.</p>
-
-            <div class="grid md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-2xl font-bold mb-4">Warm Audience Outreach</h3>
-                    <ul class="space-y-3 text-gray-600">
-                        <li class="flex items-start gap-2"><span class="text-brand-500 mt-1">•</span> Replying to frequent engagers</li>
-                        <li class="flex items-start gap-2"><span class="text-brand-500 mt-1">•</span> Following up with past inquiries</li>
-                        <li class="flex items-start gap-2"><span class="text-brand-500 mt-1">•</span> Sorting interested people in ManyChat</li>
-                        <li class="flex items-start gap-2"><span class="text-brand-500 mt-1">•</span> Sending qualified people to coaching</li>
-                    </ul>
-                </div>
-
-                <!-- Chat Bubble Example -->
-                <div class="bg-gray-50 p-6 rounded-2xl flex flex-col justify-center">
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Example Outreach</p>
-                    <div class="bg-blue-500 text-white p-4 rounded-2xl rounded-br-sm inline-block shadow-sm relative ml-auto max-w-[85%]">
-                        "Appreciate your support! What are you currently working toward in your fitness journey?"
-                    </div>
-                    <p class="text-sm text-gray-500 mt-6 font-medium text-right italic">The goal is a real conversation, not a cold pitch.</p>
-                </div>
-            </div>
-
-            <div class="mt-16 bg-gray-50 p-8 rounded-2xl border border-gray-100">
-                <h3 class="text-xl font-bold mb-4">Future Scale</h3>
-                <p class="text-gray-600 mb-4">Once connected and producing data, EPC Athletics is ready for:</p>
-                <div class="flex flex-wrap gap-3 mb-6">
-                    <span class="bg-white px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold shadow-sm">Paid Ads</span>
-                    <span class="bg-white px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold shadow-sm">Webinars</span>
-                    <span class="bg-white px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold shadow-sm">New Products</span>
-                    <span class="bg-white px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold shadow-sm">Challenges</span>
-                    <span class="bg-white px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold shadow-sm">Partnerships</span>
-                </div>
-                <p class="font-bold text-dark">We build the foundation first so future growth has somewhere to go.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 9 — TIMELINE & COMMUNICATION -->
-    <section class="py-24 px-6 bg-dark text-white">
-        <div class="max-w-4xl mx-auto">
-            <span class="text-brand-500 font-bold tracking-widest text-sm uppercase mb-4 block reveal">How the work moves</span>
-            <h2 class="text-4xl font-bold mb-6 reveal">First, foundation. Then, data guides the moves.</h2>
-            <p class="text-xl text-gray-400 mb-16 reveal">The first 14–21 days focus on reviewing and connecting the main systems. After launch, the 90-day growth period begins.</p>
-
-            <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-700 before:to-transparent reveal delay-100">
-                
-                <!-- Day 1-5 -->
-                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-dark bg-gray-700 text-white font-bold shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm z-10">1</div>
-                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-800 p-6 rounded-2xl border border-gray-700">
-                        <h4 class="text-brand-400 font-bold mb-1">Days 1–5</h4>
-                        <h3 class="text-xl font-bold mb-2">Ingest and Audit</h3>
-                        <p class="text-sm text-gray-400">Review current products, coaching, pages, emails, and content to understand what exists and what needs improvement.</p>
-                    </div>
-                </div>
-
-                <!-- Day 5-10 -->
-                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-dark bg-gray-700 text-white font-bold shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm z-10">2</div>
-                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-800 p-6 rounded-2xl border border-gray-700">
-                        <h4 class="text-brand-400 font-bold mb-1">Days 5–10</h4>
-                        <h3 class="text-xl font-bold mb-2">Offers and Game Plan</h3>
-                        <p class="text-sm text-gray-400">Decide main focus, positioning, connections, gaps, and content paths. Creates the plan for V1 of the system.</p>
-                    </div>
-                </div>
-
-                <!-- Day 10-21 -->
-                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-dark bg-gray-700 text-white font-bold shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm z-10">3</div>
-                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-800 p-6 rounded-2xl border border-gray-700">
-                        <h4 class="text-brand-400 font-bold mb-1">Days 10–21</h4>
-                        <h3 class="text-xl font-bold mb-2">Build and Connect</h3>
-                        <p class="text-sm text-gray-400">Set up infrastructure: ManyChat flows, email lists, campaigns, sales paths, tracking. Get the most important parts live first.</p>
-                    </div>
-                </div>
-
-                <!-- 90 Days -->
-                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-dark bg-brand-500 text-white font-bold shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-lg z-10">4</div>
-                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-brand-900 border-brand-500 p-6 rounded-2xl border">
-                        <h4 class="text-brand-300 font-bold mb-1">After Launch</h4>
-                        <h3 class="text-xl font-bold mb-2 text-white">90 Days of Growth</h3>
-                        <p class="text-sm text-brand-100">Use real behavior to decide promos, fix drop-offs, answer objections, test ideas. The first 21 days build it; the next 90 improve it.</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="mt-20 grid md:grid-cols-2 gap-8 reveal delay-200">
-                <div class="bg-gray-800 p-6 rounded-2xl">
-                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                        <svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
-                        WhatsApp
-                    </h3>
-                    <p class="text-gray-400 text-sm">Day-to-day communication for quick questions, approvals, feedback, sharing links, and fast decisions.</p>
-                </div>
-                <div class="bg-gray-800 p-6 rounded-2xl">
-                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                        <svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                        Weekly Check-In
-                    </h3>
-                    <p class="text-gray-400 text-sm">One sync to review what was completed, audience response, priorities for next week, and needed assets.</p>
-                </div>
-            </div>
-            
-            <p class="text-center text-gray-500 text-sm mt-12 italic reveal delay-300">We will move quickly, but we will not rush important decisions just to meet an artificial date.</p>
-        </div>
-    </section>
-
-    <!-- SECTION 10 — CLOSING VISION -->
-    <section class="min-h-screen flex flex-col items-center justify-center py-24 px-6 bg-brand-600 text-white relative overflow-hidden">
-        <!-- Abstract background shape -->
-        <div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-brand-500 rounded-full filter blur-3xl opacity-50"></div>
-        <div class="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-brand-700 rounded-full filter blur-3xl opacity-50"></div>
-
-        <div class="max-w-4xl mx-auto text-center relative z-10 reveal">
-            <span class="inline-block py-1 px-3 rounded-full bg-brand-800 text-sm font-bold tracking-wider text-brand-100 mb-8 uppercase">The Goal</span>
-            
-            <h2 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-                EPC Athletics already knows how to earn attention.
-            </h2>
-            <h3 class="text-2xl md:text-3xl font-medium text-brand-100 mb-16 leading-relaxed">
-                Now we build the system that turns more of that attention into revenue.
-            </h3>
-
-            <div class="bg-brand-800/50 backdrop-blur-md border border-brand-500/30 p-8 rounded-2xl inline-block text-left mb-16">
-                <p class="text-xl font-bold mb-4">Emma stays focused on creating great content.</p>
-                <p class="text-xl text-brand-200">The system works behind the scenes to capture, follow up, sell, and grow.</p>
-            </div>
-
-            <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 text-lg font-bold">
-                <div class="flex items-center gap-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Plug the leaks.</div>
-                <div class="flex items-center gap-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Connect the system.</div>
-                <div class="flex items-center gap-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Improve what works.</div>
-                <div class="flex items-center gap-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Ready to scale.</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 11 — PARTNERSHIP DETAILS (Optional/End) -->
-    <section class="py-24 px-6 bg-gray-50 border-t border-gray-200">
-        <div class="max-w-5xl mx-auto reveal">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold">How the Partnership Works</h2>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <!-- Chase's Role -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold mb-4 border-b pb-4">Chase's Role</h3>
-                    <ul class="space-y-3 text-gray-600 text-sm">
-                        <li>• Offer strategy improvement</li>
-                        <li>• Product ecosystem planning</li>
-                        <li>• ManyChat setup</li>
-                        <li>• Email strategy & campaign creation</li>
-                        <li>• Sales path planning</li>
-                        <li>• Content-to-offer planning</li>
-                        <li>• Tracking & Testing</li>
-                        <li>• Continued improvement</li>
-                    </ul>
-                </div>
-
-                <!-- Emma's Role -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold mb-4 border-b pb-4">Emma's Role</h3>
-                    <ul class="space-y-3 text-gray-600 text-sm">
-                        <li>• Provide access and information</li>
-                        <li>• Approve offers and copy</li>
-                        <li>• Record any needed content</li>
-                        <li>• Continue posting consistently</li>
-                        <li>• Deliver coaching & fulfill purchases</li>
-                        <li>• Share customer feedback</li>
-                        <li>• Cover approved software costs</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Structure -->
-            <div class="bg-dark text-white p-8 rounded-2xl shadow-xl max-w-3xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-                <div>
-                    <h3 class="text-xl font-bold text-gray-400 uppercase tracking-wider mb-2">Partnership Structure</h3>
-                    <p class="text-sm text-gray-400">90-day period begins once the main agreed system is set up.</p>
-                </div>
-                <div class="flex gap-8 text-right">
-                    <div>
-                        <p class="text-sm text-gray-400 uppercase font-bold">Initial Fee</p>
-                        <p class="text-3xl font-bold text-white">$1,500</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-400 uppercase font-bold">Performance</p>
-                        <p class="text-3xl font-bold text-brand-500">25%</p>
-                        <p class="text-xs text-gray-400">of qualifying new revenue</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            
-            // 1. Scroll Progress Bar
-            const progressBar = document.getElementById('progress-bar');
-            window.addEventListener('scroll', () => {
-                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercentage = (scrollTop / scrollHeight) * 100;
-                progressBar.style.width = scrollPercentage + '%';
-            });
+        if (window.lucide) {
+            lucide.createIcons();
+        }
 
-            // 2. Back to Top Button
-            const backToTopBtn = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 500) {
-                    backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
-                    backToTopBtn.classList.add('opacity-100');
-                } else {
-                    backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
-                    backToTopBtn.classList.remove('opacity-100');
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observerInstance) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observerInstance.unobserve(entry.target);
                 }
             });
-            backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+        }, observerOptions);
 
-            // 3. Intersection Observer for Fade-Up Animations
-            const revealElements = document.querySelectorAll('.reveal');
-            
-            const revealOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
-            };
-
-            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    } else {
-                        entry.target.classList.add('active');
-                        observer.unobserve(entry.target); // Only animate once
-                    }
-                });
-            }, revealOptions);
-
-            revealElements.forEach(el => {
-                revealOnScroll.observe(el);
-            });
-
-            // 4. Hero Sequence Animation (Triggers shortly after load)
-            setTimeout(() => {
-                const words = document.querySelectorAll('.seq-word');
-                const arrows = document.querySelectorAll('.seq-arrow');
-                
-                words.forEach((word, index) => {
-                    setTimeout(() => {
-                        word.classList.add('seq-active');
-                    }, index * 400); // Stagger word appearance
-                });
-
-                arrows.forEach((arrow, index) => {
-                    setTimeout(() => {
-                        arrow.classList.add('seq-active');
-                    }, (index * 400) + 200); // Show arrow right after previous word
-                });
-            }, 500);
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
         });
     </script>
 </body>
