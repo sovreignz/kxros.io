@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-stone-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permissionless OS | Build Your Business Architecture</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans for crisp, modern, clean typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#faf9f8', // Warm off-white / Sand
+                            100: '#f4f2ee',
+                            200: '#e6e2db',
+                            800: '#3a352f',
+                            900: '#23201d', // Deep earth
+                        },
+                        forest: {
+                            50: '#f0f4f1', // Sage tint
+                            100: '#dce5de',
+                            800: '#2a4435', // Pine
+                            900: '#1c2d23', // Deep forest
+                            950: '#0f1813',
+                        }
+                    },
+                    animation: {
+                        'marquee': 'marquee 25s linear infinite',
+                        'marquee-slow': 'marquee 40s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glass-dark {
+            background: rgba(28, 45, 35, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Hero Text Rotator */
+        .text-transition {
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .fade-out { opacity: 0; transform: translateY(15px); }
+        .fade-in { opacity: 1; transform: translateY(0); }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hide scrollbar for marquee */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-stone-900 font-sans selection:bg-forest-800 selection:text-stone-50">
+
+    <nav class="fixed w-full z-50 transition-all duration-300 py-4" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+            <div class="glass rounded-full px-6 py-3 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-forest-800"></div>
+                    <span class="font-semibold tracking-tight text-forest-900">Permissionless OS</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-600">
+                    <a href="#philosophy" class="hover:text-forest-800 transition-colors">Philosophy</a>
+                    <a href="#framework" class="hover:text-forest-800 transition-colors">Framework</a>
+                    <a href="#ecosystem" class="hover:text-forest-800 transition-colors">Ecosystem</a>
+                </div>
+                <div>
+                    <a href="#audit" class="px-5 py-2.5 bg-forest-900 text-stone-50 text-sm font-medium rounded-full hover:bg-forest-800 transition-all shadow-md hover:shadow-lg">
+                        Book Audit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Immersive Nature Vibe) -->
+    <section class="relative min-h-[95vh] flex flex-col justify-center overflow-hidden bg-forest-950">
+        <!-- Background Nature Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80&w=2500" alt="Misty forest" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-b from-forest-900/60 via-forest-900/40 to-stone-50"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10 pt-32 pb-20 w-full">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-dark text-stone-200 text-xs font-semibold tracking-widest uppercase mb-8 backdrop-blur-md">
+                    <span class="w-1.5 h-1.5 rounded-full bg-stone-300 animate-pulse"></span>
+                    The Transformation Interface
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl lg:text-[5.5rem] font-light tracking-tight leading-[1.05] text-stone-50 mb-8">
+                    Stop waiting for permission <br/>
+                    <span class="font-semibold text-stone-300 block mt-2 text-transition fade-in h-[1.2em] relative" id="dynamic-text">to build your future.</span>
+                </h1>
+                
+                <p class="text-lg md:text-2xl text-stone-300 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+                    From platform-dependent creator with scattered offers <span class="italic text-stone-400 block sm:inline">to thesis-driven authority with an owned ecosystem.</span>
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#flagship" class="w-full sm:w-auto px-8 py-4 bg-stone-50 text-forest-900 text-center font-semibold rounded-full hover:bg-white transition-all transform hover:-translate-y-1 shadow-[0_0_40px_rgba(255,255,255,0.1)] flex items-center justify-center gap-2">
+                        Start Your Infrastructure Sprint
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="#audit" class="w-full sm:w-auto px-8 py-4 glass-dark text-stone-50 text-center font-medium rounded-full hover:bg-forest-800/80 transition-all">
+                        Explore the Ecosystem
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Infinite Vibe Marquee -->
+    <div class="py-6 bg-forest-900 text-forest-100/50 overflow-hidden border-y border-forest-800/50 flex whitespace-nowrap">
+        <div class="animate-marquee flex gap-12 items-center text-sm md:text-base font-medium tracking-widest uppercase">
+            <span>Stop waiting for permission</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Start building leverage</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Build the life that builds itself</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Design an ecosystem</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Stop waiting for permission</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Start building leverage</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Build the life that builds itself</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Design an ecosystem</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+        </div>
+        <!-- Duplicate for seamless loop -->
+        <div class="animate-marquee flex gap-12 items-center text-sm md:text-base font-medium tracking-widest uppercase" aria-hidden="true">
+            <span>Stop waiting for permission</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Start building leverage</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Build the life that builds itself</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Design an ecosystem</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Stop waiting for permission</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Start building leverage</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Build the life that builds itself</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+            <span>Design an ecosystem</span> <span class="w-2 h-2 rounded-full bg-forest-800"></span>
+        </div>
+    </div>
+
+    <!-- The Cage (Problem) - Sticky Scroll Layout -->
+    <section id="philosophy" class="py-24 md:py-32 bg-stone-50 relative">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+                
+                <!-- Sticky Left Column -->
+                <div class="lg:col-span-5 lg:sticky lg:top-32 reveal">
+                    <p class="text-forest-800 font-semibold tracking-wider uppercase mb-4 text-sm flex items-center gap-3">
+                        <span class="w-8 h-[1px] bg-forest-800"></span>
+                        The Problem
+                    </p>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6 leading-tight text-stone-900">
+                        You are leaking <br/><span class="text-stone-400 font-light italic">opportunity.</span>
+                    </h2>
+                    <p class="text-lg text-stone-600 leading-relaxed mb-8">
+                        Your next customer already exists. The problem is that your message, offers, and infrastructure are not giving them a clear path to buy.
+                    </p>
+                    <div class="p-8 bg-white rounded-3xl shadow-sm border border-stone-100 hidden lg:block">
+                        <blockquote class="text-xl font-medium text-forest-900 leading-snug">
+                            "Most creators try to prove value by giving the buyer the maximum amount of information. We prove value by reducing confusion, decision fatigue, and time to implementation."
+                        </blockquote>
+                    </div>
+                </div>
+                
+                <!-- Scrolling Right Column -->
+                <div class="lg:col-span-7 space-y-6 md:space-y-8 lg:mt-32">
+                    
+                    <div class="p-8 md:p-12 bg-white rounded-[2rem] shadow-sm border border-stone-100 reveal transition-all hover:shadow-md">
+                        <div class="w-14 h-14 bg-stone-50 rounded-2xl flex items-center justify-center mb-6 text-stone-400">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-3 text-stone-900">Platform Dependency</h3>
+                        <p class="text-stone-600 text-lg leading-relaxed">Relying entirely on algorithms rather than an owned audience. When you don't own the distribution, you don't own the business. You're just a tenant building on rented land.</p>
+                    </div>
+
+                    <div class="p-8 md:p-12 bg-white rounded-[2rem] shadow-sm border border-stone-100 reveal transition-all hover:shadow-md">
+                        <div class="w-14 h-14 bg-stone-50 rounded-2xl flex items-center justify-center mb-6 text-stone-400">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-3 text-stone-900">Scattered Offers</h3>
+                        <p class="text-stone-600 text-lg leading-relaxed">A collection of random PDFs, cheap courses, and disconnected links instead of a logical, connected ladder of transformation. The buyer gets lost trying to figure out what to buy next.</p>
+                    </div>
+
+                    <div class="p-8 md:p-12 bg-forest-900 text-stone-50 rounded-[2rem] shadow-lg reveal transition-all transform hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-forest-800 rounded-2xl flex items-center justify-center mb-6 text-stone-300">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-3">Founder Exhaustion</h3>
+                        <p class="text-stone-300 text-lg leading-relaxed mb-6">Maximum emotional responsibility with minimum scale. You are building a cage, not a business. The more successful you become, the more trapped you feel.</p>
+                        <a href="#framework" class="inline-flex items-center text-stone-50 font-medium hover:text-stone-300 transition-colors border-b border-stone-500 pb-1">
+                            Discover the escape path <svg width="16" height="16" class="ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-stone-100 relative overflow-hidden">
+        <!-- Abstract Organic Shapes -->
+        <div class="absolute top-0 left-0 w-[800px] h-[800px] bg-stone-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-forest-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+        
+        <div class="max-w-5xl mx-auto px-6 relative z-10 text-center reveal">
+            <h2 class="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] text-stone-900 mb-10">
+                Design an ecosystem, <br class="hidden md:block"/>
+                <span class="text-forest-800 italic font-light">not a standalone digital product.</span>
+            </h2>
+            <p class="text-xl md:text-2xl text-stone-600 max-w-3xl mx-auto leading-relaxed">
+                Permissionless OS is your scalable flagship: a system for turning someone’s attention, expertise, and intellectual property into a connected business ecosystem optimized for both <strong class="font-semibold text-stone-900">customer outcomes</strong> and <strong class="font-semibold text-stone-900">founder freedom</strong>.
+            </p>
+        </div>
+    </section>
+
+    <section id="framework" class="py-32 bg-stone-50 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+            <div class="mb-20 reveal">
+                <p class="text-forest-800 font-semibold tracking-wider uppercase mb-4 text-sm flex items-center gap-3">
+                    <span class="w-8 h-[1px] bg-forest-800"></span>
+                    The Methodology
+                </p>
+                <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-stone-900 max-w-2xl">The Proprietary Journey</h2>
+                <p class="text-lg text-stone-500 mt-4 max-w-xl">A structured transformation from an overworked creator to a fractional architect of your own ecosystem.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Step 1 -->
+                <div class="p-8 rounded-[2rem] bg-white border border-stone-100 relative group reveal shadow-sm hover:shadow-lg transition-all duration-500">
+                    <div class="text-stone-100 font-bold text-8xl absolute top-4 right-4 z-0 transition-colors duration-500 group-hover:text-forest-50">01</div>
+                    <div class="relative z-10 pt-16">
+                        <h3 class="text-2xl font-semibold mb-4 text-stone-900">See the Cage</h3>
+                        <p class="text-stone-500 leading-relaxed">Recognize platform dependency, fragmented messaging, scattered offers, and invisible revenue leaks limiting your true potential.</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="p-8 rounded-[2rem] bg-white border border-stone-100 relative group reveal shadow-sm hover:shadow-lg transition-all duration-500" style="transition-delay: 100ms;">
+                    <div class="text-stone-100 font-bold text-8xl absolute top-4 right-4 z-0 transition-colors duration-500 group-hover:text-forest-50">02</div>
+                    <div class="relative z-10 pt-16">
+                        <h3 class="text-2xl font-semibold mb-4 text-stone-900">Understand the Game</h3>
+                        <p class="text-stone-500 leading-relaxed">Master attention dynamics, customer journey mapping, offer architecture, conversion mechanics, ownership, and leverage.</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="p-8 rounded-[2rem] bg-white border border-stone-100 relative group reveal shadow-sm hover:shadow-lg transition-all duration-500" style="transition-delay: 200ms;">
+                    <div class="text-stone-100 font-bold text-8xl absolute top-4 right-4 z-0 transition-colors duration-500 group-hover:text-forest-50">03</div>
+                    <div class="relative z-10 pt-16">
+                        <h3 class="text-2xl font-semibold mb-4 text-stone-900">Build Leverage</h3>
+                        <p class="text-stone-500 leading-relaxed">Create the core thesis, lead capture, nurture sequences, product ladders, checkout paths, and reusable launch infrastructure.</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="p-8 rounded-[2rem] bg-forest-900 text-stone-50 border border-forest-800 relative group reveal shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2" style="transition-delay: 300ms;">
+                    <div class="text-forest-800 font-bold text-8xl absolute top-4 right-4 z-0">04</div>
+                    <div class="relative z-10 pt-16">
+                        <h3 class="text-2xl font-semibold mb-4">Exit the Cage</h3>
+                        <p class="text-stone-300 leading-relaxed">Own your audience entirely. Control the customer journey, launch predictably, expand vertically, and reduce all platform risk.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ecosystem" class="py-32 bg-stone-900 text-stone-50 relative">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=2000')] opacity-5 mix-blend-overlay object-cover"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+            <div class="mb-24 text-center max-w-3xl mx-auto reveal">
+                <h2 class="text-4xl md:text-6xl font-semibold tracking-tight mb-6">The Architecture</h2>
+                <p class="text-xl text-stone-400 font-light">From self-guided assets to complete Done-With-You ecosystem builds. Every product naturally reveals and solves the next constraint.</p>
+            </div>
+
+            <!-- DIY & Bundles (Clean Grid) -->
+            <div class="grid md:grid-cols-2 gap-6 mb-16 reveal">
+                <!-- DIY Tier -->
+                <div class="p-8 rounded-[2rem] bg-stone-800/50 backdrop-blur-sm border border-stone-700/50 hover:bg-stone-800 transition-colors">
+                    <div class="text-xs uppercase tracking-widest text-stone-400 mb-4 font-semibold">Layer 01 • Self-Guided</div>
+                    <h3 class="text-3xl font-semibold mb-4 text-stone-50">Playbooks & Tools</h3>
+                    <p class="text-stone-400 mb-8 text-lg">Targeted solutions designed to solve immediate constraints without requiring direct involvement.</p>
+                    <ul class="space-y-3 text-stone-300">
+                        <li class="flex items-start gap-3"><span class="text-forest-400 mt-1">✦</span> Through-Line Workbook</li>
+                        <li class="flex items-start gap-3"><span class="text-forest-400 mt-1">✦</span> Expertise-to-Offer Map</li>
+                        <li class="flex items-start gap-3"><span class="text-forest-400 mt-1">✦</span> Lead Magnet Architect</li>
+                    </ul>
+                </div>
+
+                <!-- Bundles Tier -->
+                <div class="p-8 rounded-[2rem] bg-stone-800/50 backdrop-blur-sm border border-stone-700/50 hover:bg-stone-800 transition-colors">
+                    <div class="text-xs uppercase tracking-widest text-stone-400 mb-4 font-semibold">Layer 02 • Comprehensive</div>
+                    <h3 class="text-3xl font-semibold mb-4 text-stone-50">Thematic Bundles</h3>
+                    <p class="text-stone-400 mb-8 text-lg">Grouped assets structured around a meaningful, systemic outcome for your business.</p>
+                    <ul class="space-y-3 text-stone-300">
+                        <li class="flex items-start gap-3"><span class="text-forest-400 mt-1">✦</span> The Positioning Bundle</li>
+                        <li class="flex items-start gap-3"><span class="text-forest-400 mt-1">✦</span> The Offer Architecture Bundle</li>
+                        <li class="flex items-start gap-3"><span class="text-forest-400 mt-1">✦</span> The Infrastructure Bundle</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flagship High-Ticket Focus -->
+            <div id="flagship" class="p-8 md:p-12 lg:p-16 rounded-[2.5rem] bg-gradient-to-br from-forest-900 to-stone-900 border border-forest-700/50 relative overflow-hidden reveal shadow-2xl">
+                <!-- Abstract Glow -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-forest-500/20 rounded-full mix-blend-screen filter blur-[100px] pointer-events-none"></div>
+                
+                <div class="grid lg:grid-cols-2 gap-12 relative z-10 items-center">
+                    <div>
+                        <div class="inline-block px-4 py-1.5 rounded-full bg-forest-800/80 text-forest-100 text-xs font-semibold tracking-widest uppercase mb-6 border border-forest-700">
+                            Flagship Engagement
+                        </div>
+                        <h3 class="text-4xl md:text-5xl font-semibold mb-6 text-stone-50 leading-tight">
+                            The Infrastructure Sprint
+                        </h3>
+                        <p class="text-stone-300 text-xl leading-relaxed mb-8">
+                            We build the core machine. You leave with a functioning monetization ecosystem rather than scattered ideas. This is the transformation from mere attention into owned infrastructure.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-x-6 gap-y-4 mb-10 text-stone-300 font-medium">
+                            <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div> IP Extraction</div>
+                            <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div> Offer Architecture</div>
+                            <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div> Funnel Construction</div>
+                            <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div> Narrative Email Seq.</div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4 items-center">
+                            <a href="#contact" class="w-full sm:w-auto px-8 py-4 bg-stone-50 text-forest-900 font-semibold rounded-full hover:bg-white transition-all text-center">
+                                Apply for the Sprint
+                            </a>
+                            <span class="text-stone-400 text-sm">$3k - $10k+ Investment</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hidden lg:block relative h-full min-h-[400px] rounded-2xl overflow-hidden border border-stone-700/50">
+                         <!-- Conceptual image of architecture/blueprints -->
+                         <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1200" alt="Architectural Structure" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                         <div class="absolute inset-0 bg-forest-900/40 mix-blend-multiply"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tiers (Growth Operator) -->
+            <div class="mt-16 grid md:grid-cols-2 gap-6 reveal">
+                <div id="audit" class="p-8 rounded-[2rem] bg-stone-800/30 border border-stone-700/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-xs uppercase tracking-widest text-stone-400 font-semibold">Phase 1 • Diagnostic</div>
+                        <span class="text-stone-400 text-sm">$500 - $2k</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3 text-stone-50">Permissionless Audit</h3>
+                    <p class="text-stone-400 leading-relaxed mb-6">Diagnose the system. We map your ecosystem, locate revenue leaks, and deliver a priority roadmap.</p>
+                    <a href="#contact" class="text-forest-400 hover:text-forest-300 font-medium transition-colors flex items-center gap-2">Book an Audit <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+
+                <div class="p-8 rounded-[2rem] bg-stone-800/30 border border-stone-700/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-xs uppercase tracking-widest text-forest-400 font-semibold">Phase 4 • Fractional Architect</div>
+                        <span class="text-stone-400 text-sm">Retainer</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3 text-stone-50">Growth Operator</h3>
+                    <p class="text-stone-400 leading-relaxed">We sit beside you to find constraints, remove them, and continuously increase the economic leverage of your IP.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Lead Capture Section -->
+    <section class="py-32 bg-stone-50 relative overflow-hidden">
+        <!-- Minimalist decorative circles -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-stone-200 rounded-full opacity-50"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-stone-200 rounded-full opacity-50"></div>
+
+        <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal">
+            <div class="w-16 h-16 bg-forest-50 rounded-full flex items-center justify-center mx-auto mb-8 text-forest-800">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-stone-900 mb-6">Stop waiting for permission.</h2>
+            <p class="text-xl text-stone-600 mb-12 font-light">Get the foundational <span class="font-medium text-stone-900">Permissionless Playbook</span> delivered directly to your inbox. Start mapping your exit from the cage today.</p>
+            
+            <form id="lead-form" class="max-w-md mx-auto flex flex-col gap-4" onsubmit="handleFormSubmit(event)">
+                <div class="relative">
+                    <input type="email" id="email-input" required placeholder="Enter your email address" class="w-full px-6 py-4 bg-white border border-stone-200 rounded-full focus:outline-none focus:border-forest-800 focus:ring-2 focus:ring-forest-800/20 transition-all text-center shadow-sm text-stone-900 placeholder:text-stone-400">
+                </div>
+                <button type="submit" class="w-full px-6 py-4 bg-forest-900 text-stone-50 font-semibold rounded-full hover:bg-forest-800 transition-all shadow-md">
+                    Send me the Playbook
+                </button>
+                <div id="form-success" class="hidden mt-4 text-sm font-medium text-forest-800 bg-forest-50 border border-forest-100 py-3 px-4 rounded-full transition-all">
+                    Playbook requested. Check your inbox shortly.
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Refined Minimal Footer -->
+    <footer class="bg-white py-12 border-t border-stone-100">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-4 h-4 bg-stone-300 rounded-full"></div>
+                <span class="font-semibold text-stone-900 tracking-tight">Permissionless OS</span>
+            </div>
+            <div class="flex gap-6 text-sm text-stone-500 font-medium">
+                <a href="#" class="hover:text-stone-900 transition-colors">Twitter</a>
+                <a href="#" class="hover:text-stone-900 transition-colors">LinkedIn</a>
+                <a href="#" class="hover:text-stone-900 transition-colors">Terms</a>
+            </div>
+            <div class="text-sm text-stone-400">
+                &copy; 2026 Permissionless Business Ecosystem.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hero Text Rotator Logic
+        const phrases = [
+            "to build your future.",
+            "to build your own economy.",
+            "to build your leverage.",
+            "to build your sovereignty.",
+            "to build a life on your terms.",
+            "to build your freedom."
+        ];
+        
+        let currentPhraseIndex = 0;
+        const textElement = document.getElementById('dynamic-text');
+        
+        // Wait briefly before starting the loop
+        setTimeout(() => {
+            setInterval(() => {
+                // Fade out
+                textElement.classList.remove('fade-in');
+                textElement.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    // Change text and fade in
+                    currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+                    textElement.textContent = phrases[currentPhraseIndex];
+                    
+                    textElement.classList.remove('fade-out');
+                    textElement.classList.add('fade-in');
+                }, 800); // Wait for fade out transition
+            }, 4000); // Rotate every 4 seconds
+        }, 1000);
+
+        // Scroll Reveal Animation Logic
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // threshold
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+
+        // Navbar blur on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2');
+            }
+        });
+
+        // Simulated Form Submission
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const input = document.getElementById('email-input');
+            const successMsg = document.getElementById('form-success');
+            const btn = event.target.querySelector('button');
+            const originalText = btn.textContent;
+            
+            btn.textContent = 'Mapping your exit...';
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            setTimeout(() => {
+                input.value = '';
+                btn.textContent = originalText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                
+                successMsg.classList.remove('hidden');
+                // Smooth slide down effect using Tailwind classes
+                successMsg.classList.add('animate-pulse');
+                
+                setTimeout(() => {
+                    successMsg.classList.remove('animate-pulse');
+                    successMsg.classList.add('hidden');
+                }, 6000);
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
