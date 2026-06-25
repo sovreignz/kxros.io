@@ -2,7 +2,6 @@
   const data = window.HSE_DATA;
   const storageKey = data.storageKey;
   let deferredInstallPrompt = null;
-  let pendingServiceWorker = null;
 
   const defaultState = {
     version: data.version,
@@ -493,7 +492,7 @@
       <div class="grid two">
         <section class="panel"><h2>Install App</h2><p class="muted">${installInstructions()}</p><button class="btn btn-primary" data-action="show-install">${icon("smartphone")} Show Install Guide</button></section>
         <section class="panel"><h2>Privacy and Safety</h2><p class="muted">This dashboard stores your progress on this device. Journal text is not sent to analytics. This is general education, not medical advice. Stop activity that causes pain and consult a qualified professional when appropriate.</p><label class="check-row ${state.analyticsConsent ? "checked" : ""}" data-action="toggle-analytics"><span class="check-box">${state.analyticsConsent ? icon("check") : ""}</span><span>Allow basic analytics events</span></label></section>
-        <section class="panel"><h2>Utilities</h2><div class="button-row"><button class="btn btn-secondary" data-action="export-progress">${icon("download")} Export Progress</button><button class="btn btn-secondary" data-action="check-update">${icon("refresh-cw")} Check Update</button><a class="btn btn-secondary" href="../">${icon("external-link")} Open EPC Athletics</a></div></section>
+        <section class="panel"><h2>Utilities</h2><div class="button-row"><button class="btn btn-secondary" data-action="export-progress">${icon("download")} Export Progress PDF</button><a class="btn btn-secondary" href="../">${icon("external-link")} Open EPC Athletics</a></div></section>
         <section class="panel"><h2>Reset Progress</h2><p class="muted">This clears saved dashboard progress from this device only.</p><button class="btn btn-primary" data-action="reset-progress">${icon("trash-2")} Reset My Progress</button><p class="small muted">App version ${data.version}</p></section>
       </div>
     `;
@@ -544,27 +543,172 @@
     render();
   };
 
-  const exportProgress = () => {
-    recalculateMomentum();
-    const payload = {
-      app: data.brand.name,
-      exportedAt: new Date().toISOString(),
-      currentDay: state.currentDay,
-      completedDays: state.completedDays,
-      totalCompletedActions: state.totalCompletedActions,
-      streak: state.streak,
-      recommendation: state.recommendation?.label || "",
-      nextSevenDayAnchors: state.nextSevenDayAnchors,
-      dailyScores: data.days.map((day) => ({ day: day.day, theme: day.theme, score: calculateDailyScore(day.day) })),
+  const loadPdfLogo = () => new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => resolve(null);
+    image.src = "EPC-Logo-Instagram-02-v2.png";
+  });
+
+  const drawWrappedText = (ctx, text, x, y, maxWidth, lineHeight) => {
+    const words = String(text).split(/\s+/);
+    let line = "";
+    let cursor = y;
+    words.forEach((word) => {
+      const testLine = line ? `${line} ${word}` : word;
+      if (ctx.measureText(testLine).width > maxWidth && line) {
+        ctx.fillText(line, x, cursor);
+        line = word;
+        cursor += lineHeight;
+      } else {
+        line = testLine;
+      }
+    });
+    if (line) ctx.fillText(line, x, cursor);
+    return cursor + lineHeight;
+  };
+
+  const jpegDataUrlToBytes = (dataUrl) => {
+    const binary = atob(dataUrl.split(",")[1]);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  };
+
+  const createPdfFromJpeg = (jpegBytes, imageWidth, imageHeight) => {
+    const parts = [];
+    const offsets = [];
+    let length = 0;
+    const add = (part) => {
+      parts.push(part);
+      length += typeof part === "string" ? part.length : part.byteLength;
     };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const object = (body) => {
+      offsets.push(length);
+      add(`${offsets.length} 0 obj\n${body}\nendobj\n`);
+    };
+    add("%PDF-1.4\n");
+    object("<< /Type /Catalog /Pages 2 0 R >>");
+    object("<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
+    object("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>");
+    offsets.push(length);
+    add(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${imageWidth} /Height ${imageHeight} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpegBytes.byteLength} >>\nstream\n`);
+    add(jpegBytes);
+    add("\nendstream\nendobj\n");
+    const content = "q\n612 0 0 792 0 0 cm\n/Im0 Do\nQ\n";
+    object(`<< /Length ${content.length} >>\nstream\n${content}endstream`);
+    const xrefOffset = length;
+    add(`xref\n0 ${offsets.length + 1}\n0000000000 65535 f \n`);
+    offsets.forEach((offset) => add(`${String(offset).padStart(10, "0")} 00000 n \n`));
+    add(`trailer\n<< /Size ${offsets.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`);
+    return new Blob(parts, { type: "application/pdf" });
+  };
+
+  const exportProgress = async () => {
+    recalculateMomentum();
+    const scale = 2;
+    const canvas = document.createElement("canvas");
+    canvas.width = 612 * scale;
+    canvas.height = 792 * scale;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(scale, scale);
+
+    ctx.fillStyle = "#fff7f9";
+    ctx.fillRect(0, 0, 612, 792);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(34, 34, 544, 724);
+    ctx.strokeStyle = "rgba(220, 79, 123, 0.28)";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(34, 34, 544, 724);
+
+    const logo = await loadPdfLogo();
+    if (logo) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(84, 86, 34, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(logo, 50, 52, 68, 68);
+      ctx.restore();
+    }
+
+    ctx.fillStyle = "#1f1720";
+    ctx.font = "800 15px Inter, Arial, sans-serif";
+    ctx.fillText("HER STRONGEST ERA", 132, 72);
+    ctx.fillStyle = "#dc4f7b";
+    ctx.font = "700 11px Inter, Arial, sans-serif";
+    ctx.fillText("EPC Athletics progress report", 132, 94);
+
+    ctx.fillStyle = "#1f1720";
+    ctx.font = "900 34px Inter, Arial, sans-serif";
+    ctx.fillText("Strongest Era Progress", 50, 158);
+    ctx.fillStyle = "#5f4a52";
+    ctx.font = "400 14px Inter, Arial, sans-serif";
+    drawWrappedText(ctx, completionSummary(), 50, 186, 500, 20);
+
+    const statCards = [
+      ["Current Day", String(state.currentDay)],
+      ["Promises Kept", String(state.totalCompletedActions)],
+      ["Completed Days", String(state.completedDays.length)],
+      ["Current Streak", String(state.streak)],
+    ];
+    statCards.forEach(([label, value], index) => {
+      const x = 50 + (index % 2) * 256;
+      const y = 244 + Math.floor(index / 2) * 92;
+      ctx.fillStyle = "#fff7f9";
+      ctx.fillRect(x, y, 238, 72);
+      ctx.strokeStyle = "rgba(220, 79, 123, 0.22)";
+      ctx.strokeRect(x, y, 238, 72);
+      ctx.fillStyle = "#dc4f7b";
+      ctx.font = "900 28px Inter, Arial, sans-serif";
+      ctx.fillText(value, x + 18, y + 36);
+      ctx.fillStyle = "#5f4a52";
+      ctx.font = "700 11px Inter, Arial, sans-serif";
+      ctx.fillText(label.toUpperCase(), x + 18, y + 56);
+    });
+
+    const rec = state.recommendation || determineRecommendations();
+    ctx.fillStyle = "#1f1720";
+    ctx.font = "900 18px Inter, Arial, sans-serif";
+    ctx.fillText("Personal Recommendation", 50, 440);
+    ctx.fillStyle = "#dc4f7b";
+    ctx.font = "800 15px Inter, Arial, sans-serif";
+    ctx.fillText(rec.label, 50, 466);
+    ctx.fillStyle = "#5f4a52";
+    ctx.font = "400 13px Inter, Arial, sans-serif";
+    let cursor = drawWrappedText(ctx, rec.focus, 50, 490, 500, 18);
+    cursor = drawWrappedText(ctx, `Habit anchors: ${rec.habits.join(", ")}`, 50, cursor + 8, 500, 18);
+    cursor = drawWrappedText(ctx, `Next seven days: ${state.nextSevenDayAnchors.join(", ") || "Choose three anchors inside the dashboard."}`, 50, cursor + 8, 500, 18);
+
+    ctx.fillStyle = "#1f1720";
+    ctx.font = "900 18px Inter, Arial, sans-serif";
+    ctx.fillText("Seven-Day Scores", 50, 600);
+    data.days.forEach((day, index) => {
+      const y = 630 + index * 17;
+      const score = calculateDailyScore(day.day);
+      ctx.fillStyle = "#5f4a52";
+      ctx.font = "700 11px Inter, Arial, sans-serif";
+      ctx.fillText(`Day ${day.day}: ${day.theme}`, 50, y);
+      ctx.fillStyle = "#ffe8ef";
+      ctx.fillRect(230, y - 10, 210, 8);
+      ctx.fillStyle = "#dc4f7b";
+      ctx.fillRect(230, y - 10, 210 * (score / data.habits.length), 8);
+      ctx.fillStyle = "#1f1720";
+      ctx.fillText(`${score}/9`, 456, y);
+    });
+
+    ctx.fillStyle = "#982447";
+    ctx.font = "700 10px Inter, Arial, sans-serif";
+    ctx.fillText("General education only. Not medical advice. Progress is measured by promises kept, not perfection.", 50, 732);
+
+    const jpegBytes = jpegDataUrlToBytes(canvas.toDataURL("image/jpeg", 0.92));
+    const blob = createPdfFromJpeg(jpegBytes, canvas.width, canvas.height);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "strongest-era-progress.json";
+    a.download = "strongest-era-progress.pdf";
     a.click();
     URL.revokeObjectURL(url);
-    trackEvent("progress_exported");
+    trackEvent("progress_exported", { format: "pdf" });
   };
 
   const maybeShowInstallEducation = () => {
@@ -776,10 +920,6 @@
       state.analyticsConsent = !state.analyticsConsent;
       saveState();
     }
-    if (target.dataset.action === "check-update") {
-      navigator.serviceWorker?.getRegistration().then((reg) => reg?.update());
-      showToast("Checking for an update.");
-    }
     if (target.dataset.offerClick) trackEvent("offer_clicked", { offer: target.dataset.offerClick });
   });
 
@@ -807,15 +947,6 @@
     }
   });
 
-  document.getElementById("refresh-app").addEventListener("click", () => {
-    if (pendingServiceWorker) pendingServiceWorker.postMessage({ type: "SKIP_WAITING" });
-    window.location.reload();
-  });
-
-  document.getElementById("dismiss-update").addEventListener("click", () => {
-    document.getElementById("update-banner").classList.remove("show");
-  });
-
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     deferredInstallPrompt = event;
@@ -825,18 +956,8 @@
 
   const registerServiceWorker = () => {
     if (!("serviceWorker" in navigator)) return;
-    navigator.serviceWorker.register("service-worker.js").then((registration) => {
-      registration.addEventListener("updatefound", () => {
-        const worker = registration.installing;
-        worker?.addEventListener("statechange", () => {
-          if (worker.state === "installed" && navigator.serviceWorker.controller) {
-            pendingServiceWorker = worker;
-            document.getElementById("update-banner").classList.add("show");
-          }
-        });
-      });
-    }).catch(() => showToast("Offline mode is unavailable in this browser."));
-    navigator.serviceWorker.addEventListener("controllerchange", () => window.location.reload());
+    navigator.serviceWorker.register("service-worker.js")
+      .catch(() => showToast("Offline mode is unavailable in this browser."));
   };
 
   captureAttribution();

@@ -1,4 +1,4 @@
-const CACHE_VERSION = "hse-kickstart-v1.0.0";
+const CACHE_VERSION = "hse-kickstart-v1.0.1";
 const APP_SHELL = [
   "./",
   "index.html",
@@ -18,6 +18,7 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_VERSION).then((cache) => cache.addAll(APP_SHELL))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -51,8 +52,4 @@ self.addEventListener("fetch", (event) => {
         });
     })
   );
-});
-
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });

@@ -158,8 +158,7 @@ select:focus-visible {
 .hero-copy,
 .panel,
 .card,
-.bottom-sheet,
-.update-banner {
+.bottom-sheet {
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
@@ -593,20 +592,8 @@ h3 {
   display: none;
 }
 
-.bottom-sheet.show,
-.update-banner.show {
+.bottom-sheet.show {
   display: block;
-}
-
-.update-banner {
-  position: fixed;
-  left: 50%;
-  top: 82px;
-  z-index: 45;
-  width: min(520px, calc(100% - 28px));
-  transform: translateX(-50%);
-  border-radius: 20px;
-  padding: 16px;
 }
 
 .toast {
