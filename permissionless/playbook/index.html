@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Permissionless Playbook | Dashboard</title>
+  <meta name="description" content="A strategic dashboard for diagnosing platform dependency, clarifying your thesis, architecting your offer ecosystem, and building owned business leverage.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <button class="mobile-menu" id="menu-toggle" aria-label="Open navigation">
+    <i data-lucide="menu"></i>
+  </button>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="status-dot"></span>
+      <div>
+        <strong>Permissionless OS</strong>
+        <small>Strategic command center</small>
+      </div>
+    </div>
+
+    <div class="sidebar-score">
+      <span>Permissionless Score</span>
+      <strong id="sidebar-score">0%</strong>
+      <div class="bar"><span id="sidebar-progress"></span></div>
+    </div>
+
+    <nav class="nav" aria-label="Playbook navigation">
+      <button class="nav-item active" data-view="overview"><i data-lucide="layout-dashboard"></i> Overview</button>
+      <button class="nav-item" data-view="diagnostic"><i data-lucide="scan-line"></i> Permissionless Score</button>
+      <button class="nav-item" data-view="constraint"><i data-lucide="crosshair"></i> Current Constraint</button>
+      <button class="nav-item" data-view="stage-1"><span>01</span> See the Cage</button>
+      <button class="nav-item" data-view="stage-2"><span>02</span> Understand the Game</button>
+      <button class="nav-item" data-view="stage-3"><span>03</span> Build Leverage</button>
+      <button class="nav-item" data-view="stage-4"><span>04</span> Exit the Cage</button>
+      <button class="nav-item" data-view="vault"><i data-lucide="archive"></i> Resource Vault</button>
+      <button class="nav-item" data-view="blueprint"><i data-lucide="file-text"></i> Blueprint</button>
+    </nav>
+
+    <div class="sidebar-actions">
+      <button class="btn btn-primary" data-view="blueprint">Generate Blueprint</button>
+      <a class="btn btn-secondary" href="../#audit">Book Permissionless Audit</a>
+    </div>
+  </aside>
+
+  <main class="app">
+    <header class="topline">
+      <div>
+        <p class="eyebrow">The Permissionless Playbook</p>
+        <h1 id="page-title">Build the business architecture behind your freedom.</h1>
+      </div>
+      <div class="save-state" id="save-state">Saved locally</div>
+    </header>
+
+    <section class="view active" id="view-overview"></section>
+    <section class="view" id="view-diagnostic"></section>
+    <section class="view" id="view-constraint"></section>
+    <section class="view" id="view-stage-1"></section>
+    <section class="view" id="view-stage-2"></section>
+    <section class="view" id="view-stage-3"></section>
+    <section class="view" id="view-stage-4"></section>
+    <section class="view" id="view-vault"></section>
+    <section class="view" id="view-blueprint"></section>
+  </main>
+
+  <aside class="context-panel">
+    <p class="eyebrow">Current Principle</p>
+    <h2 id="context-title">Close the gaps.</h2>
+    <p id="context-copy">The business is losing value inside the gaps between attention, understanding, trust, action, transformation, and the next logical offer.</p>
+    <div class="context-card">
+      <strong>Recommended Next Action</strong>
+      <p id="context-action">Complete the Permissionless Diagnostic to locate the first constraint.</p>
+    </div>
+  </aside>
+</body>
+</html>
