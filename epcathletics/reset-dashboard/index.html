@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Your Strongest Era Kickstart Plan | EPC Athletics</title>
+  <meta name="description" content="A seven-day Her Strongest Era dashboard for fitness, nutrition, mindset, momentum, and next-step planning.">
+  <meta name="theme-color" content="#dc4f7b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Strongest Era">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand-mark" href="#home" data-nav="home" aria-label="Her Strongest Era home">
+          <span class="spark" aria-hidden="true"><img src="EPC-Logo-Instagram-02-v2.png" alt=""></span>
+          <span>Her Strongest Era</span>
+        </a>
+        <div class="status-pill" id="top-status">Day 1 · 0 promises kept</div>
+      </div>
+    </header>
+
+    <div class="update-banner" id="update-banner" role="status" aria-live="polite">
+      <strong>New version available.</strong>
+      <p class="small muted">Refresh when you are ready to load the newest dashboard.</p>
+      <div class="button-row">
+        <button class="btn btn-primary" id="refresh-app">Refresh</button>
+        <button class="btn btn-secondary" id="dismiss-update">Later</button>
+      </div>
+    </div>
+
+    <main class="container">
+      <section class="screen active" id="screen-home" aria-labelledby="home-title"></section>
+      <section class="screen" id="screen-plan" aria-labelledby="plan-title"></section>
+      <section class="screen" id="screen-learn" aria-labelledby="learn-title"></section>
+      <section class="screen" id="screen-tools" aria-labelledby="tools-title"></section>
+      <section class="screen" id="screen-progress" aria-labelledby="progress-title"></section>
+      <section class="screen" id="screen-settings" aria-labelledby="settings-title"></section>
+    </main>
+
+    <nav class="tabs" aria-label="Main dashboard navigation">
+      <button class="tab active" data-nav="home"><i data-lucide="home"></i><span>Home</span></button>
+      <button class="tab" data-nav="plan"><i data-lucide="calendar-days"></i><span>Plan</span></button>
+      <button class="tab" data-nav="learn"><i data-lucide="book-open"></i><span>Learn</span></button>
+      <button class="tab" data-nav="tools"><i data-lucide="wand-2"></i><span>Tools</span></button>
+      <button class="tab" data-nav="progress"><i data-lucide="trending-up"></i><span>Progress</span></button>
+      <button class="tab" data-nav="settings"><i data-lucide="settings"></i><span>Settings</span></button>
+    </nav>
+
+    <aside class="bottom-sheet" id="install-card" aria-live="polite">
+      <h3>Keep Your Strongest Era Within Reach</h3>
+      <p class="muted">Add this dashboard to your Home Screen so your plan, progress, and daily actions are always one tap away.</p>
+      <div id="install-instructions" class="small muted"></div>
+      <div class="button-row">
+        <button class="btn btn-primary" id="install-action">Add to Home Screen</button>
+        <button class="btn btn-secondary" id="install-dismiss">Not now</button>
+      </div>
+    </aside>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+</body>
+</html>

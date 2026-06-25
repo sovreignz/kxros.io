@@ -1,0 +1,58 @@
+{
+  "name": "Her Strongest Era",
+  "short_name": "Strongest Era",
+  "description": "A seven-day fitness, nutrition, mindset, and momentum dashboard by EPC Athletics.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#dc4f7b",
+  "background_color": "#fff7f9",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["health", "fitness", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Today",
+      "short_name": "Today",
+      "url": "./#plan",
+      "description": "Open today's Strongest Era plan"
+    },
+    {
+      "name": "Progress",
+      "short_name": "Progress",
+      "url": "./#progress",
+      "description": "Review your Strongest Era progress"
+    }
+  ]
+}
