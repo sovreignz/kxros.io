@@ -1,4 +1,4 @@
-const CACHE = "epc-28-day-strong-v1";
+const CACHE = "epc-28-day-strong-v2";
 const SHELL = [
   "./", "./index.html", "./styles.css", "./data.js", "./app.js",
   "./manifest.webmanifest", "./assets/epc-logo.png", "./assets/emma-hero.jpg",
