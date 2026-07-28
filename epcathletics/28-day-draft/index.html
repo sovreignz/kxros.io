@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>28 Day Strong | EPC Athletics</title>
+  <meta name="description" content="Emma's 28-day strength, conditioning, abs and cardio program from EPC Athletics.">
+  <meta name="theme-color" content="#141414">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="28 Day Strong">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=League+Spartan:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="EPC Athletics 28 Day Strong home">
+      <img src="assets/epc-logo.png" alt="">
+      <span><b>EPC</b> Athletics</span>
+    </a>
+    <button class="icon-button" id="install-button" hidden aria-label="Install app">↓</button>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-media">
+        <img src="assets/emma-hero.jpg" alt="Emma training with dumbbells in the gym">
+        <div class="hero-shade"></div>
+      </div>
+      <div class="hero-copy">
+        <p class="kicker">Emma's four-week training plan</p>
+        <h1>28 Day<br><span>Strong</span></h1>
+        <p>Build consistency, strength and confidence—one workout at a time.</p>
+        <div class="hero-actions">
+          <button class="button primary" id="continue-button">Start Day 1</button>
+          <a class="button ghost" href="#program">View the plan</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-band" aria-label="Program summary">
+      <div><strong id="progress-percent">0%</strong><span>Complete</span></div>
+      <div><strong id="completed-days">0</strong><span>Days done</span></div>
+      <div><strong>8–10k</strong><span>Daily steps</span></div>
+      <div><strong>120–140</strong><span>Cardio BPM</span></div>
+    </section>
+
+    <section class="section intro">
+      <div>
+        <p class="kicker dark">How the program works</p>
+        <h2>Choose the level that meets you today.</h2>
+      </div>
+      <p>You are never locked into a track. Open any day, then choose Beginner, Intermediate or Advanced for that workout. The exercises stay familiar while the volume and intensity meet your current capacity.</p>
+      <div class="level-guide">
+        <article><b>01</b><h3>Beginner</h3><p>New to strength training or returning after time off. Prioritize technique and quality reps.</p></article>
+        <article><b>02</b><h3>Intermediate</h3><p>Comfortable with the movements and training consistently for three to six months.</p></article>
+        <article><b>03</b><h3>Advanced</h3><p>Experienced, confident with form and able to train safely close to failure.</p></article>
+      </div>
+    </section>
+
+    <section class="section program" id="program">
+      <div class="section-heading">
+        <div><p class="kicker dark">Your roadmap</p><h2>The 28-day program</h2></div>
+        <button class="text-button" id="reset-progress">Reset progress</button>
+      </div>
+      <div id="calendar" class="calendar"></div>
+    </section>
+
+    <section class="section quote-panel">
+      <img src="assets/emma-full-body.jpg" alt="Emma performing a glute bridge">
+      <div><p class="kicker">Coach's note</p><blockquote>“Challenge yourself through progressive overload, but never at the expense of your form.”</blockquote><p>Start each week slightly stronger than the last. Your final working set should feel challenging while your technique stays clean.</p></div>
+    </section>
+
+    <section class="section essentials">
+      <p class="kicker dark">Keep these consistent</p>
+      <h2>Your weekly anchors</h2>
+      <div class="essentials-grid">
+        <article><span>01</span><h3>Warm up</h3><p>Begin every training session with 10–15 minutes of easy cardio, then complete the mobility sequence.</p></article>
+        <article><span>02</span><h3>Cardio</h3><p>Complete 30 minutes three days each week at a low-to-moderate intensity, aiming for 120–140 BPM.</p></article>
+        <article><span>03</span><h3>Movement</h3><p>Aim for a weekly average of 8,000–10,000 steps per day. The average matters more than perfection.</p></article>
+        <article><span>04</span><h3>Progress</h3><p>When form is solid, increase weight gradually from set to set and from week to week.</p></article>
+      </div>
+    </section>
+
+    <section class="section equipment">
+      <div>
+        <p class="kicker dark">Gym or home</p>
+        <h2>Bring what you need.</h2>
+        <p>The plan is written for the gym, with practical home swaps included inside each workout.</p>
+      </div>
+      <ul>
+        <li>Loop resistance band</li>
+        <li>Long resistance band + secure anchor</li>
+        <li>One or two dumbbells</li>
+        <li>Bench, sturdy chair or step</li>
+        <li>Exercise mat</li>
+      </ul>
+    </section>
+  </main>
+
+  <div class="workout-drawer" id="workout-drawer" aria-hidden="true">
+    <button class="drawer-backdrop" data-close-drawer aria-label="Close workout"></button>
+    <article class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="workout-title">
+      <div class="drawer-grip"></div>
+      <header class="drawer-header">
+        <div><p class="kicker dark" id="workout-day-label"></p><h2 id="workout-title"></h2></div>
+        <button class="icon-button close" data-close-drawer aria-label="Close workout">×</button>
+      </header>
+      <div id="workout-content"></div>
+    </article>
+  </div>
+
+  <div class="video-modal" id="video-modal" aria-hidden="true">
+    <button class="video-backdrop" data-close-video aria-label="Close video"></button>
+    <article role="dialog" aria-modal="true" aria-labelledby="video-title">
+      <header><div><p class="kicker">Movement demo</p><h2 id="video-title"></h2></div><button class="icon-button close light" data-close-video aria-label="Close video">×</button></header>
+      <div class="video-frame" id="video-frame"></div>
+    </article>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("service-worker.js"));</script>
+</body>
+</html>
