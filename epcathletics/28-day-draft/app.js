@@ -10,6 +10,7 @@
   const defaultState = {
     levels: {},
     exercises: {},
+    performance: {},
     completed: {}
   };
 
@@ -17,7 +18,14 @@
     try {
       const stored = JSON.parse(localStorage.getItem(program.storageKey));
       return stored && typeof stored === "object"
-        ? { ...defaultState, ...stored, levels: stored.levels || {}, exercises: stored.exercises || {}, completed: stored.completed || {} }
+        ? {
+            ...defaultState,
+            ...stored,
+            levels: stored.levels || {},
+            exercises: stored.exercises || {},
+            performance: stored.performance || {},
+            completed: stored.completed || {}
+          }
         : structuredClone(defaultState);
     } catch {
       return structuredClone(defaultState);
@@ -31,6 +39,13 @@
   const isComplete = dayNumber => Boolean(state.completed[dayNumber]);
   const nextDay = () => program.days.find(day => !isComplete(day.day))?.day || 28;
   const titleCase = value => value.charAt(0).toUpperCase() + value.slice(1);
+  const escapeAttribute = value => String(value || "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[character]);
 
   const notify = message => {
     toast.textContent = message;
@@ -88,6 +103,7 @@
         <div><span>Focus</span><strong>${session.type}</strong></div>
         <div><span>Equipment</span><strong>${session.equipment}</strong></div>
       </div>
+      <p class="training-log-note"><strong>Your training log:</strong> enter the weight and reps you complete. Every entry saves automatically on this device.</p>
       ${session.sections.map((section, sectionIndex) => `
         <section class="workout-section">
           <h3>${section.title}</h3>
@@ -97,15 +113,26 @@
               ${section.exercises.map((exercise, exerciseIndex) => {
                 const key = exerciseKey(activeDay, sectionIndex, exerciseIndex);
                 const checked = Boolean(state.exercises[key]);
+                const performance = state.performance[key] || {};
                 return `
-                  <label class="exercise ${checked ? "checked" : ""}">
-                    <input type="checkbox" data-exercise="${key}" ${checked ? "checked" : ""}>
-                    <span>
+                  <div class="exercise ${checked ? "checked" : ""}">
+                    <input type="checkbox" data-exercise="${key}" aria-label="Mark ${exercise.name} complete" ${checked ? "checked" : ""}>
+                    <span class="exercise-details">
                       <span class="exercise-name">${exercise.name}</span>
                       <span class="exercise-prescription">${exercise.reps[level]}</span>
                     </span>
                     ${exercise.video ? `<button type="button" class="video-button" data-video="${exercise.video}" data-video-title="${exercise.name}">Watch form</button>` : ""}
-                  </label>`;
+                    <div class="exercise-log" aria-label="${exercise.name} training log">
+                      <label>
+                        <span>Weight / load</span>
+                        <input type="text" inputmode="decimal" autocomplete="off" maxlength="24" placeholder="e.g. 20 lb" data-log-key="${key}" data-log-field="weight" value="${escapeAttribute(performance.weight)}">
+                      </label>
+                      <label>
+                        <span>Reps completed</span>
+                        <input type="text" inputmode="text" autocomplete="off" maxlength="40" placeholder="e.g. 10, 10, 8" data-log-key="${key}" data-log-field="reps" value="${escapeAttribute(performance.reps)}">
+                      </label>
+                    </div>
+                  </div>`;
               }).join("")}
             </div>` : ""}
         </section>`).join("")}
@@ -192,9 +219,17 @@
     renderWorkout();
   });
 
+  document.addEventListener("input", event => {
+    if (!event.target.matches("[data-log-field]")) return;
+    const key = event.target.dataset.logKey;
+    const field = event.target.dataset.logField;
+    state.performance[key] = { ...(state.performance[key] || {}), [field]: event.target.value };
+    save();
+  });
+
   document.getElementById("continue-button").addEventListener("click", () => openDay(nextDay()));
   document.getElementById("reset-progress").addEventListener("click", () => {
-    if (!window.confirm("Reset every completed workout and daily level choice?")) return;
+    if (!window.confirm("Reset all workout completions, level choices and training-log entries?")) return;
     state = structuredClone(defaultState);
     save();
     render();

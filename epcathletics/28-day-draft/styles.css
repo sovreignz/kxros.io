@@ -129,18 +129,26 @@ blockquote { margin: 12px 0 30px; font: 700 clamp(35px, 5vw, 62px)/.98 "League S
 .workout-meta div { padding: 14px; background: white; border: 1px solid var(--line); }
 .workout-meta span { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
 .workout-meta strong { display: block; margin-top: 4px; font-size: 13px; }
+.training-log-note { margin: -12px 0 32px; padding: 14px 16px; color: var(--muted); background: white; border: 1px solid var(--line); font-size: 12px; }
+.training-log-note strong { color: var(--ink); }
 .workout-section { margin-top: 36px; }
 .workout-section > h3 { margin-bottom: 8px; font-size: 22px; text-transform: uppercase; }
 .section-intro { margin-bottom: 15px; color: var(--muted); font-size: 13px; }
 .exercise-list { display: grid; gap: 8px; }
 .exercise { padding: 15px; border: 1px solid var(--line); background: white; display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center; }
-.exercise input { width: 19px; height: 19px; accent-color: var(--rose); }
-.exercise.checked { opacity: .58; }
+.exercise > input[type="checkbox"] { width: 19px; height: 19px; accent-color: var(--rose); }
+.exercise.checked .exercise-details { opacity: .58; }
 .exercise.checked .exercise-name { text-decoration: line-through; }
 .exercise-name { display: block; font-weight: 700; font-size: 14px; }
 .exercise-prescription { display: block; color: var(--muted); font-size: 12px; }
 .video-button { padding: 8px 10px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; }
 .video-button:hover { color: white; background: var(--rose); border-color: var(--rose); }
+.exercise-log { grid-column: 2 / -1; padding-top: 12px; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.exercise-log label { min-width: 0; }
+.exercise-log label > span { display: block; margin-bottom: 5px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.exercise-log input { width: 100%; height: 39px; padding: 0 11px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink); background: var(--paper); font-size: 12px; }
+.exercise-log input:focus { border-color: var(--rose); background: white; }
+.exercise-log input::placeholder { color: #a8a19a; }
 .home-swaps { padding: 20px; background: #e9e4da; }
 .home-swaps h3 { margin: 0 0 10px; font-size: 18px; text-transform: uppercase; }
 .home-swaps ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; }
@@ -190,6 +198,7 @@ blockquote { margin: 12px 0 30px; font: 700 clamp(35px, 5vw, 62px)/.98 "League S
   .workout-meta { grid-template-columns: 1fr; }
   .exercise { grid-template-columns: 26px 1fr; }
   .video-button { grid-column: 2; justify-self: start; }
+  .exercise-log { grid-column: 1 / -1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
