@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c2d34">
+  <meta name="description" content="Neptune Studios portfolio concept — weddings, bespoke flowers and creative collaborations.">
+  <title>Neptune Studios — Portfolio Concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&amp;family=Italiana&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0c2d34;
+      --ink-deep: #061d22;
+      --paper: #f4efe6;
+      --paper-soft: #ebe3d7;
+      --sage: #a9b39d;
+      --rose: #8d2638;
+      --gold: #c8a777;
+      --white: #fffdf8;
+      --muted: #6e7473;
+      --line: rgba(12, 45, 52, .16);
+      --serif: "Italiana", "Didot", "Bodoni 72", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+      --ease: cubic-bezier(.2, .75, .2, 1);
+      --page: min(1380px, calc(100vw - 72px));
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.menu-open { overflow: hidden; }
+    ::selection { background: var(--rose); color: var(--white); }
+    img { display: block; width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .concept-note {
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      right: 0;
+      min-height: 28px;
+      display: grid;
+      place-items: center;
+      padding: 5px 16px;
+      background: var(--rose);
+      color: var(--white);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .site-header {
+      position: fixed;
+      z-index: 90;
+      top: 28px;
+      left: 0;
+      right: 0;
+      height: 76px;
+      padding: 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--white);
+      transition: background .35s, color .35s, box-shadow .35s;
+    }
+    .site-header.scrolled {
+      background: rgba(244, 239, 230, .94);
+      color: var(--ink);
+      box-shadow: 0 1px 0 var(--line);
+      backdrop-filter: blur(18px);
+    }
+    .wordmark {
+      font-family: var(--serif);
+      font-size: 24px;
+      letter-spacing: .14em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .desktop-nav { display: flex; align-items: center; gap: 34px; }
+    .desktop-nav a,
+    .menu-toggle {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .desktop-nav a { opacity: .8; transition: opacity .2s; }
+    .desktop-nav a:hover { opacity: 1; }
+    .nav-cta { padding: 11px 17px; border: 1px solid currentColor; opacity: 1 !important; }
+    .menu-toggle { display: none; border: 0; background: none; color: inherit; cursor: pointer; }
+    .progress {
+      position: fixed;
+      z-index: 110;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 0;
+      background: var(--rose);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      background: var(--ink-deep);
+      color: var(--white);
+    }
+    .hero-media,
+    .hero-shade { position: absolute; inset: 0; }
+    .hero-media img { height: 100%; object-fit: cover; object-position: center 43%; scale: 1.02; }
+    .hero-shade {
+      background:
+        linear-gradient(90deg, rgba(5, 27, 32, .82) 0%, rgba(5, 27, 32, .3) 48%, rgba(5, 27, 32, .1) 100%),
+        linear-gradient(0deg, rgba(5, 27, 32, .62), transparent 46%);
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      width: var(--page);
+      margin: 0 auto;
+      padding: 180px 0 70px;
+    }
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 24px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .kicker::before { content: ""; width: 34px; height: 1px; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; }
+    h1 { max-width: 870px; margin-bottom: 32px; font-size: clamp(64px, 9.6vw, 148px); line-height: .84; letter-spacing: -.045em; }
+    h1 em, h2 em { font-weight: 400; color: #ead1d4; }
+    .hero-bottom { display: flex; align-items: end; justify-content: space-between; gap: 36px; }
+    .hero-lede { max-width: 560px; margin: 0; color: rgba(255, 253, 248, .76); font-size: clamp(16px, 1.5vw, 20px); }
+    .scroll-cue { display: flex; align-items: center; gap: 14px; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; }
+    .scroll-cue span { width: 52px; height: 1px; background: currentColor; }
+
+    .section { padding: clamp(90px, 12vw, 178px) 0; }
+    .wrap { width: var(--page); margin: 0 auto; }
+    .intro-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(50px, 10vw, 150px); align-items: start; }
+    .section-label { font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+    .intro h2,
+    .section-head h2,
+    .collab-copy h2,
+    .pricing-head h2,
+    .closing h2 { margin-bottom: 28px; font-size: clamp(48px, 7vw, 100px); line-height: .94; letter-spacing: -.035em; }
+    .intro-copy { max-width: 830px; }
+    .intro-copy > p { max-width: 720px; color: var(--muted); font-size: clamp(18px, 2vw, 26px); line-height: 1.55; }
+    .service-line { margin-top: 58px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+    .service-line div { padding: 18px 14px 0 0; border-right: 1px solid var(--line); }
+    .service-line div:last-child { border-right: 0; padding-left: 18px; }
+    .service-line div:nth-child(2) { padding-left: 18px; }
+    .service-line b { display: block; margin-bottom: 4px; font-size: 12px; }
+    .service-line span { color: var(--muted); font-size: 11px; }
+
+    .work { padding-top: 20px; }
+    .section-head { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(50px, 10vw, 150px); margin-bottom: 80px; }
+    .section-head p { max-width: 560px; color: var(--muted); }
+    .project { margin-bottom: clamp(110px, 14vw, 200px); }
+    .project-top { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 22px; }
+    .project h3 { margin: 0; font-size: clamp(40px, 5.4vw, 78px); line-height: .95; letter-spacing: -.035em; }
+    .project-meta { display: flex; gap: 30px; padding-bottom: 8px; color: var(--muted); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+    .gallery { display: grid; gap: 14px; height: min(74vw, 920px); }
+    .gallery.three { grid-template-columns: 1.55fr .8fr; grid-template-rows: 1fr 1fr; }
+    .gallery.three figure:first-child { grid-row: 1 / 3; }
+    .gallery.two { grid-template-columns: 1.35fr .85fr; }
+    figure { position: relative; margin: 0; overflow: hidden; background: var(--paper-soft); cursor: zoom-in; }
+    figure img { height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+    figure:hover img { transform: scale(1.025); }
+    .credit {
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
+      padding: 5px 8px;
+      background: rgba(6, 29, 34, .7);
+      color: rgba(255, 253, 248, .78);
+      font-size: 8px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+    }
+
+    .collabs { position: relative; overflow: hidden; padding: 130px 0; background: var(--ink); color: var(--white); }
+    .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; }
+    .collab-copy p { max-width: 600px; color: rgba(255, 253, 248, .66); font-size: 17px; }
+    .nda-card { padding: clamp(30px, 5vw, 70px); border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.035); }
+    .nda-card .lock { margin-bottom: 60px; font-family: var(--serif); font-size: 64px; }
+    .nda-card h3 { margin-bottom: 18px; font-size: 38px; }
+    .nda-card p { margin: 0; color: rgba(255,255,255,.58); }
+    .ticker { margin-top: 100px; border-top: 1px solid rgba(255,255,255,.15); border-bottom: 1px solid rgba(255,255,255,.15); overflow: hidden; }
+    .ticker-track { width: max-content; padding: 22px 0; display: flex; gap: 60px; animation: ticker 28s linear infinite; }
+    .ticker span { display: flex; align-items: center; gap: 60px; font-family: var(--serif); font-size: clamp(28px, 4vw, 54px); white-space: nowrap; }
+    .ticker span::after { content: "✦"; color: var(--gold); font-size: 13px; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    .process { background: var(--paper-soft); }
+    .process-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(60px, 10vw, 150px); }
+    .process-intro { position: sticky; top: 150px; align-self: start; }
+    .process-intro h2 { font-size: clamp(48px, 6vw, 88px); line-height: .94; }
+    .steps { border-top: 1px solid var(--line); }
+    .step { display: grid; grid-template-columns: 80px 1fr; gap: 20px; padding: 34px 0; border-bottom: 1px solid var(--line); }
+    .step-num { color: var(--rose); font-size: 11px; letter-spacing: .14em; }
+    .step h3 { margin-bottom: 10px; font-size: 30px; }
+    .step p { max-width: 540px; margin: 0; color: var(--muted); }
+
+    .pricing { background: var(--white); }
+    .pricing-head { display: flex; justify-content: space-between; align-items: end; gap: 50px; margin-bottom: 64px; }
+    .pricing-head h2 { max-width: 780px; margin: 0; }
+    .pricing-note { max-width: 340px; color: var(--muted); font-size: 12px; }
+    .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .price-card { min-height: 310px; padding: 32px 30px; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
+    .price-card:last-child { border-right: 0; }
+    .price-card h3 { font-size: 28px; }
+    .price-card p { color: var(--muted); }
+    .price { margin-top: auto; padding-top: 32px; font-family: var(--serif); font-size: 42px; }
+    .price small { font: 10px var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+
+    .closing { min-height: 82svh; display: grid; place-items: center; padding: 120px 36px; background: var(--rose); color: var(--white); text-align: center; }
+    .closing-inner { max-width: 1050px; }
+    .closing h2 { font-size: clamp(58px, 9vw, 132px); }
+    .closing p { max-width: 600px; margin: 0 auto 38px; color: rgba(255,255,255,.72); }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 26px; border: 1px solid currentColor; font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; transition: background .25s, color .25s; }
+    .button:hover { background: var(--white); color: var(--rose); }
+    footer { padding: 36px; display: flex; justify-content: space-between; gap: 30px; background: var(--ink-deep); color: rgba(255,255,255,.55); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .lightbox { position: fixed; z-index: 200; inset: 0; display: none; place-items: center; padding: 34px; background: rgba(4, 20, 24, .94); }
+    .lightbox.open { display: grid; }
+    .lightbox img { max-width: min(1400px, 94vw); max-height: 88vh; width: auto; object-fit: contain; }
+    .lightbox button { position: absolute; top: 26px; right: 28px; border: 0; background: none; color: white; font-size: 34px; cursor: pointer; }
+
+    @media (max-width: 900px) {
+      :root { --page: calc(100vw - 40px); }
+      .site-header { padding: 0 20px; height: 64px; }
+      .desktop-nav { display: none; }
+      .menu-toggle { display: block; }
+      .mobile-nav { position: fixed; z-index: 85; inset: 28px 0 0; display: none; place-items: center; background: var(--paper); color: var(--ink); }
+      .mobile-nav.open { display: grid; }
+      .mobile-nav div { display: grid; gap: 24px; text-align: center; font-family: var(--serif); font-size: 40px; }
+      .hero-copy { padding-bottom: 38px; }
+      h1 { font-size: clamp(60px, 18vw, 94px); }
+      .hero-bottom { align-items: start; flex-direction: column; }
+      .intro-grid, .section-head, .collab-grid, .process-grid { grid-template-columns: 1fr; gap: 40px; }
+      .service-line { grid-template-columns: 1fr; }
+      .service-line div, .service-line div:nth-child(2), .service-line div:last-child { padding: 16px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .project-top, .pricing-head { align-items: start; flex-direction: column; }
+      .project-meta { flex-wrap: wrap; }
+      .gallery { height: auto; }
+      .gallery.three, .gallery.two { grid-template-columns: 1fr; grid-template-rows: none; }
+      .gallery.three figure:first-child { grid-row: auto; }
+      figure { height: 72vw; }
+      .process-intro { position: static; }
+      .price-grid { grid-template-columns: 1fr; }
+      .price-card { min-height: 250px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .price-card:last-child { border-bottom: 0; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="concept-note">Portfolio concept · imagery, credits, copy and pricing to be confirmed</div>
+  <header class="site-header" id="header">
+    <a class="wordmark" href="#top" aria-label="Neptune Studios home">Neptune Studios</a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#weddings">Weddings</a>
+      <a href="#collaborations">Collaborations</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a class="nav-cta" href="#enquire">Enquire</a>
+    </nav>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
+  </header>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <div><a href="#weddings">Weddings</a><a href="#collaborations">Collaborations</a><a href="#process">Process</a><a href="#pricing">Pricing</a><a href="#enquire">Enquire</a></div>
+  </nav>
+  <div class="progress" aria-hidden="true"></div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-media"><img src="assets/hero-emma-ben.jpg" alt="Newlyweds walking through a dramatic Highland landscape with a sculptural bouquet"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-copy">
+        <p class="kicker">Glasgow · Scotland · Wherever the flowers take us</p>
+        <h1>Flowers for <em>big feelings.</em></h1>
+        <div class="hero-bottom">
+          <p class="hero-lede">Wildly considered florals for weddings, celebrations and creative worlds—designed by Neptune Studios in Glasgow.</p>
+          <a class="scroll-cue" href="#intro"><span></span> Discover Neptune</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section intro" id="intro">
+      <div class="wrap intro-grid reveal">
+        <div><span class="section-label">The studio</span></div>
+        <div class="intro-copy">
+          <h2>Not just flowers.<br><em>A whole atmosphere.</em></h2>
+          <p>Neptune creates expressive, season-led florals with a sense of movement, personality and place. From an intimate bouquet to a room transformed, every arrangement begins with how you want the moment to feel.</p>
+          <div class="service-line">
+            <div><b>Weddings</b><span>Personal flowers to full-scale floral worlds</span></div>
+            <div><b>Bespoke</b><span>One-off bouquets and meaningful gestures</span></div>
+            <div><b>Collaborations</b><span>Installations, campaigns and cultural moments</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work" id="weddings">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="section-label">Selected weddings</span>
+          <div><h2>Made for the<br><em>story you’re in.</em></h2><p>A first look at Neptune’s wedding portfolio—from quiet personal details to installations that change the entire room.</p></div>
+        </div>
+
+        <article class="project reveal">
+          <div class="project-top"><h3>Emma &amp; Ben</h3><div class="project-meta"><span>Highland romance</span><span>Full wedding florals</span></div></div>
+          <div class="gallery three">
+            <figure><img src="assets/hero-emma-ben.jpg" alt="Emma and Ben walking through the Highlands" loading="lazy"><figcaption class="credit">Photographer credit TBC</figcaption></figure>
+            <figure><img src="assets/emma-ben-01.jpg" alt="Wedding party with bouquets in an elegant interior" loading="lazy"><figcaption class="credit">Photographer credit TBC</figcaption></figure>
+            <figure><img src="assets/emma-ben-02.jpg" alt="Wedding floral detail" loading="lazy"><figcaption class="credit">Photographer credit TBC</figcaption></figure>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project-top"><h3>Gillian &amp; Liam</h3><div class="project-meta"><span>Architectural ceremony</span><span>Statement installation</span></div></div>
+          <div class="gallery two">
+            <figure><img src="assets/gillian-liam-01.jpg" alt="Large ceremony flower installation in a historic church" loading="lazy"><figcaption class="credit">Photographer credit TBC</figcaption></figure>
+            <figure><img src="assets/gillian-liam-02.jpg" alt="Wedding floral detail from Gillian and Liam's celebration" loading="lazy"><figcaption class="credit">Photographer credit TBC</figcaption></figure>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project-top"><h3>Rachel &amp; Nick</h3><div class="project-meta"><span>Colour-led celebration</span><span>Tablescape &amp; styling</span></div></div>
+          <div class="gallery two">
+            <figure><img src="assets/rachel-nick-01.jpg" alt="Long wedding table with colourful floral arrangements" loading="lazy"><figcaption class="credit">F.D. Young Photography</figcaption></figure>
+            <figure><img src="assets/rachel-nick-02.jpg" alt="Wedding portrait with colourful flowers" loading="lazy"><figcaption class="credit">F.D. Young Photography</figcaption></figure>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project-top"><h3>Jess &amp; Billy</h3><div class="project-meta"><span>Wild garden ceremony</span><span>Personal &amp; ceremony flowers</span></div></div>
+          <div class="gallery two">
+            <figure><img src="assets/jess-billy-01.jpg" alt="Colourful wedding flowers arranged beneath an old tree" loading="lazy"><figcaption class="credit">F.D. Young Photography</figcaption></figure>
+            <figure><img src="assets/jess-billy-02.jpg" alt="Bride and bridesmaid holding sculptural bouquets" loading="lazy"><figcaption class="credit">F.D. Young Photography</figcaption></figure>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project-top"><h3>Julie &amp; Jonny</h3><div class="project-meta"><span>Modern city wedding</span><span>Bouquets &amp; personal flowers</span></div></div>
+          <div class="gallery three">
+            <figure><img src="assets/julie-jonny-01.jpg" alt="Pastel wedding bouquet with orange, pink and blue flowers" loading="lazy"><figcaption class="credit">Photographer credit TBC</figcaption></figure>
+            <figure><img src="assets/julie-jonny-02.jpg" alt="Wedding floral portrait" loading="lazy"><figcaption class="credit">Photographer credit TBC</figcaption></figure>
+            <figure><img src="assets/lily-01.jpg" alt="Classic white rose wedding bouquet" loading="lazy"><figcaption class="credit">Photographer credit TBC</figcaption></figure>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="collabs" id="collaborations">
+      <div class="wrap collab-grid reveal">
+        <div class="collab-copy"><p class="kicker">Brand activations &amp; creative partnerships</p><h2>Some work speaks.<br><em>Some stays quiet.</em></h2><p>Neptune creates floral worlds for launches, productions and culture-shaping brands. Selected projects remain confidential, so this archive leads with the collaborators and the thinking—not restricted campaign imagery.</p></div>
+        <div class="nda-card"><div class="lock">N° 01</div><h3>Confidential project archive</h3><p>Campaign imagery withheld by agreement. Approved case details and selected visuals will be added as permissions are confirmed.</p></div>
+      </div>
+      <div class="ticker" aria-label="Selected collaborators"><div class="ticker-track"><span>Sephora</span><span>Netflix</span><span>The Coen Brothers</span><span>Creative productions</span><span>Sephora</span><span>Netflix</span><span>The Coen Brothers</span><span>Creative productions</span></div></div>
+    </section>
+
+    <section class="section process" id="process">
+      <div class="wrap process-grid">
+        <div class="process-intro reveal"><span class="section-label">How it works</span><h2>From first thought to final stem.</h2></div>
+        <div class="steps reveal">
+          <div class="step"><span class="step-num">01</span><div><h3>Tell us what you’re imagining</h3><p>Share your date, venue, approximate scale and anything you already know about the atmosphere you want to create.</p></div></div>
+          <div class="step"><span class="step-num">02</span><div><h3>Shape the floral direction</h3><p>We turn your references and priorities into a clear creative approach, with an initial estimate based on the scale of the work.</p></div></div>
+          <div class="step"><span class="step-num">03</span><div><h3>Refine and reserve</h3><p>Once the direction feels right, a booking payment reserves the date and we refine the details together.</p></div></div>
+          <div class="step"><span class="step-num">04</span><div><h3>We bring it to life</h3><p>Neptune sources, builds, delivers and installs the floral world—so you can stay inside the moment.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pricing" id="pricing">
+      <div class="wrap">
+        <div class="pricing-head reveal"><h2>A sense of<br><em>investment.</em></h2><p class="pricing-note">Illustrative concept pricing only. Final categories, minimum spends and inclusions will be replaced with Neptune’s approved information.</p></div>
+        <div class="price-grid reveal">
+          <article class="price-card"><h3>Personal flowers</h3><p>Bouquets, buttonholes and considered floral details for smaller celebrations.</p><div class="price">From £650 <small>concept</small></div></article>
+          <article class="price-card"><h3>Wedding florals</h3><p>Personal flowers, ceremony pieces and reception arrangements designed as one visual story.</p><div class="price">From £1,500 <small>concept</small></div></article>
+          <article class="price-card"><h3>Full floral world</h3><p>Large-scale installations, complete venue styling and an end-to-end floral direction.</p><div class="price">From £3,500 <small>concept</small></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" id="enquire">
+      <div class="closing-inner reveal"><p class="kicker" style="justify-content:center">Begin your enquiry</p><h2>Let’s make it<br>feel like <em>you.</em></h2><p>Tell Neptune about the day, the place and the feeling you want the flowers to hold.</p><a class="button" href="mailto:flowers@neptunestudios.co.uk?subject=Wedding%20enquiry">Enquire about your wedding</a></div>
+    </section>
+  </main>
+
+  <footer><span>Neptune Studios · Glasgow</span><span>Portfolio concept by KXROS</span><span>Imagery &amp; credits subject to approval</span></footer>
+
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Expanded wedding image"><button aria-label="Close image">×</button><img alt=""></div>
+
+  <script>
+    const header = document.querySelector('#header');
+    const progress = document.querySelector('.progress');
+    const menuButton = document.querySelector('.menu-toggle');
+    const mobileNav = document.querySelector('#mobile-nav');
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxImage = lightbox.querySelector('img');
+
+    function onScroll() {
+      header.classList.toggle('scrolled', window.scrollY > 30);
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+    }
+
+    function closeMenu() {
+      mobileNav.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.textContent = 'Menu';
+    }
+
+    menuButton.addEventListener('click', () => {
+      const open = !mobileNav.classList.contains('open');
+      mobileNav.classList.toggle('open', open);
+      document.body.classList.toggle('menu-open', open);
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.textContent = open ? 'Close' : 'Menu';
+    });
+    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(item => observer.observe(item));
+
+    document.querySelectorAll('figure img').forEach(image => image.addEventListener('click', () => {
+      lightboxImage.src = image.src;
+      lightboxImage.alt = image.alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }));
+    function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+    lightbox.querySelector('button').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', event => event.target === lightbox && closeLightbox());
+    document.addEventListener('keydown', event => event.key === 'Escape' && (closeLightbox(), closeMenu()));
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>
