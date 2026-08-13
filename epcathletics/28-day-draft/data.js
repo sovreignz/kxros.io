@@ -44,7 +44,7 @@
     ex("Romanian Deadlift", "1 × 10 + 2 × 10", "1 × 10 + 3 × 8–10", "1 × 10–12 + 3 × 8–10", "TrNZR7ljTDo"),
     ex("Bridged Bench Press", "2 × 10", "3 × 10–12", "4 × 10–12", "gVQA3EcT8SI"),
     ex("Squat to Press", "2 × 10", "3 × 10", "3 × 10–12", "bGQmOSdG3yQ"),
-    ex("Bent Single-Arm Row", "2 × 10 / side", "3 × 8–10 / side", "3 × 8–10 / side"),
+    ex("Bent Single-Arm Row", "2 × 10 / side", "3 × 8–10 / side", "3 × 8–10 / side", "bQXwCRfFm8c"),
     ex("Single-Leg Glute Bridge", "2 × 10 / side", "3 × 10 / side", "3 × 10–12 / side", "gZe_XgA--Mg"),
     ex("Overhead Tricep Extension", "2 × 10", "3 × 10–12", "4 × 10–12", "n_Oi09RXekI"),
     ex("Concentration Curl", "2 × 10", "3 × 10", "3 × 10–12", "uwP8rYyzSO0")
@@ -63,7 +63,7 @@
     ex("Forearm Plank", "20 sec", "30 sec", "40 sec", "v5D5WeEP8To"),
     ex("Dead Bug", "20 sec", "30 sec", "40 sec weighted", "xLHf0Q7TuyM"),
     ex("Russian Twists", "20 sec", "30 sec", "40 sec weighted", "-DatiL7x-g4"),
-    ex("Toe-Touch Crunches", "20 sec", "30 sec", "40 sec weighted"),
+    ex("Toe-Touch Crunches", "20 sec", "30 sec", "40 sec weighted", "EmSLNzlCHEc"),
     ex("Bent-Knee Reverse Crunch", "20 sec", "30 sec", "40 sec", "lXsc1Qf9_2g")
   ];
 

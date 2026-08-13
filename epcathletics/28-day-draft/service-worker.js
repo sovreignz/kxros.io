@@ -1,7 +1,7 @@
-const CACHE = "epc-28-day-strong-v4";
+const CACHE = "epc-28-day-strong-v5";
 const SHELL = [
-  "./", "./index.html", "./styles.css?v=4", "./data.js?v=4", "./app.js?v=4",
-  "./manifest.webmanifest?v=4", "./assets/epc-logo.png", "./assets/emma-hero.jpg",
+  "./", "./index.html", "./styles.css?v=5", "./data.js?v=5", "./app.js?v=5",
+  "./manifest.webmanifest?v=5", "./assets/epc-logo.png", "./assets/emma-hero.jpg",
   "./assets/emma-lower.jpg", "./assets/emma-full-body.jpg",
   "./icons/icon-192.png", "./icons/icon-512.png"
 ];
